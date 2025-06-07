@@ -2,26 +2,32 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Termnix-ITのページ{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>問い合わせ | Termnix-ITのページ</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
         <div class="nav-container">
             <h1>Termnix-ITのページ</h1>
             <nav>
-                <a href="/">HOME</a>
-                <a href="/portfolio">ポートフォリオ</a>
-                <a href="/ToolBox">作成ツール一覧</a>
-                <a href="/Diagram">構成図ギャラリー</a>
-                <a href="/contact">問い合わせ</a>
+                <a href="index.html">HOME</a>
+                <a href="portfolio.html">ポートフォリオ</a>
+                <a href="ToolBox.html">作成ツール一覧</a>
+                <a href="Diagram.html">構成図ギャラリー</a>
+                <a href="contact.html">問い合わせ</a>
             </nav>
         </div>
     </header>
     <main>
-        {% block content %}
-        
-        {% endblock %}
+<nav aria-label="breadcrumb" style="margin-bottom: 20px;">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">HOME</a></li>
+    <li class="breadcrumb-item active" aria-current="page">問い合わせ</li>
+  </ol>
+</nav>
+<h1>問い合わせ</h1>
+<p>今後作成予定</p>
+<a href="index.html">トップへ戻る</a>
     </main>
 </body>
 </html>

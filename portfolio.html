@@ -2,26 +2,63 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Termnix-ITのページ{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>ポートフォリオ | Termnix-ITのページ</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
         <div class="nav-container">
             <h1>Termnix-ITのページ</h1>
             <nav>
-                <a href="/">HOME</a>
-                <a href="/portfolio">ポートフォリオ</a>
-                <a href="/ToolBox">作成ツール一覧</a>
-                <a href="/Diagram">構成図ギャラリー</a>
-                <a href="/contact">問い合わせ</a>
+                <a href="index.html">HOME</a>
+                <a href="portfolio.html">ポートフォリオ</a>
+                <a href="ToolBox.html">作成ツール一覧</a>
+                <a href="Diagram.html">構成図ギャラリー</a>
+                <a href="contact.html">問い合わせ</a>
             </nav>
         </div>
     </header>
     <main>
-        {% block content %}
-        
-        {% endblock %}
+        <nav aria-label="breadcrumb" style="margin-bottom: 20px;">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">HOME</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ポートフォリオ</li>
+  </ol>
+</nav>
+<h1>ポートフォリオ</h1>
+<section>
+    <h3>① 自宅サーバ公開プロジェクト</h3>
+    <ul>
+    <li>概要：Flask + Linux構成でWebページを外部公開</li>
+    <li>使用技術：Flask, Nginx, DDNS, UFW</li>
+    <div class="card-container">
+        <div class="card">
+            <h4>Qiita記事</h4>
+            <p>UFW設定とサーバ公開についてまとめた記事</p>
+            <p>6月終旬～7月以降公開予定</p>
+            <a href="https://qiita.com/Termnix-IT/items/xxxx" target="_blank">読む</a>
+        </div>
+        <div class="card">
+            <h4>GitHubリポジトリ</h4>
+            <p>Flaskを用いたWebサーバの構成コード</p>
+            <p>6月終旬～7月以降公開予定</p>
+            <a href="https://github.com/Termnix-IT/xxxx" target="_blank">見る</a>
+        </div>
+    </div>
+    <h3>構成図</h3>
+    <img src="static/img/server-diagram.png"構成図" class="diagram" style="max-width: 65%; height: auto;">
+    </ul>
+</section>
+
+<section>
+  <h3>② Zabbix監視導入</h3>
+  <ul>
+    <li>概要：Raspberry Pi上にZabbix Serverを構築</li>
+    <li>設定内容：エージェント設定・UFW・通知</li>
+    <li>スクリーンショット：準備中 or 実装後に掲載</li>
+  </ul>
+</section>
+<a href="index.html">トップへ戻る</a>
     </main>
 </body>
 </html>

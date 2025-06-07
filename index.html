@@ -2,26 +2,77 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Termnix-ITのページ{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>HOME | Termnix-ITのページ</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
         <div class="nav-container">
             <h1>Termnix-ITのページ</h1>
             <nav>
-                <a href="/">HOME</a>
-                <a href="/portfolio">ポートフォリオ</a>
-                <a href="/ToolBox">作成ツール一覧</a>
-                <a href="/Diagram">構成図ギャラリー</a>
-                <a href="/contact">問い合わせ</a>
+                <a href="index.html">HOME</a>
+                <a href="portfolio.html">ポートフォリオ</a>
+                <a href="ToolBox.html">作成ツール一覧</a>
+                <a href="Diagram.html">構成図ギャラリー</a>
+                <a href="contact.html">問い合わせ</a>
             </nav>
         </div>
     </header>
     <main>
-        {% block content %}
-        
-        {% endblock %}
+        <div class="home-container">
+    <div class="profile">
+        <img src="static/img/icon.png" alt="アイコン" class="icon">
+        <h2>Termnix-IT</h2>
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="https://qiita.com/Termnix-IT" target="_blank">Qiita</a> ｜ 
+            <a href="https://github.com/Termnix-IT" target="_blank">GitHub</a>
+        </div>
+</div>
+    </div>
+    <div class="intro">
+        <h2>自己紹介</h2>
+        <p>はじめまして。Linuxやネットワークの構築、Pythonによる自動化・Webアプリ開発を得意とするインフラエンジニア志望のTermnix-ITです。
+        現在は個人でのシステム構築や自作ツール開発、資格取得を通じてスキルアップを図っています。</p>
+        <h2>経歴</h2>
+        <ul>
+            <li>2021年〜2024年：通信施工管理業務に従事（LAN・光回線配線、現場管理）</li>
+            <li>2024年〜現在：医療系ITシステム企業に常駐し製品の運用・保守、監視設定を担当</li>  
+            <li>個人活動として自宅サーバ構築、Webページ公開、Qiitaでの技術発信も行っています</li>
+        </ul>
+        <h2>ITスキル</h2>
+        <h3>実務経験</h3>
+        <ul>
+            <li>Windows Server(10ヶ月)
+                <br><p>・保守・運用（製品の起動監視設定、アカウント設定、製品のバージョンアップ対応、バックアップジョブの設定・管理、新バージョンのマニュアル動作確認・精査）</p>
+                <p>・監視設定（ログ出力、アラート設定）</p>
+                <p>・トラブル対応（簡易な障害切り分け）</p>
+            </li>
+        </ul>
+        <h3>資格</h3>
+        <ul>
+            <li>基本情報技術者</li>
+            <li>ITパスポート</li>
+            <li>LPIC-1（勉強中）</li>
+        </ul>
+        <h3>独学</h3>
+        <ul>
+            <li>言語：Python（Flask、スクリプト自動化）</li>
+            <li>OS：Linux（Ubuntu系）</li>
+            <li>ネットワーク：LAN/WAN設計・VLAN・ファイアウォール・ポート開放・IPv6設定</li>
+            <li>監視：Zabbix（Raspberry Pi上にZabbix Server構築、UFW設定、メール通知など） <br>※2025年6月中旬を目標に、1〜2週間以内で実装予定</li>
+        </ul>
+        <h3>その他</h3>
+        <ul>
+            <li>Qiita、GitHub投稿、ポートフォリオ公開（Webページ）</li>
+        </ul>
+        <h3>今後のITスキル強化</h3>
+        <ul>
+            <li>Linuxシステムの本格運用（仮想環境での設計・構築へ応用予定）</li>
+            <li>Pythonによる効率化ツールの作成</li>
+            <li>生成AIを活用した日常効率の向上</li>
+        </ul>
+    </div>
+</div>
     </main>
 </body>
 </html>

@@ -2,26 +2,41 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Termnix-ITのページ{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>構成図ギャラリー | Termnix-ITのページ</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
         <div class="nav-container">
             <h1>Termnix-ITのページ</h1>
             <nav>
-                <a href="/">HOME</a>
-                <a href="/portfolio">ポートフォリオ</a>
-                <a href="/ToolBox">作成ツール一覧</a>
-                <a href="/Diagram">構成図ギャラリー</a>
-                <a href="/contact">問い合わせ</a>
+                <a href="index.html">HOME</a>
+                <a href="portfolio.html">ポートフォリオ</a>
+                <a href="ToolBox.html">作成ツール一覧</a>
+                <a href="Diagram.html">構成図ギャラリー</a>
+                <a href="contact.html">問い合わせ</a>
             </nav>
         </div>
     </header>
     <main>
-        {% block content %}
-        
-        {% endblock %}
+<nav aria-label="breadcrumb" style="margin-bottom: 20px;">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">HOME</a></li>
+    <li class="breadcrumb-item active" aria-current="page">構成図ギャラリー</li>
+  </ol>
+</nav>
+<h2>構成図ギャラリー</h2>
+
+<section>
+  <h3>① 自宅サーバ公開構成図（2025年6月）</h3>
+  <p>目的：Flask + LinuxでWebページを外部公開するための構成。UFWによる制限を実施。</p>
+  <img src="static/img/server-diagram.png" alt="自宅サーバ構成図" class="diagram">
+</section>
+
+<section>
+
+</section>
+<a href="/">トップへ戻る</a>
     </main>
 </body>
 </html>
