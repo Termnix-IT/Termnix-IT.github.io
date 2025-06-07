@@ -1,6 +1,6 @@
 # Termnix-IT ポートフォリオサイト
 
-## 🔹 このリポジトリについて
+##  このリポジトリについて
 本リポジトリは、自宅LinuxサーバおよびGitHub Pagesを活用して構築した  
 **インフラエンジニア向けポートフォリオサイト**のコード管理用です。
 
@@ -9,7 +9,7 @@ Webサーバ版は必要時に稼働し、**通常はGitHub Pagesで常時閲覧
 
 ---
 
-## 📌 ポートフォリオで実現していること
+##  ポートフォリオで実現していること
 - Linuxサーバ（Ubuntu）によるWebサーバ構築
 - UFWでのアクセス制御・セキュリティ設定
 - DDNSによる動的IP対策＋ポートフォワーディング設定
@@ -18,14 +18,14 @@ Webサーバ版は必要時に稼働し、**通常はGitHub Pagesで常時閲覧
 
 ---
 
-## 🔗 関連リンク
+##  関連リンク
 - 🌐 公開ページ: [termnix-it.github.io](https://termnix-it.github.io/)
 - 📘 Qiita投稿一覧: [Termnix-IT on Qiita](https://qiita.com/Termnix-IT)
 - 🛠 GitHubリポジトリ: [Termnix-IT GitHub](https://github.com/Termnix-IT)
 
 ---
 
-## 🧠 キーワード（SEO・技術スタック）
+##  キーワード（SEO・技術スタック）
 
 ```txt
 インフラエンジニア / Linux / Ubuntu / GitHub Pages / Flask / 自宅サーバ / UFW / DDNS / セキュリティ / ポートフォリオ / Python / Qiita投稿 / ポートフォワーディング / Webサーバ構築 / 自動化
