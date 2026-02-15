@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>問い合わせ | Termnix-ITのページ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-icon"><i class="fas fa-terminal"></i></span>
+                Termnix-IT
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="メニュー">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="portfolio.html"><i class="fas fa-briefcase me-1"></i>ポートフォリオ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ToolBox.html"><i class="fas fa-toolbox me-1"></i>作成ツール一覧</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Diagram.html"><i class="fas fa-project-diagram me-1"></i>構成図ギャラリー</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main>
+<!-- ページヘッダー -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="fade-up"><i class="fas fa-envelope me-2"></i>問い合わせ</h1>
+    <p class="fade-up delay-1">お気軽にご連絡ください</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <!-- パンくず -->
+  <nav aria-label="breadcrumb" class="mb-4 fade-up">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home me-1"></i>HOME</a></li>
+      <li class="breadcrumb-item active" aria-current="page">問い合わせ</li>
+    </ol>
+  </nav>
+
+  <!-- コンタクトカード -->
+  <div class="contact-info fade-up delay-1">
+    <div class="contact-card">
+      <div class="contact-icon">
+        <i class="fas fa-pen-nib"></i>
+      </div>
+      <h4>Qiita</h4>
+      <p>技術記事を投稿しています</p>
+      <a href="https://qiita.com/Termnix-IT" target="_blank">
+        <i class="fas fa-external-link-alt me-1"></i>Qiitaを見る
+      </a>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-icon">
+        <i class="fab fa-github"></i>
+      </div>
+      <h4>GitHub</h4>
+      <p>ソースコードを公開しています</p>
+      <a href="https://github.com/Termnix-IT" target="_blank">
+        <i class="fas fa-external-link-alt me-1"></i>GitHubを見る
+      </a>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-icon">
+        <i class="fas fa-globe"></i>
+      </div>
+      <h4>ポートフォリオ</h4>
+      <p>このWebサイトがポートフォリオです</p>
+      <a href="portfolio.html">
+        <i class="fas fa-arrow-right me-1"></i>ポートフォリオを見る
+      </a>
+    </div>
+  </div>
+
+  <!-- 今後の予定 -->
+  <div class="glass-card fade-up delay-2" style="margin-top: 2rem; text-align: center;">
+    <p style="color: var(--text-muted); margin: 0;">
+      <i class="fas fa-tools me-2"></i>問い合わせフォームは今後作成予定です。
+    </p>
+  </div>
+
+  <!-- 戻るボタン -->
+  <div class="text-end mt-4 fade-up">
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> トップへ戻る</a>
+  </div>
+</div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="footer-brand"><i class="fas fa-terminal me-2"></i>Termnix-IT</span>
+                    <p class="footer-text mb-0">インフラエンジニア志望 / Python & Linux</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-social">
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" aria-label="Qiita"><i class="fas fa-pen-nib"></i></a>
+                        <a href="https://github.com/Termnix-IT" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                    <p class="footer-copy mb-0">&copy; 2025 Termnix-IT. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/main.js"></script>
+</body>
+</html>
