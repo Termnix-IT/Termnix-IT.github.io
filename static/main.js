@@ -26,6 +26,8 @@ const observer = new IntersectionObserver(function (entries) {
 }, observerOptions);
 
 document.addEventListener('DOMContentLoaded', function () {
+  markActiveNavLink();
+
   // fade-up 要素を監視
   document.querySelectorAll('.fade-up').forEach(function (el) {
     observer.observe(el);
@@ -66,4 +68,14 @@ function loadQiitaArticles() {
       ul.innerHTML =
         '<li><span style="color: var(--text-muted);">記事が取得できませんでした</span></li>';
     });
+}
+
+function markActiveNavLink() {
+  var currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('#navbarNav .nav-link').forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (href === currentPath) {
+      link.classList.add('active');
+    }
+  });
 }
