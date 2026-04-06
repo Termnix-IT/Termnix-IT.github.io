@@ -69,9 +69,7 @@
       <span class="project-number">1</span>
       自宅サーバ公開プロジェクト
     </div>
-    <p style="color: var(--text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
-      Flask + Linux構成でWebページを外部公開。UFWによるセキュリティ制御を実施。
-    </p>
+    <p class="project-desc">Flask + Linux構成でWebページを外部公開。UFWによるセキュリティ制御を実施。</p>
     <div class="project-tech">
       <span class="tech-tag">Flask</span>
       <span class="tech-tag">Nginx</span>
@@ -83,7 +81,7 @@
       <div class="col-md-6">
         <div class="card h-100">
           <div class="card-body">
-            <h4 class="card-title h6"><i class="fas fa-pen-nib me-2" style="color: #55c500;"></i>Qiita記事</h4>
+            <h4 class="card-title h6"><i class="fas fa-pen-nib me-2 icon-qiita"></i>Qiita記事</h4>
             <p class="card-text">UFW設定とサーバ公開についてまとめた記事</p>
             <span class="status-badge status-wip"><i class="fas fa-clock"></i> 公開準備中</span>
           </div>
@@ -99,12 +97,10 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 1.5rem;">
-      <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
-        <i class="fas fa-project-diagram me-2" style="color: var(--accent);"></i>構成図
-      </h4>
-      <img src="static/img/server-diagram.png" alt="構成図" class="diagram d-block mx-auto" style="max-width: 65%; height: auto;">
-    </div>
+    <h4 class="project-subsection-title">
+      <i class="fas fa-project-diagram"></i>構成図
+    </h4>
+    <img src="static/img/server-diagram.png" alt="構成図" class="diagram diagram-centered d-block mx-auto">
   </div>
 
   <!-- プロジェクト2 -->
@@ -113,20 +109,37 @@
       <span class="project-number">2</span>
       Zabbix監視導入
     </div>
-    <p style="color: var(--text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
-      Raspberry Pi上にZabbix Serverを構築し、監視環境を整備。
-    </p>
+    <p class="project-desc">Raspberry Pi上にZabbix Serverを構築し、監視環境を整備。</p>
     <div class="project-tech">
       <span class="tech-tag">Zabbix</span>
       <span class="tech-tag">Raspberry Pi</span>
       <span class="tech-tag">UFW</span>
       <span class="tech-tag">メール通知</span>
     </div>
-    <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.2rem;">
-      <li>エージェント設定・UFW・通知の構築</li>
-      <li>スクリーンショット：実装後に掲載予定</li>
-    </ul>
-    <span class="status-badge status-planned"><i class="fas fa-calendar-alt"></i> 実装予定</span>
+    <div class="row g-3 mt-2">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h4 class="card-title h6"><i class="fas fa-pen-nib me-2 icon-qiita"></i>Qiita記事</h4>
+            <p class="card-text">エージェント設定・UFW・通知の構築まとめ</p>
+            <span class="status-badge status-planned"><i class="fas fa-calendar-alt"></i> 実装予定</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h4 class="card-title h6"><i class="fab fa-github me-2"></i>GitHubリポジトリ</h4>
+            <p class="card-text">Zabbix構成の設定ファイル・手順</p>
+            <span class="status-badge status-planned"><i class="fas fa-calendar-alt"></i> 実装予定</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 class="project-subsection-title">
+      <i class="fas fa-camera"></i>スクリーンショット
+    </h4>
+    <p class="project-desc" style="margin-top: 0;">実装後に掲載予定</p>
   </div>
 
   <!-- 戻るボタン -->

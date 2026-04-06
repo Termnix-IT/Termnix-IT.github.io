@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <!-- ナビゲーションバー -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -44,208 +43,228 @@
         </div>
     </nav>
 
-    <!-- メインコンテンツ -->
     <main>
-<!-- ヒーローセクション -->
-<section class="hero-section">
-  <div class="container">
-    <div class="fade-up">
-      <img src="static/img/icon.png" alt="アイコン" class="hero-avatar">
-    </div>
-    <h1 class="hero-name fade-up delay-1">Termnix-IT</h1>
-    <p class="hero-tagline fade-up delay-2">インフラエンジニア / Python & Linux & Network</p>
-    <div class="hero-social fade-up delay-3">
-      <a href="https://qiita.com/Termnix-IT" target="_blank" class="btn-social-qiita">
-        <i class="fas fa-pen-nib"></i> Qiita
-      </a>
-      <a href="https://github.com/Termnix-IT" target="_blank" class="btn-social-github">
-        <i class="fab fa-github"></i> GitHub
-      </a>
-    </div>
-  </div>
-</section>
+        <section class="hero-section hero-home">
+            <div class="container">
+                <div class="hero-home-grid">
+                    <div class="hero-copy">
+                        <p class="hero-eyebrow fade-up">Infrastructure Engineer Portfolio</p>
+                        <h1 class="hero-name hero-name-left fade-up delay-1">Termnix-IT</h1>
+                        <p class="hero-lead fade-up delay-2">
+                            Linux、ネットワーク、Python自動化を軸に、運用と構築の両方を扱うポートフォリオです。
+                            実務経験と個人開発を、見やすく整理して掲載しています。
+                        </p>
+                        <div class="hero-focus-list fade-up delay-3">
+                            <span><i class="fas fa-network-wired"></i> Network Operations</span>
+                            <span><i class="fab fa-linux"></i> Linux Administration</span>
+                            <span><i class="fab fa-python"></i> Python Automation</span>
+                        </div>
+                        <div class="hero-actions fade-up delay-4">
+                            <a href="portfolio.html" class="btn-modern btn-gradient">
+                                <i class="fas fa-briefcase"></i> 実績を見る
+                            </a>
+                            <a href="contact.html" class="btn-modern btn-outline-modern">
+                                <i class="fas fa-envelope"></i> 連絡先を見る
+                            </a>
+                        </div>
+                    </div>
 
-<div class="container">
-  <div class="homepage-row">
-    <!-- 左カラム -->
-    <div class="left-column-stack">
-
-      <!-- Qiita最新記事 -->
-      <div class="qiita-card fade-up">
-        <h5><i class="fas fa-newspaper me-2" style="color: var(--accent);"></i>Qiita最新記事</h5>
-        <ul id="qiita-articles" class="qiita-list">
-          <li><span style="color: var(--text-muted);">Loading...</span></li>
-        </ul>
-      </div>
-
-      <!-- 資格 -->
-      <div class="glass-card fade-up delay-1">
-        <h5 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem;">
-          <i class="fas fa-award me-2" style="color: var(--accent);"></i>取得資格
-        </h5>
-        <ul class="cert-list">
-          <li><i class="fas fa-check-circle"></i> AWS Certified Cloud Practitioner</li>
-          <li><i class="fas fa-check-circle"></i> 基本情報技術者</li>
-          <li><i class="fas fa-check-circle"></i> ITパスポート</li>
-          <li><i class="fas fa-spinner fa-spin" style="color: var(--primary-light);"></i> AWS Certified Solutions Architect – Associate（勉強中）</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- メインコンテンツ -->
-    <div>
-      <!-- 自己紹介 -->
-      <section class="glass-card fade-up" style="margin-bottom: 2rem;">
-        <h2 class="section-title"><i class="fas fa-user me-2" style="font-size: 1.2rem;"></i>自己紹介</h2>
-        <p class="section-subtitle" style="margin-bottom: 1.5rem;">About Me</p>
-        <p style="color: var(--text-secondary); line-height: 1.9;">
-          はじめまして。Linuxやネットワークの構築、Pythonによる自動化・Webアプリ開発を得意とするインフラエンジニア志望の<strong style="color: var(--primary-light);">Termnix-IT</strong>です。<br>
-          現在は個人でのシステム構築や自作ツール開発、資格取得を通じてスキルアップを図っています。
-        </p>
-      </section>
-
-      <!-- 経歴 -->
-      <section class="glass-card fade-up delay-1" style="margin-bottom: 2rem;">
-        <h2 class="section-title"><i class="fas fa-route me-2" style="font-size: 1.2rem;"></i>経歴</h2>
-        <p class="section-subtitle" style="margin-bottom: 1.5rem;">Career</p>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-date">2025年12月～現在</div>
-            <div class="timeline-content">某省 ネットワーク維持保守案件</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2024年8月 〜 2025年10月</div>
-            <div class="timeline-content">医療系ITシステムの運用保守</div>
-          </div>
-          <div class="timeline-item">
-              <div class="timeline-date">2021年 〜 2024年</div>
-              <div class="timeline-content">通信施工管理業務</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">個人活動</div>
-            <div class="timeline-content">自宅インフラ構築、Webページ公開、Qiitaでの技術発信</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ITスキル -->
-      <section class="glass-card fade-up delay-2" style="margin-bottom: 2rem;">
-        <h2 class="section-title"><i class="fas fa-code me-2" style="font-size: 1.2rem;"></i>ITスキル</h2>
-        <p class="section-subtitle" style="margin-bottom: 1.5rem;">Skills</p>
-
-        <!-- 実務経験 -->
-        <div class="skill-category">
-          <div class="skill-category-title">
-            <i class="fas fa-building"></i> 実務経験
-          </div>
-
-          <!-- 案件1 -->
-          <div class="experience-card">
-            <div class="experience-header">
-              <span class="experience-period"><i class="fas fa-calendar-alt me-1"></i>2025年12月 〜 現在</span>
-              <span class="status-badge status-done"><i class="fas fa-circle" style="font-size: 0.5rem;"></i> 稼働中</span>
+                    <div class="hero-panel fade-up delay-2">
+                        <div class="hero-panel-top">
+                            <img src="static/img/icon.png" alt="Termnix-ITのアイコン" class="hero-avatar">
+                            <div>
+                                <p class="hero-panel-label">Current Focus</p>
+                                <h2>運用経験を土台にした<br>構築と自動化</h2>
+                            </div>
+                        </div>
+                        <div class="hero-metrics">
+                            <div>
+                                <span class="metric-value">3+</span>
+                                <span class="metric-label">関連実務年数</span>
+                            </div>
+                            <div>
+                                <span class="metric-value">4</span>
+                                <span class="metric-label">掲載カテゴリ</span>
+                            </div>
+                            <div>
+                                <span class="metric-value">24/7</span>
+                                <span class="metric-label">監視・保守の視点</span>
+                            </div>
+                        </div>
+                        <div class="hero-social hero-social-panel">
+                            <a href="https://qiita.com/Termnix-IT" target="_blank" class="btn-social-qiita" rel="noopener noreferrer">
+                                <i class="fas fa-pen-nib"></i> Qiita
+                            </a>
+                            <a href="https://github.com/Termnix-IT" target="_blank" class="btn-social-github" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h4 class="experience-title">某省 ネットワーク維持保守案件</h4>
-            <p class="experience-desc">官公庁ネットワーク環境の維持保守業務を担当。</p>
-            <div class="skill-badges">
-              <span class="skill-badge green"><i class="fas fa-network-wired"></i> ネットワーク保守</span>
-              <span class="skill-badge green">運用管理</span>
+        </section>
+
+        <section class="section-block">
+            <div class="container home-main">
+                <section class="home-section fade-up">
+                    <div class="section-heading">
+                        <p class="section-kicker">Overview</p>
+                        <h2 class="section-title no-line">できること</h2>
+                    </div>
+                    <div class="overview-grid">
+                        <article class="overview-item">
+                            <span class="overview-index">01</span>
+                            <h3>運用保守</h3>
+                            <p>Windows Server 環境や官公庁ネットワークの維持保守で、障害切り分けと安定運用を担当。</p>
+                        </article>
+                        <article class="overview-item">
+                            <span class="overview-index">02</span>
+                            <h3>インフラ構築</h3>
+                            <p>Linux、UFW、DDNS、Nginx を使った自宅サーバ公開や監視基盤の整備を個人で継続。</p>
+                        </article>
+                        <article class="overview-item">
+                            <span class="overview-index">03</span>
+                            <h3>自動化と発信</h3>
+                            <p>Python による効率化と、Qiita・GitHub を通じたアウトプットで知識を整理して公開。</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="home-section fade-up delay-1">
+                    <div class="section-heading section-heading-split">
+                        <div>
+                            <p class="section-kicker">Selected Work</p>
+                            <h2 class="section-title no-line">注目プロジェクト</h2>
+                        </div>
+                        <a href="portfolio.html" class="section-link">ポートフォリオ一覧へ</a>
+                    </div>
+                    <div class="feature-project-grid">
+                        <article class="feature-project">
+                            <p class="feature-project-label">Project 01</p>
+                            <h3>自宅サーバ公開プロジェクト</h3>
+                            <p>
+                                Flask と Linux を使った公開環境を構築し、UFW によるセキュリティ制御まで含めて運用。
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">Nginx</span>
+                                <span class="tech-tag">UFW</span>
+                                <span class="tech-tag">Linux</span>
+                            </div>
+                        </article>
+                        <article class="feature-project">
+                            <p class="feature-project-label">Project 02</p>
+                            <h3>Zabbix監視導入</h3>
+                            <p>
+                                Raspberry Pi 上に Zabbix Server を構築し、通知やエージェント監視まで含めた監視基盤を整備。
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Zabbix</span>
+                                <span class="tech-tag">Raspberry Pi</span>
+                                <span class="tech-tag">Mail Alert</span>
+                                <span class="tech-tag">UFW</span>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <div class="home-columns">
+                    <section class="home-section fade-up delay-2">
+                        <div class="section-heading">
+                            <p class="section-kicker">Profile</p>
+                            <h2 class="section-title no-line">現在地</h2>
+                        </div>
+                        <div class="profile-summary">
+                            <p>
+                                インフラエンジニア志望として、実務では保守運用、個人活動では Linux 構築や Web 公開、
+                                Python による自動化に取り組んでいます。現場経験と個人検証の両方を軸に、再現性のある構成と運用目線を重視しています。
+                            </p>
+                        </div>
+                        <div class="timeline compact-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2025年12月 - 現在</div>
+                                <div class="timeline-content">某省 ネットワーク維持保守案件</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2024年8月 - 2025年10月</div>
+                                <div class="timeline-content">医療系ITシステムの運用保守</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2021年 - 2024年</div>
+                                <div class="timeline-content">通信施工管理業務</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside class="side-stack">
+                        <section class="home-section side-panel fade-up delay-3">
+                            <div class="section-heading">
+                                <p class="section-kicker">Credentials</p>
+                                <h2 class="section-title no-line">資格</h2>
+                            </div>
+                            <ul class="cert-list compact-list">
+                                <li><i class="fas fa-check-circle"></i> AWS Certified Cloud Practitioner</li>
+                                <li><i class="fas fa-check-circle"></i> 基本情報技術者</li>
+                                <li><i class="fas fa-check-circle"></i> ITパスポート</li>
+                                <li><i class="fas fa-spinner fa-spin"></i> SAA Associate 学習中</li>
+                            </ul>
+                        </section>
+
+                        <section class="home-section side-panel fade-up delay-4">
+                            <div class="section-heading">
+                                <p class="section-kicker">Latest Posts</p>
+                                <h2 class="section-title no-line">Qiita最新記事</h2>
+                            </div>
+                            <ul id="qiita-articles" class="qiita-list">
+                                <li><span style="color: var(--text-muted);">Loading...</span></li>
+                            </ul>
+                        </section>
+                    </aside>
+                </div>
+
+                <section class="home-section fade-up">
+                    <div class="section-heading section-heading-split">
+                        <div>
+                            <p class="section-kicker">Skill Set</p>
+                            <h2 class="section-title no-line">主なスキル</h2>
+                        </div>
+                        <a href="portfolio.html" class="section-link">プロジェクトと合わせて見る</a>
+                    </div>
+                    <div class="skill-summary-grid">
+                        <div class="skill-summary-block">
+                            <h3>Infrastructure</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge green"><i class="fab fa-linux"></i> Linux</span>
+                                <span class="skill-badge green"><i class="fas fa-network-wired"></i> LAN/WAN</span>
+                                <span class="skill-badge green">VLAN</span>
+                                <span class="skill-badge green">UFW</span>
+                                <span class="skill-badge green">ポート開放</span>
+                            </div>
+                        </div>
+                        <div class="skill-summary-block">
+                            <h3>Automation</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge accent"><i class="fab fa-python"></i> Python</span>
+                                <span class="skill-badge accent"><i class="fas fa-flask"></i> Flask</span>
+                                <span class="skill-badge accent">スクリプト自動化</span>
+                                <span class="skill-badge accent">生成AI活用</span>
+                            </div>
+                        </div>
+                        <div class="skill-summary-block">
+                            <h3>Operations</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge">Windows Server</span>
+                                <span class="skill-badge">ログ監視</span>
+                                <span class="skill-badge">障害切り分け</span>
+                                <span class="skill-badge">Zabbix</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-          </div>
-
-          <!-- 案件2 -->
-          <div class="experience-card">
-            <div class="experience-header">
-              <span class="experience-period"><i class="fas fa-calendar-alt me-1"></i>2024年8月 〜 2025年10月（約14ヶ月）</span>
-            </div>
-            <h4 class="experience-title">医療系ITシステム 運用保守</h4>
-            <p class="experience-desc">医療系ITシステム企業に常駐し、Windows Server環境での製品の運用・保守、監視設定を担当。</p>
-            <div class="skill-badges">
-              <span class="skill-badge"><i class="fab fa-windows"></i> Windows Server</span>
-              <span class="skill-badge">SYNAPSE</span>
-              <span class="skill-badge">保守・運用</span>
-              <span class="skill-badge">監視端末(Sateli)設定</span>
-              <span class="skill-badge">アカウント設定</span>
-              <span class="skill-badge">バージョンアップ対応</span>
-              <span class="skill-badge">バックアップジョブ管理</span>
-              <span class="skill-badge accent">ログ・アラート監視</span>
-              <span class="skill-badge accent">障害切り分け</span>
-            </div>
-          </div>
-
-          <!-- 案件3 -->
-          <div class="experience-card">
-            <div class="experience-header">
-              <span class="experience-period"><i class="fas fa-calendar-alt me-1"></i>2021年 〜 2024年（約3年）</span>
-            </div>
-            <h4 class="experience-title">通信施工管理業務</h4>
-            <p class="experience-desc">LAN・光回線配線の施工管理および現場管理を担当。</p>
-            <div class="skill-badges">
-              <span class="skill-badge green"><i class="fas fa-ethernet"></i> LAN配線</span>
-              <span class="skill-badge green">光回線配線</span>
-              <span class="skill-badge green">現場管理</span>
-              <span class="skill-badge">施工管理</span>
-            </div>
-          </div>
-        </div>
-
-        <hr class="section-divider">
-
-        <!-- 独学 -->
-        <div class="skill-category">
-          <div class="skill-category-title">
-            <i class="fas fa-graduation-cap"></i> 独学スキル
-          </div>
-          <div class="skill-badges">
-            <span class="skill-badge accent"><i class="fab fa-python"></i> Python</span>
-            <span class="skill-badge accent"><i class="fas fa-flask"></i> Flask</span>
-            <span class="skill-badge accent">スクリプト自動化</span>
-            <span class="skill-badge green"><i class="fab fa-linux"></i> Linux（Ubuntu）</span>
-            <span class="skill-badge green"><i class="fas fa-network-wired"></i> LAN/WAN設計</span>
-            <span class="skill-badge green">VLAN</span>
-            <span class="skill-badge green">ファイアウォール</span>
-            <span class="skill-badge green">ポート開放</span>
-            <span class="skill-badge green">IPv6設定</span>
-            <span class="skill-badge"><i class="fas fa-chart-line"></i> Zabbix監視</span>
-            <span class="skill-badge">Raspberry Pi</span>
-            <span class="skill-badge">UFW設定</span>
-          </div>
-        </div>
-
-        <hr class="section-divider">
-
-        <!-- その他 -->
-        <div class="skill-category">
-          <div class="skill-category-title">
-            <i class="fas fa-share-alt"></i> アウトプット
-          </div>
-          <div class="skill-badges">
-            <span class="skill-badge"><i class="fas fa-pen-nib"></i> Qiita投稿</span>
-            <span class="skill-badge"><i class="fab fa-github"></i> GitHub</span>
-            <span class="skill-badge"><i class="fas fa-globe"></i> ポートフォリオ公開</span>
-          </div>
-        </div>
-
-        <hr class="section-divider">
-
-        <!-- 今後の強化 -->
-        <div class="skill-category">
-          <div class="skill-category-title">
-            <i class="fas fa-rocket"></i> 今後の強化ポイント
-          </div>
-          <div class="skill-badges">
-            <span class="skill-badge green">Linux本格運用</span>
-            <span class="skill-badge accent">Python効率化ツール</span>
-            <span class="skill-badge">生成AI活用</span>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-</div>
+        </section>
     </main>
 
-    <!-- フッター -->
     <footer class="site-footer">
         <div class="container">
             <div class="row align-items-center">
@@ -255,8 +274,8 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-social">
-                        <a href="https://qiita.com/Termnix-IT" target="_blank" aria-label="Qiita"><i class="fas fa-pen-nib"></i></a>
-                        <a href="https://github.com/Termnix-IT" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" aria-label="Qiita" rel="noopener noreferrer"><i class="fas fa-pen-nib"></i></a>
+                        <a href="https://github.com/Termnix-IT" target="_blank" aria-label="GitHub" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                     </div>
                     <p class="footer-copy mb-0">&copy; 2025 Termnix-IT. All rights reserved.</p>
                 </div>
