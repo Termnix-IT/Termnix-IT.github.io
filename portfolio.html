@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
@@ -64,7 +64,7 @@
   </nav>
 
   <!-- プロジェクト1 -->
-  <div class="project-card fade-up">
+  <div id="project-1" class="project-card fade-up">
     <div class="project-title">
       <span class="project-number">1</span>
       自宅サーバ公開プロジェクト
@@ -100,11 +100,12 @@
     <h4 class="project-subsection-title">
       <i class="fas fa-project-diagram"></i>構成図
     </h4>
-    <img src="static/img/server-diagram.png" alt="構成図" class="diagram diagram-centered d-block mx-auto">
+    <img src="static/img/server-diagram.png" alt="自宅サーバ公開プロジェクト 構成図" class="diagram diagram-centered diagram-zoomable d-block mx-auto" loading="lazy">
+    <span class="diagram-hint"><i class="fas fa-search-plus me-1"></i>クリックで拡大</span>
   </div>
 
   <!-- プロジェクト2 -->
-  <div class="project-card fade-up delay-1">
+  <div id="project-2" class="project-card fade-up delay-1">
     <div class="project-title">
       <span class="project-number">2</span>
       Zabbix監視導入
@@ -159,8 +160,8 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-social">
-                        <a href="https://qiita.com/Termnix-IT" target="_blank" aria-label="Qiita"><i class="fas fa-pen-nib"></i></a>
-                        <a href="https://github.com/Termnix-IT" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="Qiita"><i class="fas fa-pen-nib"></i></a>
+                        <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     </div>
                     <p class="footer-copy mb-0">&copy; 2025 Termnix-IT. All rights reserved.</p>
                 </div>
