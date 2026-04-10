@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Termnix-IT favicon</title>
+  <desc id="desc">A simplified blue circular badge with the letters I.T for browser tabs.</desc>
+  <defs>
+    <linearGradient id="ring" x1="12" y1="10" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0c4d7b"/>
+      <stop offset="1" stop-color="#24b0de"/>
+    </linearGradient>
+    <linearGradient id="glyph" x1="18" y1="18" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0c4d7b"/>
+      <stop offset="1" stop-color="#29b6df"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="#ffffff"/>
+  <circle cx="32" cy="32" r="28" fill="none" stroke="url(#ring)" stroke-width="3.5"/>
+  <rect x="18" y="18" width="4.5" height="26" rx="1" fill="url(#glyph)"/>
+  <circle cx="28.5" cy="41.5" r="2.7" fill="url(#glyph)"/>
+  <path d="M30.5 18h16v4.5H40.8V44h-4.7V22.5h-5.6z" fill="url(#glyph)"/>
+</svg>
