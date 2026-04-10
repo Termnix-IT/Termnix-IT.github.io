@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
+    <link rel="alternate icon" href="static/img/icon.png">
+    <link rel="apple-touch-icon" href="static/img/icon.png">
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
@@ -48,38 +51,38 @@
             <div class="container">
                 <div class="hero-home-grid">
                     <div class="hero-copy">
-                        <p class="hero-eyebrow fade-up">Infrastructure Engineer Portfolio</p>
-                        <h1 class="hero-name hero-name-left fade-up delay-1">Termnix-IT</h1>
+                        <p class="hero-eyebrow fade-up">Infrastructure Portfolio</p>
+                        <h1 class="hero-name hero-name-left fade-up delay-1">運用経験を土台に、Linux・Network・Pythonで構築する</h1>
                         <p class="hero-lead fade-up delay-2">
-                            Linux、ネットワーク、Python自動化を軸に、運用と構築の両方を扱うポートフォリオです。
-                            実務経験と個人開発を、見やすく整理して掲載しています。
+                            保守運用の実務経験と、個人でのインフラ構築・自動化を一つのポートフォリオに整理しています。
+                            Linux、ネットワーク、Pythonを軸に、再現性のある構成と運用目線をまとめています。
                         </p>
                         <div class="hero-focus-list fade-up delay-3">
-                            <span><i class="fas fa-network-wired"></i> Network Operations</span>
-                            <span><i class="fab fa-linux"></i> Linux Administration</span>
+                            <span><i class="fab fa-linux"></i> Linux</span>
+                            <span><i class="fas fa-network-wired"></i> Network</span>
                             <span><i class="fab fa-python"></i> Python Automation</span>
                         </div>
                         <div class="hero-actions fade-up delay-4">
                             <a href="portfolio.html" class="btn-modern btn-gradient">
                                 <i class="fas fa-briefcase"></i> 実績を見る
                             </a>
-                            <a href="contact.html" class="btn-modern btn-outline-modern">
-                                <i class="fas fa-envelope"></i> 連絡先を見る
+                            <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="btn-modern btn-outline-modern">
+                                <i class="fab fa-github"></i> GitHubを見る
                             </a>
                         </div>
                     </div>
 
                     <div class="hero-panel fade-up delay-2">
-                        <div class="hero-panel-top">
-                            <img src="static/img/icon.png" alt="Termnix-ITのアイコン" class="hero-avatar">
+                        <div class="hero-panel-top hero-panel-head">
                             <div>
-                                <p class="hero-panel-label">Current Focus</p>
-                                <h2>運用経験を土台にした<br>構築と自動化</h2>
+                                <p class="hero-panel-label">My Name</p>
+                                <h2>Termnix-IT</h2>
                             </div>
+                            <img src="static/img/icon.png" alt="Termnix-ITのアイコン" class="hero-avatar">
                         </div>
                         <div class="hero-metrics">
                             <div>
-                                <span class="metric-value">3+</span>
+                                <span class="metric-value">5+</span>
                                 <span class="metric-label">関連実務年数</span>
                             </div>
                             <div>
@@ -87,17 +90,13 @@
                                 <span class="metric-label">個人プロジェクト</span>
                             </div>
                             <div>
-                                <span class="metric-value">24/7</span>
-                                <span class="metric-label">監視・保守の視点</span>
+                                <span class="metric-value">3</span>
+                                <span class="metric-label">注力テーマ数</span>
                             </div>
                         </div>
-                        <div class="hero-social hero-social-panel">
-                            <a href="https://qiita.com/Termnix-IT" target="_blank" class="btn-social-qiita" rel="noopener noreferrer" aria-label="Qiitaプロフィール（新しいタブで開く）">
-                                <i class="fas fa-pen-nib" aria-hidden="true"></i> Qiita
-                            </a>
-                            <a href="https://github.com/Termnix-IT" target="_blank" class="btn-social-github" rel="noopener noreferrer" aria-label="GitHubプロフィール（新しいタブで開く）">
-                                <i class="fab fa-github" aria-hidden="true"></i> GitHub
-                            </a>
+                        <div class="hero-panel-note">
+                            <span>Focus</span>
+                            <p>Linux運用、ネットワーク保守、Pythonによる効率化を継続して検証・発信しています。</p>
                         </div>
                     </div>
                 </div>
@@ -109,7 +108,7 @@
                 <section class="home-section fade-up">
                     <div class="section-heading">
                         <p class="section-kicker">Overview</p>
-                        <h2 class="section-title no-line">できること</h2>
+                        <h2 class="section-title no-line">強み</h2>
                     </div>
                     <div class="overview-grid">
                         <article class="overview-item">
@@ -170,61 +169,74 @@
                     </div>
                 </section>
 
-                <div class="home-columns">
-                    <section class="home-section fade-up delay-2">
-                        <div class="section-heading">
-                            <p class="section-kicker">Profile</p>
-                            <h2 class="section-title no-line">現在地</h2>
+                <section class="home-section fade-up delay-2">
+                    <div class="section-heading">
+                        <p class="section-kicker">Career</p>
+                        <h2 class="section-title no-line">経歴</h2>
+                    </div>
+                    <div class="career-grid">
+                        <div class="career-main">
+                            <div class="profile-summary career-summary">
+                                <p>
+                                    実務では保守運用を中心に、個人活動では Linux 構築、Web 公開、Python 自動化を継続しています。
+                                    現場での安定運用と、個人検証での構築経験を接続している点が現在の強みです。
+                                </p>
+                            </div>
+                            <div class="timeline compact-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2025年12月 - 現在</div>
+                                    <div class="timeline-content">
+                                        <h3>某省 ネットワーク維持保守案件</h3>
+                                        <p>SW / DNS を中心に、日次監視、定期メンテナンス、脆弱性対応、障害切り分け、手順書作成を担当。</p>
+                                        <div class="project-tech">
+                                            <span class="tech-tag">Cisco</span>
+                                            <span class="tech-tag">Infoblox</span>
+                                            <span class="tech-tag">FortiGate</span>
+                                            <span class="tech-tag">Zabbix</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2024年8月 - 2025年10月</div>
+                                    <div class="timeline-content">
+                                        <h3>医療系ITシステムの運用保守・開発</h3>
+                                        <p>サーバ / ネットワーク監視、ログ確認、アラート一次対応、端末セットアップ、監視端末の初期設定を担当。</p>
+                                        <div class="project-tech">
+                                            <span class="tech-tag">Windows Server</span>
+                                            <span class="tech-tag">MySQL</span>
+                                            <span class="tech-tag">RDP</span>
+                                            <span class="tech-tag">PowerShell</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2021年4月 - 2024年7月</div>
+                                    <div class="timeline-content">
+                                        <h3>通信施工管理業務</h3>
+                                        <p>通信設備工事の工程管理と協力会社調整を担当し、配線工事の進捗管理やNW機器の初期設定・設置補助を実施。</p>
+                                        <div class="project-tech">
+                                            <span class="tech-tag">Network</span>
+                                            <span class="tech-tag">施工管理</span>
+                                            <span class="tech-tag">Router</span>
+                                            <span class="tech-tag">Switch</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="profile-summary">
-                            <p>
-                                インフラエンジニア志望として、実務では保守運用、個人活動では Linux 構築や Web 公開、
-                                Python による自動化に取り組んでいます。現場経験と個人検証の両方を軸に、再現性のある構成と運用目線を重視しています。
-                            </p>
-                        </div>
-                        <div class="timeline compact-timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-date">2025年12月 - 現在</div>
-                                <div class="timeline-content">某省 ネットワーク維持保守案件</div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">2024年8月 - 2025年10月</div>
-                                <div class="timeline-content">医療系ITシステムの運用保守</div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">2021年 - 2024年</div>
-                                <div class="timeline-content">通信施工管理業務</div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <aside class="side-stack">
-                        <section class="home-section side-panel fade-up delay-3">
-                            <div class="section-heading">
-                                <p class="section-kicker">Credentials</p>
-                                <h2 class="section-title no-line">資格</h2>
-                            </div>
+                        <div class="career-side-panel">
+                            <h3>資格</h3>
                             <ul class="cert-list compact-list">
                                 <li><i class="fas fa-check-circle"></i> AWS Certified Cloud Practitioner</li>
                                 <li><i class="fas fa-check-circle"></i> 基本情報技術者</li>
                                 <li><i class="fas fa-check-circle"></i> ITパスポート</li>
                                 <li><i class="fas fa-spinner fa-spin"></i> SAA Associate 学習中</li>
                             </ul>
-                        </section>
+                        </div>
+                    </div>
+                </section>
 
-                        <section class="home-section side-panel fade-up delay-4">
-                            <div class="section-heading">
-                                <p class="section-kicker">Latest Posts</p>
-                                <h2 class="section-title no-line">Qiita最新記事</h2>
-                            </div>
-                            <ul id="qiita-articles" class="qiita-list">
-                                <li><span style="color: var(--text-muted);">Loading...</span></li>
-                            </ul>
-                        </section>
-                    </aside>
-                </div>
-
-                <section class="home-section fade-up">
+                <section class="home-section fade-up delay-3">
                     <div class="section-heading section-heading-split">
                         <div>
                             <p class="section-kicker">Skill Set</p>
@@ -261,6 +273,37 @@
                                 <span class="skill-badge">Zabbix</span>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <section class="home-section fade-up delay-4">
+                    <div class="section-heading section-heading-split">
+                        <div>
+                            <p class="section-kicker">Publishing</p>
+                            <h2 class="section-title no-line">発信</h2>
+                        </div>
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="section-link">Qiitaプロフィールへ</a>
+                    </div>
+                    <div class="publishing-grid">
+                        <article class="publishing-card">
+                            <h3>Qiita最新記事</h3>
+                            <p>構築手順や学習内容を短く整理して継続的に発信しています。</p>
+                            <ul id="qiita-articles" class="qiita-list">
+                                <li><span style="color: var(--text-muted);">Loading...</span></li>
+                            </ul>
+                        </article>
+                        <article class="publishing-card">
+                            <h3>GitHub</h3>
+                            <p>個人プロジェクトの構成や手順を、コードと合わせて確認できるように整理しています。</p>
+                            <div class="publishing-actions">
+                                <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="btn-modern btn-outline-modern">
+                                    <i class="fab fa-github"></i> GitHubを見る
+                                </a>
+                                <a href="portfolio.html" class="btn-modern btn-outline-modern">
+                                    <i class="fas fa-briefcase"></i> 実績一覧を見る
+                                </a>
+                            </div>
+                        </article>
                     </div>
                 </section>
             </div>
