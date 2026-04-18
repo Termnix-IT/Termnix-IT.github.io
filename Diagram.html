@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
     <link rel="alternate icon" href="static/img/icon.png">
     <link rel="apple-touch-icon" href="static/img/icon.png">
@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <span class="brand-icon"><i class="fas fa-terminal"></i></span>
+                <img src="static/img/icon.png" alt="" class="brand-icon" aria-hidden="true">
                 Termnix-IT
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="メニュー">
@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>HOME</a>
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>ホーム</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="portfolio.html"><i class="fas fa-briefcase me-1"></i>ポートフォリオ</a>
@@ -58,14 +58,6 @@
 </div>
 
 <div class="container pb-5">
-  <!-- パンくず -->
-  <nav aria-label="breadcrumb" class="mb-4 fade-up">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home me-1"></i>HOME</a></li>
-      <li class="breadcrumb-item active" aria-current="page">構成図ギャラリー</li>
-    </ol>
-  </nav>
-
   <!-- ギャラリーグリッド -->
   <div class="row g-4">
     <!-- 構成図1 -->
@@ -73,19 +65,19 @@
       <div class="gallery-card">
         <img src="static/img/server-diagram.png" alt="自宅サーバ構成図" loading="lazy">
         <div class="gallery-card-body">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-            <h3 style="margin: 0;">自宅サーバ公開構成図</h3>
+          <div class="gallery-card-header">
+            <h3 class="gallery-card-title">自宅サーバ公開構成図</h3>
             <span class="status-badge status-done"><i class="fas fa-check"></i> 完成</span>
           </div>
           <p>Flask + LinuxでWebページを外部公開するための構成。UFWによるアクセス制限を実施。</p>
-          <div class="project-tech" style="margin-top: 0.75rem;">
+          <div class="project-tech gallery-card-tech">
             <span class="tech-tag">Flask</span>
             <span class="tech-tag">Nginx</span>
             <span class="tech-tag">Linux</span>
             <span class="tech-tag">UFW</span>
             <span class="tech-tag">DDNS</span>
           </div>
-          <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.75rem; margin-bottom: 0;">
+          <p class="gallery-card-meta">
             <i class="fas fa-calendar-alt me-1"></i>2025年6月
           </p>
         </div>
@@ -94,9 +86,9 @@
 
     <!-- プレースホルダー -->
     <div class="col-lg-4 col-md-6 fade-up delay-1">
-      <div class="glass-card" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 300px;">
-        <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem; opacity: 0.5;"></i>
-        <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">
+      <div class="glass-card gallery-placeholder-card">
+        <i class="fas fa-plus-circle gallery-placeholder-icon"></i>
+        <p class="gallery-placeholder-text">
           今後追加予定
         </p>
       </div>
