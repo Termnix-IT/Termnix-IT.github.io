@@ -1,6 +1,10 @@
 *
 !/
 !.gitignore
+!.github/
+!.github/workflows/
+!.github/workflows/deploy.yml
+!README.MD
 !*.html
 !static/
 !static/*.css
