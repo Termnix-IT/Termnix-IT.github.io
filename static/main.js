@@ -1,176 +1,207 @@
 /**
  * Termnix-IT Portfolio - Main JavaScript
- * ==========================================
+ * 共通 UI の初期化と、軽量なページ補助処理をまとめる。
  */
 
-// ===== ナビバースクロールエフェクト =====
-var _scrollTicking = false;
-window.addEventListener('scroll', function () {
-  if (_scrollTicking) return;
-  _scrollTicking = true;
-  requestAnimationFrame(function () {
-    var nav = document.getElementById('mainNav');
-    if (nav) {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
+const NAV_SCROLLED_THRESHOLD = 50;
+const ANIMATION_SELECTOR = '.fade-up, .hero-headline-motion, .hero-proof-motion';
+const QIITA_USER = 'Termnix-IT';
+const QIITA_API_URL = `https://qiita.com/api/v2/users/${QIITA_USER}/items?page=1&per_page=5`;
+const QIITA_REQUEST_TIMEOUT_MS = 5000;
+
+let isScrollTicking = false;
+let qiitaCache = null;
+
+const animationObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) {
+      return;
     }
-    _scrollTicking = false;
+
+    entry.target.classList.add('animate-in');
+    observer.unobserve(entry.target);
   });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px',
 });
 
-// ===== スクロールアニメーション（IntersectionObserver）=====
-const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-const observer = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('animate-in');
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
+window.addEventListener('scroll', handleWindowScroll, { passive: true });
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+  updateNavbarState();
   markActiveNavLink();
-
-  // fade-up 要素を監視
-  document.querySelectorAll('.fade-up').forEach(function (el) {
-    observer.observe(el);
-  });
-
-  // Qiita 最新記事の取得
+  observeAnimatedElements();
   loadQiitaArticles();
-
-  // ライトボックス初期化
   initLightbox();
 });
 
-// ===== ライトボックス =====
-function initLightbox() {
-  var zoomables = document.querySelectorAll('.diagram-zoomable');
-  if (!zoomables.length) return;
+function handleWindowScroll() {
+  if (isScrollTicking) {
+    return;
+  }
 
-  // オーバーレイを生成
-  var overlay = document.createElement('div');
+  isScrollTicking = true;
+  requestAnimationFrame(() => {
+    updateNavbarState();
+    isScrollTicking = false;
+  });
+}
+
+function updateNavbarState() {
+  const nav = document.getElementById('mainNav');
+  if (!nav) {
+    return;
+  }
+
+  nav.classList.toggle('scrolled', window.scrollY > NAV_SCROLLED_THRESHOLD);
+}
+
+function observeAnimatedElements() {
+  document.querySelectorAll(ANIMATION_SELECTOR).forEach((element) => {
+    animationObserver.observe(element);
+  });
+}
+
+function initLightbox() {
+  const zoomableImages = document.querySelectorAll('.diagram-zoomable');
+  if (!zoomableImages.length) {
+    return;
+  }
+
+  const overlay = document.createElement('div');
   overlay.className = 'lightbox-overlay';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', '画像拡大表示');
 
-  var closeBtn = document.createElement('button');
-  closeBtn.className = 'lightbox-close';
-  closeBtn.setAttribute('aria-label', '閉じる');
-  closeBtn.innerHTML = '&times;';
+  const closeButton = document.createElement('button');
+  closeButton.className = 'lightbox-close';
+  closeButton.setAttribute('aria-label', '閉じる');
+  closeButton.innerHTML = '&times;';
 
-  var img = document.createElement('img');
-  img.alt = '';
+  const lightboxImage = document.createElement('img');
+  lightboxImage.alt = '';
 
-  overlay.appendChild(closeBtn);
-  overlay.appendChild(img);
+  overlay.append(closeButton, lightboxImage);
   document.body.appendChild(overlay);
 
-  function openLightbox(src, alt) {
-    img.src = src;
-    img.alt = alt || '';
-    overlay.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
+  const setLightboxState = (isOpen, src = '', alt = '') => {
+    overlay.classList.toggle('is-open', isOpen);
+    lightboxImage.src = src;
+    lightboxImage.alt = alt;
+    document.body.style.overflow = isOpen ? 'hidden' : '';
 
-  function closeLightbox() {
-    overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
-    img.src = '';
-  }
+    if (isOpen) {
+      closeButton.focus();
+    }
+  };
 
-  zoomables.forEach(function (el) {
-    el.addEventListener('click', function () {
-      openLightbox(el.src, el.alt);
+  zoomableImages.forEach((image) => {
+    image.addEventListener('click', () => {
+      setLightboxState(true, image.src, image.alt || '');
     });
   });
 
-  closeBtn.addEventListener('click', closeLightbox);
-  overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) closeLightbox();
+  closeButton.addEventListener('click', () => setLightboxState(false));
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) {
+      setLightboxState(false);
+    }
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeLightbox();
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+      setLightboxState(false);
+    }
   });
 }
 
-// ===== Qiita 最新記事取得（Qiita API v2 直接呼び出し）=====
-var QIITA_USER = 'Termnix-IT';
-var QIITA_API_URL = 'https://qiita.com/api/v2/users/' + QIITA_USER + '/items?page=1&per_page=5';
-var _qiitaCache = null;
-
-function renderQiitaError(ul) {
-  ul.innerHTML = '';
-  var li = document.createElement('li');
-  var span = document.createElement('span');
-  span.style.color = 'var(--text-muted)';
-  span.textContent = '記事が取得できませんでした';
-  li.appendChild(span);
-  ul.appendChild(li);
-}
-
-function loadQiitaArticles() {
-  var ul = document.getElementById('qiita-articles');
-  if (!ul) return;
-
-  // キャッシュがあれば再利用
-  if (_qiitaCache) {
-    renderQiitaArticles(ul, _qiitaCache);
+async function loadQiitaArticles() {
+  const list = document.getElementById('qiita-articles');
+  if (!list) {
     return;
   }
 
-  // タイムアウト（5秒）でローディング解除
-  var timeoutId = setTimeout(function () {
-    renderQiitaError(ul);
-  }, 5000);
-
-  fetch(QIITA_API_URL)
-    .then(function (res) {
-      if (!res.ok) throw new Error('API error');
-      return res.json();
-    })
-    .then(function (data) {
-      clearTimeout(timeoutId);
-      _qiitaCache = data;
-      renderQiitaArticles(ul, data);
-    })
-    .catch(function () {
-      clearTimeout(timeoutId);
-      renderQiitaError(ul);
-    });
-}
-
-function renderQiitaArticles(ul, data) {
-  ul.innerHTML = '';
-  if (data.length === 0) {
-    renderQiitaError(ul);
+  if (qiitaCache) {
+    renderQiitaArticles(list, qiitaCache);
     return;
   }
-  data.forEach(function (article) {
-    var li = document.createElement('li');
-    var a = document.createElement('a');
-    a.href = article.url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = article.title;
-    li.appendChild(a);
-    ul.appendChild(li);
+
+  const controller = typeof AbortController === 'function' ? new AbortController() : null;
+  let didTimeout = false;
+
+  const timeoutId = window.setTimeout(() => {
+    didTimeout = true;
+    if (controller) {
+      controller.abort();
+    }
+    renderQiitaMessage(list, '記事が取得できませんでした');
+  }, QIITA_REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(QIITA_API_URL, controller ? { signal: controller.signal } : undefined);
+    if (!response.ok) {
+      throw new Error('Qiita API request failed');
+    }
+
+    const data = await response.json();
+    if (didTimeout) {
+      return;
+    }
+
+    qiitaCache = Array.isArray(data) ? data : [];
+    renderQiitaArticles(list, qiitaCache);
+  } catch (error) {
+    if (!didTimeout) {
+      renderQiitaMessage(list, '記事が取得できませんでした');
+    }
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
+function renderQiitaArticles(list, articles) {
+  list.innerHTML = '';
+
+  if (!articles.length) {
+    renderQiitaMessage(list, '記事がまだありません');
+    return;
+  }
+
+  articles.forEach((article) => {
+    const listItem = document.createElement('li');
+    const link = document.createElement('a');
+
+    link.href = article.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = article.title;
+
+    listItem.appendChild(link);
+    list.appendChild(listItem);
   });
+}
+
+function renderQiitaMessage(list, message) {
+  list.innerHTML = '';
+
+  const listItem = document.createElement('li');
+  listItem.className = 'qiita-status';
+  listItem.textContent = message;
+
+  list.appendChild(listItem);
 }
 
 function markActiveNavLink() {
-  var currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('#navbarNav .nav-link').forEach(function (link) {
-    var href = link.getAttribute('href');
-    if (href === currentPath) {
-      link.classList.add('active');
-      link.setAttribute('aria-current', 'page');
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+
+  document.querySelectorAll('#navbarNav .nav-link').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (href !== currentPath) {
+      return;
     }
+
+    link.classList.add('active');
+    link.setAttribute('aria-current', 'page');
   });
 }
