@@ -9,3 +9,5 @@
 !static/
 !static/*.css
 !static/*.js
+!static/img/
+!static/img/*
