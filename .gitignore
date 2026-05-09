@@ -4,7 +4,7 @@
 !.github/
 !.github/workflows/
 !.github/workflows/deploy.yml
-!README.MD
+!README.md
 !*.html
 !static/
 !static/*.css

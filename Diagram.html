@@ -9,111 +9,149 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
-    <link rel="alternate icon" href="static/img/icon.png">
-    <link rel="apple-touch-icon" href="static/img/icon.png">
+    <link rel="icon" type="image/png" href="static/img/main-icon.png">
+    <link rel="apple-touch-icon" href="static/img/main-icon.png">
     <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
-    <!-- ナビゲーションバー -->
+<body class="cdoc-page">
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <img src="static/img/icon.png" alt="" class="brand-icon" aria-hidden="true">
+                <img src="static/img/main-icon.png" alt="" class="brand-icon" aria-hidden="true">
                 Termnix-IT
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="メニュー">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>ホーム</a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.html"><i class="fas fa-briefcase me-1"></i>ポートフォリオ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ToolBox.html"><i class="fas fa-toolbox me-1"></i>作成ツール一覧</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Diagram.html"><i class="fas fa-project-diagram me-1"></i>構成図ギャラリー</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>問い合わせ</a></li>
+                </ul>
+                <ul class="navbar-nav navbar-social">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>ホーム</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="portfolio.html"><i class="fas fa-briefcase me-1"></i>ポートフォリオ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ToolBox.html"><i class="fas fa-toolbox me-1"></i>作成ツール一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Diagram.html"><i class="fas fa-project-diagram me-1"></i>構成図ギャラリー</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>問い合わせ</a>
+                        <a class="nav-link nav-icon" href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- メインコンテンツ -->
-    <main>
-<!-- ページヘッダー -->
-<div class="page-header">
-  <div class="container">
-    <h1 class="fade-up"><i class="fas fa-project-diagram me-2"></i>構成図ギャラリー</h1>
-    <p class="fade-up delay-1">システム構成図のコレクション</p>
-  </div>
-</div>
-
-<div class="container pb-5">
-  <!-- ギャラリーグリッド -->
-  <div class="row g-4">
-    <!-- 構成図1 -->
-    <div class="col-lg-8 col-md-12 fade-up">
-      <div class="gallery-card">
-        <img src="static/img/server-diagram.png" alt="自宅サーバ構成図" loading="lazy">
-        <div class="gallery-card-body">
-          <div class="gallery-card-header">
-            <h3 class="gallery-card-title">自宅サーバ公開構成図</h3>
-            <span class="status-badge status-done"><i class="fas fa-check"></i> 完成</span>
-          </div>
-          <p>Flask + LinuxでWebページを外部公開するための構成。UFWによるアクセス制限を実施。</p>
-          <div class="project-tech gallery-card-tech">
-            <span class="tech-tag">Flask</span>
-            <span class="tech-tag">Nginx</span>
-            <span class="tech-tag">Linux</span>
-            <span class="tech-tag">UFW</span>
-            <span class="tech-tag">DDNS</span>
-          </div>
-          <p class="gallery-card-meta">
-            <i class="fas fa-calendar-alt me-1"></i>2025年6月
-          </p>
+    <main class="cdoc">
+        <div class="cdoc-pathbar" aria-hidden="true">
+            <div class="cdoc-pathbar-inner">~/ termnix-it / diagram</div>
         </div>
-      </div>
-    </div>
+        <div class="cdoc-shell">
+            <aside class="cdoc-side" aria-label="プロフィール">
+              <div class="cdoc-side-inner">
+                <div class="cdoc-card cdoc-profile">
+                    <img src="static/img/main-icon.png" alt="" class="cdoc-profile-avatar" aria-hidden="true">
+                    <div class="cdoc-profile-text">
+                        <p class="cdoc-profile-name">Termnix-IT</p>
+                        <p class="cdoc-profile-role">インフラエンジニア</p>
+                    </div>
+                </div>
 
-    <!-- プレースホルダー -->
-    <div class="col-lg-4 col-md-6 fade-up delay-1">
-      <div class="glass-card gallery-placeholder-card">
-        <i class="fas fa-plus-circle gallery-placeholder-icon"></i>
-        <p class="gallery-placeholder-text">
-          今後追加予定
-        </p>
-      </div>
-    </div>
-  </div>
+                <div class="cdoc-card">
+                    <p class="cdoc-card-label">Current Status</p>
+                    <ul class="cdoc-status-list">
+                        <li><span><i class="fas fa-circle"></i> 現職</span><span>維持保守</span></li>
+                        <li><span><i class="fas fa-circle"></i> 領域</span><span>Linux / NW</span></li>
+                        <li class="cdoc-status-progress"><span><i class="fas fa-circle"></i> 学習中</span><span>AWS SAA</span></li>
+                    </ul>
+                </div>
 
-  <!-- 戻るボタン -->
-  <div class="text-end mt-4 fade-up">
-    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> トップへ戻る</a>
-  </div>
-</div>
+                <div class="cdoc-card">
+                    <p class="cdoc-card-label">Links</p>
+                    <ul class="cdoc-link-list">
+                        <li><a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i><span>GitHub</span></a></li>
+                        <li><a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="Qiita" title="Qiita"><i class="fas fa-pen-nib"></i><span>Qiita</span></a></li>
+                        <li><a href="index.html" aria-label="Home" title="Home"><i class="fas fa-home"></i><span>Home</span></a></li>
+                        <li><a href="portfolio.html" aria-label="Portfolio" title="Portfolio"><i class="fas fa-briefcase"></i><span>Portfolio</span></a></li>
+                    </ul>
+                </div>
+
+                <nav class="cdoc-card cdoc-toc" aria-label="ページ内目次">
+                    <p class="cdoc-card-label">Sections</p>
+                    <ul class="cdoc-toc-list">
+                        <li><a href="#diagram-1"><span class="cdoc-toc-mark">A</span>自宅サーバ構成図</a></li>
+                        <li><a href="#upcoming"><span class="cdoc-toc-mark">B</span>今後の追加</a></li>
+                    </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <div class="cdoc-main">
+                <section class="cdoc-hero" aria-labelledby="hero-title">
+                    <p class="cdoc-hero-eyebrow">Termnix-IT Diagram Gallery</p>
+                    <h1 id="hero-title" class="cdoc-hero-title">
+                        構築の<span class="cdoc-hero-title-mark">設計</span>を図で残す
+                    </h1>
+                    <p class="cdoc-hero-lead">
+                        個人プロジェクトや学習の中で作成したシステム構成図をまとめています。あとから自分でも見返せるよう、構成・経路・制御点を整理しています。
+                    </p>
+                    <div class="cdoc-hero-chips">
+                        <span class="cdoc-chip cdoc-chip--solid"><i class="fas fa-network-wired"></i>Network</span>
+                        <span class="cdoc-chip cdoc-chip--solid"><i class="fab fa-linux"></i>Linux</span>
+                        <span class="cdoc-chip"><i class="fas fa-shield-halved"></i>Security</span>
+                    </div>
+                </section>
+
+                <section id="diagram-1" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">A</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">diagram-01 / self-hosting</p>
+                            <h2 class="cdoc-section-title">自宅サーバ公開構成図</h2>
+                        </div>
+                        <span class="cdoc-status-pill cdoc-status-pill--done"><i class="fas fa-check"></i> 完成</span>
+                    </header>
+                    <p class="cdoc-project-body">
+                        Flask + Linux で Web ページを外部公開するための構成。UFW によるアクセス制限、DDNS による外部公開を実施。
+                    </p>
+                    <div class="cdoc-tags">
+                        <span class="cdoc-tag cdoc-tag--accent">Flask</span>
+                        <span class="cdoc-tag cdoc-tag--accent">Nginx</span>
+                        <span class="cdoc-tag cdoc-tag--accent">Linux</span>
+                        <span class="cdoc-tag cdoc-tag--accent">UFW</span>
+                        <span class="cdoc-tag cdoc-tag--accent">DDNS</span>
+                    </div>
+                    <figure class="cdoc-figure">
+                        <img src="static/img/server-diagram.png" alt="自宅サーバ構成図" class="diagram-zoomable" loading="lazy">
+                        <figcaption><i class="fas fa-calendar-alt"></i> 2025年6月 / <i class="fas fa-search-plus"></i> クリックで拡大</figcaption>
+                    </figure>
+                </section>
+
+                <section id="upcoming" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">B</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">upcoming</p>
+                            <h2 class="cdoc-section-title">今後の追加予定</h2>
+                        </div>
+                    </header>
+                    <p class="cdoc-project-body">
+                        Zabbix 監視構成図、ネットワーク検証構成図など、今後作成する構成図をここに追加していきます。
+                    </p>
+                </section>
+            </div>
+        </div>
     </main>
 
-    <!-- フッター -->
     <footer class="site-footer">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    <span class="footer-brand"><i class="fas fa-terminal me-2"></i>Termnix-IT</span>
-                    <p class="footer-text mb-0">インフラエンジニア志望 / Python & Linux</p>
+                    <span class="footer-brand"><img src="static/img/main-icon.png" alt="" class="footer-brand-icon" aria-hidden="true">Termnix-IT</span>
+                    <p class="footer-text mb-0">運用経験と個人構築をつなぐ技術プロフィール</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-social">
-                        <a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="Qiita"><i class="fas fa-pen-nib"></i></a>
-                        <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" aria-label="Qiita" rel="noopener noreferrer"><i class="fas fa-pen-nib"></i></a>
+                        <a href="https://github.com/Termnix-IT" target="_blank" aria-label="GitHub" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                     </div>
                     <p class="footer-copy mb-0">&copy; 2025 Termnix-IT. All rights reserved.</p>
                 </div>

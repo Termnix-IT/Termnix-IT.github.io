@@ -9,23 +9,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="static/img/favicon.svg">
-    <link rel="alternate icon" href="static/img/icon.png">
-    <link rel="apple-touch-icon" href="static/img/icon.png">
+    <link rel="icon" type="image/png" href="static/img/main-icon.png">
+    <link rel="apple-touch-icon" href="static/img/main-icon.png">
     <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
+<body class="cdoc-page">
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <img src="static/img/icon.png" alt="" class="brand-icon" aria-hidden="true">
+                <img src="static/img/main-icon.png" alt="" class="brand-icon" aria-hidden="true">
                 Termnix-IT
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="メニュー">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>ホーム</a>
                     </li>
@@ -42,318 +41,315 @@
                         <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-1"></i>問い合わせ</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav navbar-social">
+                    <li class="nav-item">
+                        <a class="nav-link nav-icon" href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <main class="home-editorial">
-        <section class="hero-blueprint" aria-labelledby="hero-title">
-            <span class="bp-mark bp-mark--tl" aria-hidden="true"></span>
-            <span class="bp-mark bp-mark--tr" aria-hidden="true"></span>
-            <span class="bp-mark bp-mark--bl" aria-hidden="true"></span>
-            <span class="bp-mark bp-mark--br" aria-hidden="true"></span>
+    <main class="cdoc">
+        <div class="cdoc-pathbar" aria-hidden="true">
+            <div class="cdoc-pathbar-inner">~/ termnix-it / career-profile</div>
+        </div>
+        <div class="cdoc-shell">
+            <aside class="cdoc-side" aria-label="プロフィール">
+              <div class="cdoc-side-inner">
+                <div class="cdoc-card cdoc-profile">
+                    <img src="static/img/main-icon.png" alt="" class="cdoc-profile-avatar" aria-hidden="true">
+                    <div class="cdoc-profile-text">
+                        <p class="cdoc-profile-name">Termnix-IT</p>
+                        <p class="cdoc-profile-role">インフラエンジニア</p>
+                    </div>
+                </div>
 
-            <div class="bp-meta bp-meta--top" aria-hidden="true">
-                <span class="bp-meta-item"><em>DWG</em> termnix-it / profile</span>
-                <span class="bp-meta-sep"></span>
-                <span class="bp-meta-item"><em>DATE</em> 2026.04</span>
-                <span class="bp-meta-sep"></span>
-                <span class="bp-meta-item"><em>REV</em> 03</span>
-                <span class="bp-meta-sep"></span>
-                <span class="bp-meta-item"><em>SHEET</em> 01 / 05</span>
-            </div>
+                <div class="cdoc-card">
+                    <p class="cdoc-card-label">Current Status</p>
+                    <ul class="cdoc-status-list">
+                        <li><span><i class="fas fa-circle"></i> 現職</span><span>維持保守</span></li>
+                        <li><span><i class="fas fa-circle"></i> 領域</span><span>Linux / NW</span></li>
+                        <li class="cdoc-status-progress"><span><i class="fas fa-circle"></i> 学習中</span><span>AWS SAA</span></li>
+                    </ul>
+                </div>
 
-            <div class="bp-grid">
-                <header class="bp-lead">
-                    <p class="bp-eyebrow fade-up">
-                        <span class="bp-pulse" aria-hidden="true"></span>
-                        <span class="bp-eyebrow-path">~/ termnix-it / infrastructure-profile</span>
-                    </p>
+                <div class="cdoc-card">
+                    <p class="cdoc-card-label">Links</p>
+                    <ul class="cdoc-link-list">
+                        <li><a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i><span>GitHub</span></a></li>
+                        <li><a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" aria-label="Qiita" title="Qiita"><i class="fas fa-pen-nib"></i><span>Qiita</span></a></li>
+                        <li><a href="portfolio.html" aria-label="Portfolio" title="Portfolio"><i class="fas fa-briefcase"></i><span>Portfolio</span></a></li>
+                        <li><a href="contact.html" aria-label="Contact" title="Contact"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+                    </ul>
+                </div>
 
-                    <h1 id="hero-title" class="bp-title fade-up delay-1">
-                        <span class="bp-title-row bp-title-row--latin">
-                            <span class="bp-title-word"><em>Termnix</em></span>
-                            <span class="bp-title-tag">&mdash; IT</span>
-                        </span>
-                        <span class="bp-title-row bp-title-row--jp">
-                            保守運用を<span class="bp-title-mark">土台</span>に
-                        </span>
-                        <span class="bp-title-row bp-title-row--jp bp-title-row--indent">
-                            <span class="bp-title-serif">個人でも</span>構築と検証を続ける
-                        </span>
+                <nav class="cdoc-card cdoc-toc" aria-label="ページ内目次">
+                    <p class="cdoc-card-label">Sections</p>
+                    <ul class="cdoc-toc-list">
+                        <li><a href="#overview"><span class="cdoc-toc-mark">A</span>Overview</a></li>
+                        <li><a href="#career"><span class="cdoc-toc-mark">B</span>Career Timeline</a></li>
+                        <li><a href="#skills"><span class="cdoc-toc-mark">C</span>Skills</a></li>
+                        <li><a href="#certifications"><span class="cdoc-toc-mark">D</span>Certifications</a></li>
+                        <li><a href="#projects"><span class="cdoc-toc-mark">E</span>Projects</a></li>
+                        <li><a href="#publishing"><span class="cdoc-toc-mark">F</span>Publishing</a></li>
+                    </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <div class="cdoc-main">
+                <section class="cdoc-hero" aria-labelledby="hero-title">
+                    <p class="cdoc-hero-eyebrow">Termnix-IT Career Profile</p>
+                    <h1 id="hero-title" class="cdoc-hero-title">
+                        保守運用を<span class="cdoc-hero-title-mark">土台</span>に、構築・監視・自動化へ広げるインフラエンジニア
                     </h1>
-
-                    <p class="bp-lead-text fade-up delay-2">
-                        Linux・ネットワーク・Python を中心に、公開／監視／自動化を実務と個人プロジェクトの両面から積み重ねています。手順の再現性と、あとから見返せる構成整理を意識して、プロフィールとしてまとめています。
+                    <p class="cdoc-hero-lead">
+                        Linux・ネットワーク・Python を中心に、公開／監視／自動化を実務と個人プロジェクトの両面で積み重ねています。手順の再現性と、あとから見返せる構成整理を意識して、経歴をドキュメントとしてまとめました。
                     </p>
-
-                    <div class="bp-actions fade-up delay-3">
-                        <a href="portfolio.html" class="bp-btn bp-btn--primary">
-                            <span class="bp-btn-label">実績を見る</span>
-                            <span class="bp-btn-arrow" aria-hidden="true">&rarr;</span>
-                        </a>
-                        <a href="contact.html" class="bp-btn bp-btn--ghost">
-                            <span class="bp-btn-label">問い合わせ</span>
-                            <span class="bp-btn-arrow" aria-hidden="true">&rarr;</span>
-                        </a>
+                    <div class="cdoc-hero-chips">
+                        <span class="cdoc-chip cdoc-chip--solid"><i class="fab fa-linux"></i>Linux</span>
+                        <span class="cdoc-chip cdoc-chip--solid"><i class="fas fa-network-wired"></i>Network</span>
+                        <span class="cdoc-chip cdoc-chip--solid"><i class="fab fa-python"></i>Python</span>
+                        <span class="cdoc-chip"><i class="fas fa-shield-halved"></i>Security</span>
+                        <span class="cdoc-chip"><i class="fas fa-chart-line"></i>Monitoring</span>
+                        <span class="cdoc-chip"><i class="fab fa-github"></i>GitHub / Qiita</span>
                     </div>
+                </section>
 
-                </header>
-
-                <aside class="bp-callouts fade-up delay-2" aria-label="プロフィール概要">
-                    <figure class="bp-callout bp-callout--a">
-                        <span class="bp-callout-pin" aria-hidden="true">A</span>
-                        <figcaption>
-                            <span class="bp-callout-label">Experience</span>
-                            <strong class="bp-callout-value">5<em>年+</em></strong>
-                            <span class="bp-callout-detail">関連実務</span>
-                        </figcaption>
-                    </figure>
-                    <figure class="bp-callout bp-callout--b">
-                        <span class="bp-callout-pin" aria-hidden="true">B</span>
-                        <figcaption>
-                            <span class="bp-callout-label">Projects</span>
-                            <strong class="bp-callout-value">02</strong>
-                            <span class="bp-callout-detail">個人構築プロジェクト</span>
-                        </figcaption>
-                    </figure>
-                    <figure class="bp-callout bp-callout--c">
-                        <span class="bp-callout-pin" aria-hidden="true">C</span>
-                        <figcaption>
-                            <span class="bp-callout-label">Focus</span>
-                            <strong class="bp-callout-value bp-callout-value--stack">
-                                <span>Linux</span>
-                                <span>Network</span>
-                                <span>Python</span>
-                            </strong>
-                            <span class="bp-callout-detail">継続学習中</span>
-                        </figcaption>
-                    </figure>
-                    <div class="bp-current">
-                        <span class="bp-current-label"><em>Current focus</em></span>
-                        <p>自宅サーバ公開、監視基盤、構成整理を通じて、運用視点のある構築を継続しています。</p>
-                    </div>
-                </aside>
-            </div>
-
-        </section>
-
-        <section class="section-block home-editorial-main">
-            <div class="container home-main">
-                <section class="home-section home-story-section fade-up">
-                    <div class="section-heading section-heading-split">
-                        <div>
-                            <p class="section-kicker">Overview</p>
-                            <h2 class="section-title no-line">今の強み</h2>
+                <section id="overview" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">A</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">overview</p>
+                            <h2 class="cdoc-section-title">今の強み</h2>
                         </div>
-                        <p class="section-note">運用の現場経験と、個人で続けている構築・発信の両方を軸にしています。</p>
-                    </div>
-                    <div class="overview-grid editorial-overview-grid">
-                        <article class="overview-item editorial-overview-item">
-                            <span class="overview-index">01</span>
+                    </header>
+                    <div class="cdoc-overview">
+                        <article class="cdoc-overview-item">
+                            <span class="cdoc-overview-index">01 / Operations</span>
                             <h3>安定運用を前提に考える</h3>
                             <p>Windows Server や官公庁ネットワークの維持保守で、障害切り分けと安定運用を継続して担当してきました。</p>
                         </article>
-                        <article class="overview-item editorial-overview-item">
-                            <span class="overview-index">02</span>
+                        <article class="cdoc-overview-item">
+                            <span class="cdoc-overview-index">02 / Build</span>
                             <h3>自分でも構築して確かめる</h3>
                             <p>Linux、UFW、DDNS、Nginx を使った自宅サーバ公開や監視基盤の整備を、個人プロジェクトとして継続しています。</p>
                         </article>
-                        <article class="overview-item editorial-overview-item">
-                            <span class="overview-index">03</span>
+                        <article class="cdoc-overview-item">
+                            <span class="cdoc-overview-index">03 / Publish</span>
                             <h3>学んだことを公開する</h3>
                             <p>Python による効率化や構築メモを、Qiita・GitHub を通じて整理しながら発信しています。</p>
                         </article>
                     </div>
                 </section>
 
-                <section class="home-section project-spotlight-section fade-up delay-1">
-                    <div class="section-heading section-heading-split">
-                        <div>
-                            <p class="section-kicker">Selected Work</p>
-                            <h2 class="section-title no-line">注目プロジェクト</h2>
+                <section id="career" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">B</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">career-timeline</p>
+                            <h2 class="cdoc-section-title">経歴タイムライン</h2>
                         </div>
-                        <a href="portfolio.html" class="section-link">ポートフォリオ一覧へ</a>
-                    </div>
-                    <article class="project-spotlight">
-                        <div class="project-spotlight-media">
-                            <img src="static/img/server-diagram.png" alt="自宅サーバ公開プロジェクト構成図" class="project-spotlight-image diagram-zoomable" loading="lazy">
-                        </div>
-                        <div class="project-spotlight-copy">
-                            <p class="feature-project-label">Project 01</p>
-                            <h3>自宅サーバ公開プロジェクト</h3>
-                            <p class="project-spotlight-lead">
-                                Flask と Linux を使った公開環境を構築し、UFW によるセキュリティ制御、DDNS による外部公開、運用を見据えた構成整理まで一通り実施しました。
-                            </p>
-                            <div class="project-spotlight-points">
-                                <p>Linux を中心に、公開手順だけでなく保守しやすさまで意識した構成です。</p>
-                                <p>図解と手順を残し、あとから見返せる形でプロジェクト化しています。</p>
+                    </header>
+                    <ol class="cdoc-timeline">
+                        <li class="cdoc-timeline-item cdoc-timeline-current">
+                            <div class="cdoc-timeline-date">
+                                <span>2025.12 - 現在</span>
+                                <span class="cdoc-timeline-now">NOW</span>
                             </div>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flask</span>
-                                <span class="tech-tag">Linux</span>
-                                <span class="tech-tag">Nginx</span>
-                                <span class="tech-tag">UFW</span>
-                                <span class="tech-tag">DDNS</span>
+                            <h3 class="cdoc-timeline-title">某省 ネットワーク維持保守案件</h3>
+                            <p class="cdoc-timeline-body">SW / DNS を中心に、日次監視、定期メンテナンス、脆弱性対応、障害切り分け、手順書作成を担当。</p>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag cdoc-tag--accent">Cisco</span>
+                                <span class="cdoc-tag cdoc-tag--accent">Infoblox</span>
+                                <span class="cdoc-tag cdoc-tag--accent">FortiGate</span>
+                                <span class="cdoc-tag cdoc-tag--accent">Zabbix</span>
                             </div>
-                            <div class="project-spotlight-actions">
-                                <a href="portfolio.html#project-1" class="btn-modern btn-gradient">詳細を見る</a>
-                                <a href="Diagram.html" class="hero-link-subtle">構成図ギャラリーへ</a>
+                        </li>
+                        <li class="cdoc-timeline-item">
+                            <div class="cdoc-timeline-date"><span>2024.08 - 2025.10</span></div>
+                            <h3 class="cdoc-timeline-title">医療系ITシステムの運用保守・開発</h3>
+                            <p class="cdoc-timeline-body">サーバ / ネットワーク監視、ログ確認、アラート一次対応、端末セットアップ、監視端末の初期設定を担当。</p>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag">Windows Server</span>
+                                <span class="cdoc-tag">MySQL</span>
+                                <span class="cdoc-tag">RDP</span>
+                                <span class="cdoc-tag">PowerShell</span>
                             </div>
-                        </div>
-                    </article>
+                        </li>
+                        <li class="cdoc-timeline-item">
+                            <div class="cdoc-timeline-date"><span>2021.04 - 2024.07</span></div>
+                            <h3 class="cdoc-timeline-title">通信施工管理業務</h3>
+                            <p class="cdoc-timeline-body">通信設備工事の工程管理と協力会社調整を担当し、配線工事の進捗管理やNW機器の初期設定・設置補助を実施。</p>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag">Network</span>
+                                <span class="cdoc-tag">施工管理</span>
+                                <span class="cdoc-tag">Router</span>
+                                <span class="cdoc-tag">Switch</span>
+                            </div>
+                        </li>
+                    </ol>
                 </section>
 
-                <section class="home-section profile-columns-section fade-up delay-2">
-                    <div class="profile-columns">
-                        <div class="profile-column-main">
-                            <div class="section-heading">
-                                <p class="section-kicker">Career</p>
-                                <h2 class="section-title no-line">経歴</h2>
-                            </div>
-                            <p class="profile-column-lead">
-                                実務では保守運用を中心に、個人活動では Linux 構築、Web 公開、Python 自動化を継続しています。
-                                現場での安定運用と、個人検証での構築経験を接続している点が今の強みです。
-                            </p>
-                            <div class="timeline compact-timeline editorial-timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-date">2025年12月 - 現在</div>
-                                    <div class="timeline-content">
-                                        <h3>某省 ネットワーク維持保守案件</h3>
-                                        <p>SW / DNS を中心に、日次監視、定期メンテナンス、脆弱性対応、障害切り分け、手順書作成を担当。</p>
-                                        <div class="project-tech">
-                                            <span class="tech-tag">Cisco</span>
-                                            <span class="tech-tag">Infoblox</span>
-                                            <span class="tech-tag">FortiGate</span>
-                                            <span class="tech-tag">Zabbix</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">2024年8月 - 2025年10月</div>
-                                    <div class="timeline-content">
-                                        <h3>医療系ITシステムの運用保守・開発</h3>
-                                        <p>サーバ / ネットワーク監視、ログ確認、アラート一次対応、端末セットアップ、監視端末の初期設定を担当。</p>
-                                        <div class="project-tech">
-                                            <span class="tech-tag">Windows Server</span>
-                                            <span class="tech-tag">MySQL</span>
-                                            <span class="tech-tag">RDP</span>
-                                            <span class="tech-tag">PowerShell</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">2021年4月 - 2024年7月</div>
-                                    <div class="timeline-content">
-                                        <h3>通信施工管理業務</h3>
-                                        <p>通信設備工事の工程管理と協力会社調整を担当し、配線工事の進捗管理やNW機器の初期設定・設置補助を実施。</p>
-                                        <div class="project-tech">
-                                            <span class="tech-tag">Network</span>
-                                            <span class="tech-tag">施工管理</span>
-                                            <span class="tech-tag">Router</span>
-                                            <span class="tech-tag">Switch</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <section id="skills" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">C</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">skills</p>
+                            <h2 class="cdoc-section-title">主なスキル</h2>
                         </div>
-                        <aside class="profile-column-side">
-                            <div class="side-note-block">
-                                <p class="section-kicker">Credentials</p>
-                                <h3>資格と現在地</h3>
-                                <ul class="cert-list compact-list editorial-cert-list">
-                                    <li><i class="fas fa-check-circle"></i> AWS Certified Cloud Practitioner</li>
-                                    <li><i class="fas fa-check-circle"></i> 基本情報技術者</li>
-                                    <li><i class="fas fa-check-circle"></i> ITパスポート</li>
-                                    <li><i class="fas fa-spinner fa-spin"></i> SAA Associate 学習中</li>
-                                </ul>
+                    </header>
+                    <div class="cdoc-skills">
+                        <article class="cdoc-skill">
+                            <div class="cdoc-skill-head">
+                                <h3 class="cdoc-skill-title">Infrastructure</h3>
+                                <span class="cdoc-skill-cat">/ network</span>
                             </div>
-                        </aside>
-                    </div>
-                </section>
-
-                <section class="home-section skills-editorial-section fade-up delay-3">
-                    <div class="section-heading section-heading-split">
-                        <div>
-                            <p class="section-kicker">Skill Set</p>
-                            <h2 class="section-title no-line">主なスキル</h2>
-                        </div>
-                        <a href="portfolio.html" class="section-link">プロジェクトと合わせて見る</a>
-                    </div>
-                    <div class="skill-summary-grid editorial-skill-grid">
-                        <article class="skill-summary-block editorial-skill-block">
-                            <h3>Infrastructure</h3>
                             <p>公開、監視、通信、基本的なセキュリティ制御まで含めて、構成全体を見ながら扱っています。</p>
-                            <div class="skill-badges">
-                                <span class="skill-badge green"><i class="fab fa-linux"></i> Linux</span>
-                                <span class="skill-badge green"><i class="fas fa-network-wired"></i> LAN/WAN</span>
-                                <span class="skill-badge green">VLAN</span>
-                                <span class="skill-badge green">UFW</span>
-                                <span class="skill-badge green">ポート開放</span>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag cdoc-tag--green"><i class="fab fa-linux"></i> Linux</span>
+                                <span class="cdoc-tag cdoc-tag--green">LAN/WAN</span>
+                                <span class="cdoc-tag cdoc-tag--green">VLAN</span>
+                                <span class="cdoc-tag cdoc-tag--green">UFW</span>
+                                <span class="cdoc-tag cdoc-tag--green">ポート開放</span>
                             </div>
                         </article>
-                        <article class="skill-summary-block editorial-skill-block">
-                            <h3>Automation</h3>
+                        <article class="cdoc-skill">
+                            <div class="cdoc-skill-head">
+                                <h3 class="cdoc-skill-title">Automation</h3>
+                                <span class="cdoc-skill-cat">/ scripting</span>
+                            </div>
                             <p>小さな改善を積み重ねるために、Python や Flask を使って検証と効率化を進めています。</p>
-                            <div class="skill-badges">
-                                <span class="skill-badge accent"><i class="fab fa-python"></i> Python</span>
-                                <span class="skill-badge accent"><i class="fas fa-flask"></i> Flask</span>
-                                <span class="skill-badge accent">スクリプト自動化</span>
-                                <span class="skill-badge accent">生成AI活用</span>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag cdoc-tag--accent"><i class="fab fa-python"></i> Python</span>
+                                <span class="cdoc-tag cdoc-tag--accent">Flask</span>
+                                <span class="cdoc-tag cdoc-tag--accent">スクリプト自動化</span>
+                                <span class="cdoc-tag cdoc-tag--accent">生成AI活用</span>
                             </div>
                         </article>
-                        <article class="skill-summary-block editorial-skill-block">
-                            <h3>Operations</h3>
+                        <article class="cdoc-skill">
+                            <div class="cdoc-skill-head">
+                                <h3 class="cdoc-skill-title">Operations</h3>
+                                <span class="cdoc-skill-cat">/ monitoring</span>
+                            </div>
                             <p>現場では監視、ログ確認、障害切り分け、端末や監視端末の初期対応などを担当してきました。</p>
-                            <div class="skill-badges">
-                                <span class="skill-badge">Windows Server</span>
-                                <span class="skill-badge">ログ監視</span>
-                                <span class="skill-badge">障害切り分け</span>
-                                <span class="skill-badge">Zabbix</span>
+                            <div class="cdoc-tags">
+                                <span class="cdoc-tag">Windows Server</span>
+                                <span class="cdoc-tag">ログ監視</span>
+                                <span class="cdoc-tag">障害切り分け</span>
+                                <span class="cdoc-tag">Zabbix</span>
                             </div>
                         </article>
                     </div>
                 </section>
 
-                <section class="home-section fade-up delay-4">
-                    <div class="section-heading section-heading-split">
-                        <div>
-                            <p class="section-kicker">Publishing</p>
-                            <h2 class="section-title no-line">発信</h2>
+                <section id="certifications" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">D</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">certifications</p>
+                            <h2 class="cdoc-section-title">資格と現在地</h2>
                         </div>
-                        <a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="section-link">Qiitaプロフィールへ</a>
+                    </header>
+                    <ul class="cdoc-certs">
+                        <li class="cdoc-cert">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="cdoc-cert-name">AWS Certified Cloud Practitioner</span>
+                            <span class="cdoc-cert-status">取得済</span>
+                        </li>
+                        <li class="cdoc-cert">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="cdoc-cert-name">基本情報技術者</span>
+                            <span class="cdoc-cert-status">取得済</span>
+                        </li>
+                        <li class="cdoc-cert">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="cdoc-cert-name">ITパスポート</span>
+                            <span class="cdoc-cert-status">取得済</span>
+                        </li>
+                        <li class="cdoc-cert cdoc-cert--progress">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span class="cdoc-cert-name">AWS SAA Associate</span>
+                            <span class="cdoc-cert-status">学習中</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="projects" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">E</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">projects</p>
+                            <h2 class="cdoc-section-title">プロジェクト</h2>
+                        </div>
+                        <a href="portfolio.html" class="cdoc-section-link">ポートフォリオ一覧 →</a>
+                    </header>
+                    <div class="cdoc-projects">
+                        <article class="cdoc-project">
+                            <div class="cdoc-project-media">
+                                <img src="static/img/server-diagram.png" alt="自宅サーバ公開プロジェクト構成図" class="diagram-zoomable" loading="lazy">
+                            </div>
+                            <div>
+                                <p class="cdoc-project-label">Project 01 / self-hosting</p>
+                                <h3 class="cdoc-project-title">自宅サーバ公開プロジェクト</h3>
+                                <p class="cdoc-project-body">
+                                    Flask と Linux を使った公開環境を構築し、UFW によるセキュリティ制御、DDNS による外部公開、運用を見据えた構成整理まで一通り実施しました。図解と手順を残し、あとから見返せる形でプロジェクト化しています。
+                                </p>
+                                <div class="cdoc-tags">
+                                    <span class="cdoc-tag cdoc-tag--accent">Flask</span>
+                                    <span class="cdoc-tag cdoc-tag--accent">Linux</span>
+                                    <span class="cdoc-tag cdoc-tag--accent">Nginx</span>
+                                    <span class="cdoc-tag cdoc-tag--accent">UFW</span>
+                                    <span class="cdoc-tag cdoc-tag--accent">DDNS</span>
+                                </div>
+                                <div class="cdoc-project-actions">
+                                    <a href="portfolio.html#project-1" class="cdoc-btn cdoc-btn--primary">詳細を見る →</a>
+                                    <a href="Diagram.html" class="cdoc-btn">構成図ギャラリー</a>
+                                </div>
+                            </div>
+                        </article>
                     </div>
-                    <div class="publishing-grid editorial-publishing-grid">
-                        <article class="publishing-card editorial-publishing-card">
-                            <h3>Qiita最新記事</h3>
+                </section>
+
+                <section id="publishing" class="cdoc-section">
+                    <header class="cdoc-section-head">
+                        <span class="cdoc-section-badge" aria-hidden="true">F</span>
+                        <div class="cdoc-section-titles">
+                            <p class="cdoc-section-kicker">publishing</p>
+                            <h2 class="cdoc-section-title">発信</h2>
+                        </div>
+                        <a href="https://qiita.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="cdoc-section-link">Qiitaプロフィール →</a>
+                    </header>
+                    <div class="cdoc-publish">
+                        <article class="cdoc-pub-card">
+                            <h3><i class="fas fa-pen-nib"></i> Qiita 最新記事</h3>
                             <p>構築手順や学習内容を短く整理して、あとから見返せる形で継続的に発信しています。</p>
                             <ul id="qiita-articles" class="qiita-list">
                                 <li class="qiita-status">Loading...</li>
                             </ul>
                         </article>
-                        <article class="publishing-card editorial-publishing-card">
-                            <h3>GitHub</h3>
+                        <article class="cdoc-pub-card">
+                            <h3><i class="fab fa-github"></i> GitHub</h3>
                             <p>個人プロジェクトの構成や手順を、コードと合わせて確認できるように整理しています。</p>
-                            <div class="publishing-actions">
-                                <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="btn-modern btn-outline-modern">
-                                    <i class="fab fa-github"></i> GitHubを見る
-                                </a>
-                                <a href="portfolio.html" class="btn-modern btn-outline-modern">
-                                    <i class="fas fa-briefcase"></i> 実績一覧を見る
-                                </a>
+                            <div class="cdoc-pub-actions">
+                                <a href="https://github.com/Termnix-IT" target="_blank" rel="noopener noreferrer" class="cdoc-btn cdoc-btn--primary"><i class="fab fa-github"></i> GitHubを見る</a>
+                                <a href="portfolio.html" class="cdoc-btn"><i class="fas fa-briefcase"></i> 実績一覧</a>
                             </div>
                         </article>
                     </div>
                 </section>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="site-footer">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    <span class="footer-brand"><img src="static/img/icon.png" alt="" class="footer-brand-icon" aria-hidden="true">Termnix-IT</span>
+                    <span class="footer-brand"><img src="static/img/main-icon.png" alt="" class="footer-brand-icon" aria-hidden="true">Termnix-IT</span>
                     <p class="footer-text mb-0">運用経験と個人構築をつなぐ技術プロフィール</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
