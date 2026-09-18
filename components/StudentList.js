@@ -37,14 +37,16 @@ const StudentListComponent = {
               @click.stop="toggleOwned(s)"
             >{{ s.owned ? '●' : '○' }}</button>
 
-            <!-- 絆Lvオーバーレイ (下部) -->
-            <div class="student-card-level">Lv.{{ s.bondLevel || 1 }}</div>
+            <!-- 絆Lv + レアリティ オーバーレイ (下部) -->
+            <div class="student-card-level">
+              <span>Lv.{{ s.bondLevel || 1 }}</span>
+              <span class="student-card-stars">{{ '★'.repeat(s.rarity) }}</span>
+            </div>
           </div>
 
-          <!-- カード下部: 名前・星 -->
+          <!-- カード下部: バッジ → 名前 (衣装名まで省略せず全表示) -->
           <div class="student-card-footer">
-            <div class="student-card-name-row">
-              <div class="student-card-name">{{ s.name }}</div>
+            <div class="student-card-badges">
               <span
                 class="student-card-atk badge"
                 :class="'badge-' + s.attackType"
@@ -54,7 +56,7 @@ const StudentListComponent = {
                 :class="'badge-obt-' + (s.obtainability || 'permanent')"
               >{{ obtainabilityLabel(s.obtainability) }}</span>
             </div>
-            <div class="student-card-stars">{{ '★'.repeat(s.rarity) }}</div>
+            <div class="student-card-name" :title="s.name">{{ s.name }}</div>
           </div>
         </div>
       </div>

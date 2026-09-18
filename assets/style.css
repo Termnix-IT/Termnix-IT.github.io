@@ -1270,7 +1270,7 @@ body {
   background: rgba(13,27,42,0.45);
 }
 
-/* 攻撃タイプバッジ (名前の右) */
+/* 攻撃タイプバッジ (名前の上の段) */
 .student-card-atk {
   flex: 0 0 auto;
   font-size: 9px;
@@ -1278,12 +1278,15 @@ body {
   line-height: 1.5;
 }
 
-/* 絆Lvオーバーレイ (下部) */
+/* 絆Lv (左) + レアリティ星 (右) のオーバーレイ (下部) */
 .student-card-level {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 3px 8px;
   background: rgba(13,27,42,0.72);
   color: #ffffff;
@@ -1300,24 +1303,21 @@ body {
   border-top: 1px solid #c9dcef;
 }
 
-.student-card-name-row {
+/* バッジ段 (名前の上・右寄せ) */
+.student-card-badges {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
   gap: 4px;
-  min-width: 0;
+  margin-bottom: 3px;
 }
 
+/* 名前: 衣装名まで省略せず表示 (長い場合は折り返す) */
 .student-card-name {
   font-size: 13px;
   font-weight: 700;
   color: #0d1b2a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-  word-break: keep-all;
-  flex: 1 1 auto;
-  min-width: 0;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .student-card-obt {
@@ -1327,13 +1327,13 @@ body {
   line-height: 1.5;
 }
 
+/* レアリティ星 (Lv 帯の右側) */
 .student-card-stars {
-  font-size: 11px;
+  font-size: 12px;
   color: #fbbf24;
   letter-spacing: -1px;
   line-height: 1.2;
-  margin-top: 1px;
-  text-shadow: 0 0 4px rgba(251,191,36,0.4);
+  text-shadow: 0 0 4px rgba(251,191,36,0.5);
 }
 
 /* ── 画像アップロード ────────────────────────────────────── */
