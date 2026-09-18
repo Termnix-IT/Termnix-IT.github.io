@@ -24,6 +24,10 @@ const PULL_COST = 120;          // 1連あたりの青輝石
 const CHARGE_MID = 100;         // ★3 確定 + PU 50% ライン
 const CHARGE_MAX = 200;         // PU 確定ライン / アーカイブ交換ライン
 
+// 入手区分による排出可否 (obtainability 未設定は恒常扱い)
+const isPermanent = (s) => (s.obtainability || 'permanent') === 'permanent';
+const isGachaable = (s) => s.obtainability !== 'event';
+
 const GachaSimulatorComponent = {
   inject: ['store'],
 
@@ -275,10 +279,10 @@ const GachaSimulatorComponent = {
       const rarity = entry.stars;
       const isPickup = entry.pool === 'pickup';
 
-      // 候補を取得 (空なら同レアリティ全体にフォールバック)
+      // 候補を取得 (空なら同レアリティの恒常生徒にフォールバック。限定・配布は混ぜない)
       let candidates = this.poolCandidates(entry);
       if (candidates.length === 0) {
-        candidates = this.store.students.filter(s => s.rarity === rarity);
+        candidates = this.store.students.filter(s => s.rarity === rarity && isPermanent(s));
       }
       let name = '???';
       let school = '';
@@ -310,13 +314,17 @@ const GachaSimulatorComponent = {
       return { rarity, name, school, frame: entry.label, isPickup, trigger };
     },
 
-    // PU 対象生徒 (★3 のみ)
+    // PU 対象生徒 (★3 のみ。配布生徒はガチャから出ないので除外)
     pickupCandidates() {
       const ids = this.store.gachaPickupIds || [];
-      return this.store.students.filter(s => s.rarity === 3 && ids.includes(s.id));
+      return this.store.students.filter(s => s.rarity === 3 && ids.includes(s.id) && isGachaable(s));
     },
 
     // プール識別子から抽選候補を返す
+    //   排出ルール:
+    //   ・恒常 (permanent) — すり抜け / ★2 / ★1 を含む通常枠から排出
+    //   ・限定 (limited)   — PU (周年モードは非PU周年枠も) に選択したときだけ排出
+    //   ・配布 (event)     — ガチャからは排出しない
     poolCandidates(entry) {
       const students = this.store.students;
       const isStar = (s) => s.rarity === entry.stars;
@@ -324,16 +332,16 @@ const GachaSimulatorComponent = {
       const fes = this.store.gachaLimitedFallthroughIds || [];
       switch (entry.pool) {
         case 'pickup':
-          return students.filter(s => isStar(s) && pu.includes(s.id));
+          return students.filter(s => isStar(s) && pu.includes(s.id) && isGachaable(s));
         case 'pickup_fallthrough':
-          return students.filter(s => isStar(s) && !pu.includes(s.id));
+          return students.filter(s => isStar(s) && isPermanent(s) && !pu.includes(s.id));
         case 'limited_fallthrough':
-          return students.filter(s => isStar(s) && fes.includes(s.id) && !pu.includes(s.id));
+          return students.filter(s => isStar(s) && fes.includes(s.id) && !pu.includes(s.id) && isGachaable(s));
         case 'other_three':
-          return students.filter(s => isStar(s) && !pu.includes(s.id) && !fes.includes(s.id));
+          return students.filter(s => isStar(s) && isPermanent(s) && !pu.includes(s.id) && !fes.includes(s.id));
         case 'all':
         default:
-          return students.filter(isStar);
+          return students.filter(s => isStar(s) && isPermanent(s));
       }
     },
 

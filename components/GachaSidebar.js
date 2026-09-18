@@ -49,6 +49,12 @@ const GachaSidebarComponent = {
         <strong>アーカイブポイント</strong><br>
         200pt で PU 生徒と交換 (リセットは交換時のみ)
       </div>
+      <div class="gacha-mode-info">
+        <strong>排出対象</strong><br>
+        すり抜け・★2・★1 は恒常生徒のみ<br>
+        限定生徒は PU に選んだときだけ排出<br>
+        配布生徒はガチャから出ません
+      </div>
 
       <!-- チャージ / ポイントの手動設定 (ゲーム内の現在値を再現する用) -->
       <div class="sidebar-section-id">// CHARGE</div>
@@ -150,10 +156,15 @@ const GachaSidebarComponent = {
       return this.idsToStudents(this.store.gachaLimitedFallthroughIds);
     },
     // 選択モーダルは ★3 のみ (PU / 周年限定はいずれも ★3)
+    //   PU:      恒常 + 限定 (配布はガチャから出ないので除外)
+    //   周年枠:  限定のみ (恒常は「その他★3」枠で自動的に排出される)
     filteredModalStudents() {
       const q = this.modalSearch.toLowerCase();
+      const allow = this.modalTarget === 'gachaLimitedFallthroughIds'
+        ? (s) => s.obtainability === 'limited'
+        : (s) => s.obtainability !== 'event';
       const all = this.store.students
-        .filter(s => s.rarity === 3)
+        .filter(s => s.rarity === 3 && allow(s))
         .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       return q ? all.filter(s => (s.name || '').toLowerCase().includes(q)) : all;
     },
