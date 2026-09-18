@@ -28,8 +28,14 @@ const SCHOOLS = [
   "ヴァルキューレ",
   "レッドウィンター",
   "百鬼夜行",
-  "SRT特務班",
+  "山海経",
+  "ワイルドハント",
+  "ハイランダー",
+  "SRT",
+  "オデュッセイア",
   "シャーレ",
+  "常盤台中学",
+  "柵川中学",
   "その他",
 ];
 
@@ -44,8 +50,14 @@ const SCHOOL_COLORS = {
   レッドウィンター: "linear-gradient(160deg, #c84050 0%, #902028 100%)",
   百鬼夜行: "linear-gradient(160deg, #6e50a0 0%, #443070 100%)",
   ヴァルキューレ: "linear-gradient(160deg, #5868a8 0%, #2c3878 100%)",
-  SRT特務班: "linear-gradient(160deg, #5a7a98 0%, #3c5468 100%)",
+  山海経: "linear-gradient(160deg, #78c8b0 0%, #3a9478 100%)",
+  ワイルドハント: "linear-gradient(160deg, #8aa06a 0%, #4e6638 100%)",
+  ハイランダー: "linear-gradient(160deg, #b8a070 0%, #7a6440 100%)",
+  SRT: "linear-gradient(160deg, #5a7a98 0%, #3c5468 100%)",
+  オデュッセイア: "linear-gradient(160deg, #78d0e8 0%, #2e8fb8 100%)",
   シャーレ: "linear-gradient(160deg, #98c8ec 0%, #5a90c8 100%)",
+  常盤台中学: "linear-gradient(160deg, #f2b878 0%, #c47a38 100%)",
+  柵川中学: "linear-gradient(160deg, #a0cc80 0%, #5e8c44 100%)",
 };
 const SCHOOL_COLOR_FALLBACK =
   "linear-gradient(160deg, #c8d0e0 0%, #a0aab8 100%)";
@@ -85,6 +97,7 @@ const WEAPONS = [
   { value: "SG",  label: "ショットガン" },
   { value: "SMG", label: "サブマシンガン" },
   { value: "SL",  label: "スナイパーライフル" },
+  { value: "MG",  label: "マシンガン" },
   { value: "GL",  label: "グレネードランチャー" },
   { value: "RL",  label: "ロケットランチャー" },
   { value: "FT",  label: "火炎放射器" },

@@ -102,6 +102,16 @@ const StudentListComponent = {
           if (va > vb) return -1;
           return 0;
         }
+        // 学校は SCHOOLS の並び順 (未掲載校は末尾)。同校内はマスタ (CSV) 順を維持
+        if (sortKey === 'school') {
+          const ia = SCHOOLS.indexOf(va);
+          const ib = SCHOOLS.indexOf(vb);
+          const ra = ia < 0 ? SCHOOLS.length : ia;
+          const rb = ib < 0 ? SCHOOLS.length : ib;
+          if (ra !== rb) return ra - rb;
+          if (ia < 0 && ib < 0) return va < vb ? -1 : va > vb ? 1 : 0;
+          return 0;
+        }
         if (va < vb) return -1;
         if (va > vb) return 1;
         return 0;

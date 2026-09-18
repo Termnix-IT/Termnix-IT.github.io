@@ -27,7 +27,7 @@ const HALO_LEVELS = [
   { r: 50, color: '#c84050', label: 'VI',   slug: 'red-winter'    }, // レッドウィンター
   { r: 58, color: '#6e50a0', label: 'VII',  slug: 'hyakkiyako'    }, // 百鬼夜行
   { r: 68, color: '#5868a8', label: 'VIII', slug: 'valkyrie'      }, // ヴァルキューレ
-  { r: 78, color: '#5a7a98', label: 'IX',   slug: 'srt'           }, // SRT特務班
+  { r: 78, color: '#5a7a98', label: 'IX',   slug: 'srt'           }, // SRT
   { r: 88, color: '#3ea8ff', label: 'X',    slug: 'schale'        }, // シャーレ
   { r: 98, color: '#ff4f8b', label: 'XI',   slug: 'final'         }, // 最終進化
 ];
