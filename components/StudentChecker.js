@@ -47,6 +47,9 @@ const StudentCheckerComponent = {
             class="checker-row"
             :class="{ 'checker-row-owned': s.owned }">
             <input type="checkbox" :checked="s.owned" @change="toggle(s)" class="checker-checkbox">
+            <span class="checker-avatar" :style="avatarStyle(s)">
+              <img v-if="s.imageData || s.imageUrl" :src="s.imageData || s.imageUrl" loading="lazy" :alt="s.name">
+            </span>
             <span class="checker-name">{{ s.name }}</span>
             <span class="checker-stars">{{ '★'.repeat(s.rarity) }}</span>
             <span class="badge" :class="'badge-' + s.attackType">{{ attackLabel(s.attackType) }}</span>
@@ -115,6 +118,10 @@ const StudentCheckerComponent = {
   },
 
   methods: {
+    avatarStyle(s) {
+      return { background: SCHOOL_COLORS[s.school] || SCHOOL_COLOR_FALLBACK };
+    },
+
     async toggle(s) {
       await toggleOwned(s.id, s.owned);
       await this.store.loadStudents();

@@ -27,7 +27,7 @@ const StudentListComponent = {
         >
           <!-- 画像エリア -->
           <div class="student-card-img" :style="cardImgStyle(s)">
-            <img v-if="s.imageData" :src="s.imageData" class="student-card-photo">
+            <img v-if="imageSrc(s)" :src="imageSrc(s)" class="student-card-photo" loading="lazy" :alt="s.name">
 
             <!-- 所持ピン (左上) -->
             <button
@@ -142,6 +142,11 @@ const StudentListComponent = {
     cardImgStyle(s) {
       const color = SCHOOL_COLORS[s.school] || SCHOOL_COLOR_FALLBACK;
       return { background: color };
+    },
+
+    // 表示画像: アップロード画像 (IndexedDB) → マスタ画像 (assets/students/<id>.webp) → 無し (学校カラー)
+    imageSrc(s) {
+      return s.imageData || s.imageUrl || '';
     },
   },
 };

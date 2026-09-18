@@ -20,6 +20,10 @@ const StudentDetailComponent = {
             <label>生徒画像</label>
             <div class="img-upload-area" @click="$refs.imgInput.click()">
               <img v-if="form.imageData" :src="form.imageData" class="img-preview">
+              <template v-else-if="form.imageUrl">
+                <img :src="form.imageUrl" class="img-preview">
+                <span class="img-upload-hint">マスタ画像 (クリックでアップロード画像に差し替え)</span>
+              </template>
               <div v-else class="img-upload-placeholder">
                 <span class="img-upload-icon">＋</span>
                 <span class="img-upload-text">クリックして画像を選択</span>

@@ -178,6 +178,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 - `Base64 JPEG` を `imageData` フィールドに保存
 - アップロード時に Canvas で最大 300×400 / JPEG 85% に圧縮
 - マスタ画像は `students.master.json` の `imageUrl` から、ユーザー画像はこのテーブルから取得し、`getAllStudentsMerged()` でマージされて `store.students` に入る
+- 表示は `imageData`(アップロード)→ `imageUrl`(マスタ: `assets/students/<id>.webp` をビルド時に自動検出)→ 学校カラー の優先順。マスタ画像は `ToolProject/imageconversion` で自作イラストから 1:1 webp を作成して配置する(`assets/students/README.md` 参照)
 
 ---
 
