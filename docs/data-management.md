@@ -59,9 +59,16 @@ data/students.master.csv  →  python scripts/build-students.py  →  data/stude
 
 **新生徒を追加するとき**
 
-1. `data/students.master.csv` に行を追加
-2. `python scripts/build-students.py` を実行(JSON 再生成)
-3. `data/students.master.json` の差分を git に含めてコミット
+wiki(bluearchive.wikiru.jp「キャラクター一覧」)から一括で取り込むのが基本。
+
+1. `python scripts/import-wiki-students.py --build` を実行(CSV 更新 → JSON 再生成まで自動)
+   - 既存行の `id` / `imageUrl` は名前をキーに引き継がれる(育成データが孤立しない)
+   - 新しい生徒名・衣装名が出た場合はエラーで止まるので、スクリプト内の `BASE_ROMAJI` / `VARIANT_ROMAJI` に追記
+   - 新しい学校が出た場合は `data/constants.js` の `SCHOOLS` / `SCHOOL_COLORS` に追記(未追記でも末尾に並ぶ)
+   - `--dry-run` で差分だけ確認できる。wiki は国外 IP を拒否するため国内ネットワークから実行
+2. `data/students.master.csv` / `data/students.master.json` の差分を git に含めてコミット
+
+手で 1 行だけ足す場合は CSV に行を追加 → `python scripts/build-students.py` でもよい。
 
 **カスタム生徒(マスタ外)は非対応**。CSV を編集する手順のみ。
 
