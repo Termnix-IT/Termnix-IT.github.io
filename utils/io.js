@@ -3,6 +3,7 @@
 //
 //  スキーマ:
 //    schemaVersion 2 (現行) — 育成データ + 画像 + ガチャ + メモ + 編成 + 素材
+//                            + 呼び出しチャージ (gachaCharge: 任意項目。旧バックアップには無い)
 //    schemaVersion 1 (旧)  — 旧 IndexedDB.students / gacha / memos のみ
 //                            v1 を取り込むときは旧テーブルへ入れた後
 //                            migrateStudentsV1ToV2() で新形式へ自動変換
@@ -14,6 +15,7 @@
 const IO_SCHEMA_VERSION = 2;
 const LS_USER_STUDENTS_KEY = 'BlueArchive.userStudents';
 const LS_MIGRATION_FLAG_KEY = 'BlueArchive.studentMigratedV2';
+const LS_GACHA_CHARGE_KEY  = 'BlueArchive.gacha.charge';
 
 // ── エクスポート ─────────────────────────────────────────
 async function exportAllData() {
@@ -34,6 +36,7 @@ async function exportAllData() {
       memos:     await db.memos.toArray(),
       teams:     await db.teams.toArray(),
       materials: await db.materials.toArray(),
+      gachaCharge: JSON.parse(localStorage.getItem(LS_GACHA_CHARGE_KEY) || 'null'),
     };
 
     const json = JSON.stringify(data, null, 2);
@@ -81,6 +84,7 @@ function buildImportSummary(counts, mode) {
   if (counts.memos)         parts.push(`メモ ${counts.memos} 件`);
   if (counts.gacha)         parts.push(`ガチャ ${counts.gacha} 件`);
   if (counts.materials)     parts.push(`素材 ${counts.materials} 件`);
+  if (counts.gachaCharge)   parts.push('呼び出しチャージ');
   const label = mode === 'replace' ? '置き換え' : '追記';
   if (parts.length === 0) {
     return `インポート完了 (${label}): 取り込めるデータがありませんでした`;
@@ -131,6 +135,10 @@ async function importV2(data, mode) {
     await db.materials.bulkAdd(stripIds(data.materials));
   }
 
+  // 呼び出しチャージは状態値なので replace / merge とも取り込み側で上書き。無ければ触らない
+  const hasCharge = data.gachaCharge && typeof data.gachaCharge === 'object';
+  if (hasCharge) localStorage.setItem(LS_GACHA_CHARGE_KEY, JSON.stringify(data.gachaCharge));
+
   const counts = {
     userStudents:  Object.keys(data.userStudents  || {}).length,
     studentImages: imgs.length,
@@ -138,6 +146,7 @@ async function importV2(data, mode) {
     memos:         (data.memos     || []).length,
     teams:         (data.teams     || []).length,
     materials:     (data.materials || []).length,
+    gachaCharge:   hasCharge ? 1 : 0,
   };
   return { ok: true, message: buildImportSummary(counts, mode) };
 }

@@ -50,11 +50,22 @@ const store = Vue.reactive({
   // ミニゲーム: 選択中のゲーム ID (null = ハブ画面)
   minigameSelected: null,
 
-  gachaMode: 'normal',
+  gachaMode: 'pickup',
   // ガチャ枠の対象生徒ID。プール識別子別に保持
-  gachaPickupIds: [],              // pickup モード: PU★3 対象
-  gachaLimitedUpIds: [],           // limited モード: 周年UP★3 対象 (拡張用、将来UI追加予定)
-  gachaLimitedFallthroughIds: [],  // limited モード: 限定すり抜け対象 (拡張用)
+  gachaPickupIds: [],              // 全モード共通: PU★3 対象
+  gachaLimitedFallthroughIds: [],  // anniversary モード: PU 以外の周年限定生徒 (0.9% 枠)
+  // 呼び出しチャージ / アーカイブポイント (募集期間をまたいで持ち越すので localStorage に永続化)
+  gachaCharge: { pickup: 0, limited: 0, archive: 0 },
+  loadGachaCharge() {
+    try {
+      const raw = localStorage.getItem('BlueArchive.gacha.charge');
+      if (raw) Object.assign(this.gachaCharge, JSON.parse(raw));
+    } catch (e) { console.warn('gachaCharge 読込失敗', e); }
+  },
+  saveGachaCharge() {
+    try { localStorage.setItem('BlueArchive.gacha.charge', JSON.stringify(this.gachaCharge)); }
+    catch (e) { console.warn('gachaCharge 保存失敗', e); }
+  },
 
   // ── データロード ─────────────────────────────────────────
   async loadStudents() {
@@ -73,6 +84,7 @@ const store = Vue.reactive({
     this.materials = await getAllMaterials();
   },
   async loadAll() {
+    this.loadGachaCharge();
     await Promise.all([
       this.loadStudents(),
       this.loadGacha(),

@@ -149,61 +149,96 @@ const MEMO_CATEGORIES = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-//  ガチャモード (GACHA_MODES)
+//  ガチャモード (GACHA_MODES)  — 2026/07/29 募集リニューアル準拠
+//   pity       : 'charge' = 呼び出しチャージ制 / 'points' = 200pt 交換制 (アーカイブ)
+//   chargeType : カウンタの共有キー。'pickup' (呼び出しチャージ) /
+//                'limited' (限定・呼び出しチャージ: 期間限定PU・周年で共有) / 'archive'
 //   rates[].pool : 抽選プール識別子。GachaSimulator が候補を絞る
 //     'all'                 — 同レアリティ全員
-//     'pickup'              — store.gachaPickupIds に含まれる ★3
-//     'pickup_fallthrough'  — store.gachaPickupIds に含まれない ★3
-//     'limited_up'          — store.gachaLimitedUpIds に含まれる ★3
-//     'limited_fallthrough' — store.gachaLimitedFallthroughIds に含まれる ★3
-//     'other_three'         — limited_up/fallthrough のどれにも含まれない ★3
+//     'pickup'              — store.gachaPickupIds に含まれる ★3 (= PU)
+//     'pickup_fallthrough'  — gachaPickupIds に含まれない ★3
+//     'limited_fallthrough' — store.gachaLimitedFallthroughIds に含まれる非PU ★3 (周年限定)
+//     'other_three'         — pickup / limited_fallthrough のどちらにも含まれない ★3
+//   charge100  : チャージ 100 到達時 (★3 確定) の内訳。pct 合計 1.0、PU が 0.5
+//   チャージ 200 到達時は pool 'pickup' のエントリで確定
 //   候補が空のときは同レアリティ全員にフォールバック (シミュレータ側)
 //   tenthGuarantee : 10連目は ★1 を排除して ★2 に振り替え
 //
 //  新モード追加時のチェックリスト:
-//   ・rates の pct 合計が 1.0 になること
+//   ・rates / charge100 の pct 合計が 1.0 になること
 //   ・新しい pool 識別子を作る場合は GachaSimulator.poolCandidates の
 //     switch 文に case を追加する
 // ─────────────────────────────────────────────────────────────
 const GACHA_MODES = [
   {
-    value: "normal",
-    label: "通常募集",
-    description: "恒常排出。10連目は★2以上確定",
-    rates: [
-      { stars: 3, label: "★3", pct: 0.03, pool: "all" },
-      { stars: 2, label: "★2", pct: 0.185, pool: "all" },
-      { stars: 1, label: "★1", pct: 0.785, pool: "all" },
-    ],
-    tenthGuarantee: true,
-  },
-  {
     value: "pickup",
     label: "ピックアップ募集",
-    description: "PU生徒UP。10連目は★2以上確定",
+    description: "PU★3=0.7% / ★3合計=3%。呼び出しチャージ制",
+    pity: "charge",
+    chargeType: "pickup",
     rates: [
       { stars: 3, label: "PU★3", pct: 0.007, pool: "pickup" },
       { stars: 3, label: "すり抜け★3", pct: 0.023, pool: "pickup_fallthrough" },
       { stars: 2, label: "★2", pct: 0.185, pool: "all" },
       { stars: 1, label: "★1", pct: 0.785, pool: "all" },
     ],
+    // チャージ 100 到達時 (★3 確定) の内訳
+    charge100: [
+      { stars: 3, label: "PU★3", pct: 0.5, pool: "pickup" },
+      { stars: 3, label: "すり抜け★3", pct: 0.5, pool: "pickup_fallthrough" },
+    ],
     tenthGuarantee: true,
   },
   {
     value: "limited",
-    label: "期間限定募集",
-    description: "アニバ・ハーフアニバ ★3=6%",
+    label: "期間限定ピックアップ",
+    description: "限定生徒PU。確率はPUと同じ、限定・呼び出しチャージ制",
+    pity: "charge",
+    chargeType: "limited",
     rates: [
-      { stars: 3, label: "周年UP★3", pct: 0.007, pool: "limited_up" },
-      {
-        stars: 3,
-        label: "限定すり抜け",
-        pct: 0.009,
-        pool: "limited_fallthrough",
-      },
+      { stars: 3, label: "PU★3", pct: 0.007, pool: "pickup" },
+      { stars: 3, label: "すり抜け★3", pct: 0.023, pool: "pickup_fallthrough" },
+      { stars: 2, label: "★2", pct: 0.185, pool: "all" },
+      { stars: 1, label: "★1", pct: 0.785, pool: "all" },
+    ],
+    charge100: [
+      { stars: 3, label: "PU★3", pct: 0.5, pool: "pickup" },
+      { stars: 3, label: "すり抜け★3", pct: 0.5, pool: "pickup_fallthrough" },
+    ],
+    tenthGuarantee: true,
+  },
+  {
+    value: "anniversary",
+    label: "周年限定募集",
+    description: "アニバ・ハーフアニバ ★3合計=6%。限定・呼び出しチャージ制",
+    pity: "charge",
+    chargeType: "limited",
+    rates: [
+      { stars: 3, label: "周年PU★3", pct: 0.007, pool: "pickup" },
+      { stars: 3, label: "周年すり抜け", pct: 0.009, pool: "limited_fallthrough" },
       { stars: 3, label: "その他★3", pct: 0.044, pool: "other_three" },
       { stars: 2, label: "★2", pct: 0.185, pool: "all" },
       { stars: 1, label: "★1", pct: 0.755, pool: "all" },
+    ],
+    // 100 到達時: PU 50% / 周年すり抜け 0.9% (据え置き) / 恒常★3 49.1%
+    charge100: [
+      { stars: 3, label: "周年PU★3", pct: 0.5, pool: "pickup" },
+      { stars: 3, label: "周年すり抜け", pct: 0.009, pool: "limited_fallthrough" },
+      { stars: 3, label: "その他★3", pct: 0.491, pool: "other_three" },
+    ],
+    tenthGuarantee: true,
+  },
+  {
+    value: "archive",
+    label: "アーカイブ募集",
+    description: "ラインナップから PU を選択。アーカイブポイント 200pt で交換",
+    pity: "points",
+    chargeType: "archive",
+    rates: [
+      { stars: 3, label: "PU★3", pct: 0.007, pool: "pickup" },
+      { stars: 3, label: "その他★3", pct: 0.023, pool: "pickup_fallthrough" },
+      { stars: 2, label: "★2", pct: 0.185, pool: "all" },
+      { stars: 1, label: "★1", pct: 0.785, pool: "all" },
     ],
     tenthGuarantee: true,
   },

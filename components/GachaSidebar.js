@@ -1,6 +1,6 @@
 // ============================================================
 //  components/GachaSidebar.js  —  ガチャページのサイドパネル
-//  募集モード切替 + 排出枠表 + ピックアップ生徒選択
+//  募集モード切替 + 排出枠表 + PU 生徒選択 + チャージ操作
 // ============================================================
 
 const GachaSidebarComponent = {
@@ -8,8 +8,11 @@ const GachaSidebarComponent = {
 
   data() {
     return {
-      showPickupModal: false,
-      pickupModalSearch: '',
+      showModal: false,
+      modalTarget: 'gachaPickupIds',   // 編集対象の store キー
+      modalTitle: '',
+      modalSearch: '',
+      chargeInput: '',
     };
   },
 
@@ -35,72 +38,92 @@ const GachaSidebarComponent = {
       </div>
 
       <div class="sidebar-section-id">// INFO</div>
-      <div class="gacha-mode-info">
-        {{ currentMode.description }}
+      <div class="gacha-mode-info">{{ currentMode.description }}</div>
+      <div class="gacha-mode-info" v-if="currentMode.pity === 'charge'">
+        <strong>{{ chargeLabel }}</strong><br>
+        100 到達で ★3 確定・50% で PU<br>
+        200 到達で PU 確定<br>
+        PU 入手でリセット / 期間をまたいで持ち越し
+      </div>
+      <div class="gacha-mode-info" v-else>
+        <strong>アーカイブポイント</strong><br>
+        200pt で PU 生徒と交換 (リセットは交換時のみ)
       </div>
 
-      <!-- ピックアップ生徒選択 -->
-      <template v-if="store.gachaMode === 'pickup'">
-        <div class="sidebar-section-id">// PICKUP</div>
+      <!-- チャージ / ポイントの手動設定 (ゲーム内の現在値を再現する用) -->
+      <div class="sidebar-section-id">// CHARGE</div>
+      <div class="sidebar-field">
+        <label>現在値 ({{ chargeLabel }})</label>
+        <div class="gacha-charge-row">
+          <input type="number" min="0" max="199" v-model="chargeInput"
+            :placeholder="String(store.gachaCharge[currentMode.chargeType] || 0)">
+          <button class="sidebar-add-btn" @click="applyCharge">設定</button>
+          <button class="sidebar-add-btn" @click="applyCharge(0)">0</button>
+        </div>
+      </div>
+
+      <!-- PU 生徒 -->
+      <div class="sidebar-section-id">// PICKUP</div>
+      <div class="gacha-pickup-list">
+        <span v-if="pickupStudents.length === 0" class="gacha-pickup-empty">未指定 (★3 を選んでください)</span>
+        <span v-else v-for="s in pickupStudents" :key="s.id" class="gacha-pickup-chip">
+          {{ s.name }}
+          <span class="gacha-pickup-chip-x" @click="removeFrom('gachaPickupIds', s.id)">×</span>
+        </span>
+      </div>
+      <button class="sidebar-add-btn" style="margin-top:6px" @click="openModal('gachaPickupIds', 'PU 生徒を選択')">
+        ＋ PU生徒を選択
+      </button>
+
+      <!-- 周年限定: PU 以外の周年限定生徒 (0.9% 枠) -->
+      <template v-if="store.gachaMode === 'anniversary'">
+        <div class="sidebar-section-id">// FES (非PU)</div>
         <div class="gacha-pickup-list">
-          <span v-if="pickupStudents.length === 0" class="gacha-pickup-empty">
-            未指定 (★3 全体から抽選)
-          </span>
-          <span v-else v-for="s in pickupStudents" :key="s.id" class="gacha-pickup-chip">
+          <span v-if="fesStudents.length === 0" class="gacha-pickup-empty">未指定 (枠は恒常★3で埋まります)</span>
+          <span v-else v-for="s in fesStudents" :key="s.id" class="gacha-pickup-chip gacha-pickup-chip-fes">
             {{ s.name }}
-            <span class="gacha-pickup-chip-x" @click="removePickup(s.id)">×</span>
+            <span class="gacha-pickup-chip-x" @click="removeFrom('gachaLimitedFallthroughIds', s.id)">×</span>
           </span>
         </div>
-        <button class="sidebar-add-btn" style="margin-top:6px" @click="showPickupModal = true">
-          ＋ PU生徒を選択
+        <button class="sidebar-add-btn" style="margin-top:6px"
+          @click="openModal('gachaLimitedFallthroughIds', '周年限定生徒 (非PU) を選択')">
+          ＋ 周年限定生徒を選択
         </button>
       </template>
 
-      <!-- 期間限定: 拡張余地のプレースホルダ -->
-      <template v-if="store.gachaMode === 'limited'">
-        <div class="sidebar-section-id">// LIMITED</div>
-        <div class="gacha-mode-info">
-          周年限定生徒の指定UIは今後実装予定。<br>
-          現状は ★3 全体から抽選されます。
-        </div>
-      </template>
-
-      <!-- ピックアップ生徒選択モーダル (body直下にテレポートしてスタッキングコンテキスト問題を回避) -->
+      <!-- 生徒選択モーダル (body直下にテレポート) -->
       <teleport to="body">
-      <div v-if="showPickupModal" class="modal-overlay" @click.self="showPickupModal = false">
+      <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
         <div class="modal-box" style="max-width:500px">
           <div class="scan-line"></div>
           <div class="modal-header">
-            <h2>ピックアップ生徒を選択</h2>
-            <button class="modal-close" @click="showPickupModal = false">×</button>
+            <h2>{{ modalTitle }}</h2>
+            <button class="modal-close" @click="showModal = false">×</button>
           </div>
           <div style="margin-bottom:8px">
-            <input type="text" v-model="pickupModalSearch" placeholder="名前で検索"
-              class="member-modal-search">
+            <input type="text" v-model="modalSearch" placeholder="名前で検索" class="member-modal-search">
           </div>
           <div style="max-height:400px;overflow-y:auto;border:1px solid #c9dcef;border-radius:2px">
             <div v-for="s in filteredModalStudents" :key="s.id"
               class="member-select-row"
-              :class="{ selected: store.gachaPickupIds.includes(s.id) }"
-              @click="togglePickup(s.id)">
+              :class="{ selected: targetIds.includes(s.id) }"
+              @click="toggleIn(modalTarget, s.id)">
               <span style="flex:1;font-weight:700">{{ s.name }}</span>
               <span class="member-row-school">{{ s.school }}</span>
-              <span class="badge" :class="'badge-' + s.rarity + 'star'" style="margin-left:6px">
-                {{ '★'.repeat(s.rarity) }}
+              <span class="badge" :class="'badge-obt-' + (s.obtainability || 'permanent')" style="margin-left:6px">
+                {{ obtainabilityLabel(s.obtainability) }}
               </span>
-              <span v-if="store.gachaPickupIds.includes(s.id)" class="member-row-check">✓</span>
+              <span v-if="targetIds.includes(s.id)" class="member-row-check">✓</span>
             </div>
             <div v-if="filteredModalStudents.length === 0" class="empty-state" style="padding:30px 20px">
               <div class="empty-state-mark">該当なし</div>
             </div>
           </div>
           <div class="modal-footer">
-            <span class="member-modal-count">
-              {{ store.gachaPickupIds.length }} 名選択中
-            </span>
+            <span class="member-modal-count">{{ targetIds.length }} 名選択中</span>
             <span style="flex:1"></span>
-            <button class="btn-secondary-modal" @click="store.gachaPickupIds = []">クリア</button>
-            <button class="btn-primary" @click="showPickupModal = false">完了</button>
+            <button class="btn-secondary-modal" @click="store[modalTarget].splice(0)">クリア</button>
+            <button class="btn-primary" @click="showModal = false">完了</button>
           </div>
         </div>
       </div>
@@ -112,31 +135,62 @@ const GachaSidebarComponent = {
     currentMode() {
       return GACHA_MODES.find(m => m.value === this.store.gachaMode) || GACHA_MODES[0];
     },
-    pickupStudents() {
-      return this.store.gachaPickupIds
-        .map(id => this.store.students.find(s => s.id === id))
-        .filter(Boolean);
+    chargeLabel() {
+      const t = this.currentMode.chargeType;
+      if (t === 'archive') return 'アーカイブポイント';
+      return t === 'limited' ? '限定・呼び出しチャージ' : '呼び出しチャージ';
     },
+    targetIds() {
+      return this.store[this.modalTarget] || [];
+    },
+    pickupStudents() {
+      return this.idsToStudents(this.store.gachaPickupIds);
+    },
+    fesStudents() {
+      return this.idsToStudents(this.store.gachaLimitedFallthroughIds);
+    },
+    // 選択モーダルは ★3 のみ (PU / 周年限定はいずれも ★3)
     filteredModalStudents() {
-      // ★3優先で並べる (PUは★3が主だが任意に選択可能)
-      const q = this.pickupModalSearch.toLowerCase();
-      const all = [...this.store.students].sort((a, b) => {
-        if (a.rarity !== b.rarity) return b.rarity - a.rarity;
-        return (a.name || '').localeCompare(b.name || '');
-      });
+      const q = this.modalSearch.toLowerCase();
+      const all = this.store.students
+        .filter(s => s.rarity === 3)
+        .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       return q ? all.filter(s => (s.name || '').toLowerCase().includes(q)) : all;
     },
   },
 
   methods: {
-    togglePickup(id) {
-      const idx = this.store.gachaPickupIds.indexOf(id);
-      if (idx >= 0) this.store.gachaPickupIds.splice(idx, 1);
-      else this.store.gachaPickupIds.push(id);
+    idsToStudents(ids) {
+      return (ids || []).map(id => this.store.students.find(s => s.id === id)).filter(Boolean);
     },
-    removePickup(id) {
-      const idx = this.store.gachaPickupIds.indexOf(id);
-      if (idx >= 0) this.store.gachaPickupIds.splice(idx, 1);
+    obtainabilityLabel(v) {
+      const t = OBTAINABILITIES.find(o => o.value === v);
+      return t ? t.label : (v || '恒常');
+    },
+    openModal(target, title) {
+      this.modalTarget = target;
+      this.modalTitle = title;
+      this.modalSearch = '';
+      this.showModal = true;
+    },
+    toggleIn(key, id) {
+      const arr = this.store[key];
+      const idx = arr.indexOf(id);
+      if (idx >= 0) arr.splice(idx, 1);
+      else arr.push(id);
+    },
+    removeFrom(key, id) {
+      const arr = this.store[key];
+      const idx = arr.indexOf(id);
+      if (idx >= 0) arr.splice(idx, 1);
+    },
+    applyCharge(v) {
+      const n = (typeof v === 'number') ? v : parseInt(this.chargeInput, 10);
+      if (Number.isNaN(n) || n < 0) return;
+      this.store.gachaCharge[this.currentMode.chargeType] = Math.min(n, 199);
+      this.store.saveGachaCharge();
+      this.chargeInput = '';
+      this.store.showToast(`${this.chargeLabel} を ${Math.min(n, 199)} に設定しました`, 'info');
     },
   },
 };

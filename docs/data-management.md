@@ -118,8 +118,11 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 4. バッジ用 CSS(`.badge-obt-<value>`)を `assets/style.css` に追加
 
 **新しいガチャモードを追加したい** (`GACHA_MODES`)
-1. `{value, label, description, rates, tenthGuarantee}` のオブジェクトを追加
-2. `rates[].pct` の合計が **1.0 になる** ことを必ず確認
+1. `{value, label, description, pity, chargeType, rates, charge100, tenthGuarantee}` のオブジェクトを追加
+   - `pity`: `'charge'`(呼び出しチャージ)/ `'points'`(200pt 交換)
+   - `chargeType`: カウンタを共有するキー(`pickup` / `limited` / `archive`)。新キーなら `app.js` の `gachaCharge` 初期値にも追加
+   - `charge100`: チャージ 100 到達時(★3 確定)の内訳。`pity: 'charge'` のとき必須
+2. `rates[].pct` と `charge100[].pct` の合計がそれぞれ **1.0 になる** ことを必ず確認
 3. 既存以外の `pool` 識別子を使う場合は `components/GachaSimulator.js` の
    `poolCandidates` の `switch` 文に `case` を追加
 
@@ -194,7 +197,8 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 | `memoSelectedId` / `memoIsCreating` / `memoSearch` | 攻略メモのエディタ状態 |
 | `teamMode` / `teamFilter` | 編成のモード/フィルタ |
 | `materialFilter` | 素材のフィルタ |
-| `gachaMode` / `gachaPickupIds` / `gachaLimitedUpIds` / `gachaLimitedFallthroughIds` | ガチャ募集モードと PU 設定 |
+| `gachaMode` / `gachaPickupIds` / `gachaLimitedFallthroughIds` | ガチャ募集モードと PU・周年限定の対象 |
+| `gachaCharge` | 呼び出しチャージ / アーカイブポイント。**例外的に `localStorage['BlueArchive.gacha.charge']` へ永続化**(募集期間をまたいで持ち越す仕様のため) |
 | `activeTab` | メイン+サイドパネルのタブ切替 |
 | `studentView` | 生徒タブのビュー(`'grid'` / `'checker'`) |
 | `checkerCollapsed` | 所持チェッカーの学校別折りたたみ状態(`{ [school]: true }`) |
@@ -218,7 +222,8 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
   "gacha":         [ ... ガチャ履歴 ],
   "memos":         [ ... メモ ],
   "teams":         [ ... 編成 ],
-  "materials":     [ ... 素材在庫 ]
+  "materials":     [ ... 素材在庫 ],
+  "gachaCharge":   { "pickup": 0, "limited": 0, "archive": 0 }
 }
 ```
 

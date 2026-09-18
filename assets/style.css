@@ -1497,6 +1497,74 @@ body {
 .pity-fill.warning { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
 .pity-fill.danger  { background: linear-gradient(90deg, #f43f5e, #ff4f8b); }
 
+/* チャージ 100 ライン */
+.pity-marker {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  width: 2px;
+  background: #ff4f8b;
+  transform: translateX(-1px);
+}
+.sim-pity-note { font-weight: 400; color: #8aa0b8; }
+.sim-pity-tick-hot { color: #ff4f8b; font-weight: 700; }
+
+.sim-warning {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid #fbbf24;
+  border-left: 4px solid #fbbf24;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+.sim-result-card { position: relative; }
+.sim-result-card-pu { border-color: #ff4f8b !important; box-shadow: 0 0 0 1px #ff4f8b inset; }
+.sim-result-pu {
+  margin-top: 4px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #ff4f8b;
+  font-weight: 700;
+}
+.sim-result-trigger {
+  display: inline-block;
+  margin-bottom: 2px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  background: #ff4f8b;
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.sim-pop-pu {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ff4f8b;
+  margin-right: 8px;
+}
+.sim-log-item-pu .sim-log-name { color: #ff4f8b; }
+.sim-log-frame, .sim-log-trigger {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  color: #8aa0b8;
+  margin-left: 8px;
+}
+.sim-log-trigger { color: #ff4f8b; font-weight: 700; }
+
+.sim-pull-btn-exchange { border-color: #10b981; }
+.sim-pull-btn-exchange .sim-pull-btn-main { color: #10b981; }
+
+.gacha-charge-row { display: flex; gap: 6px; align-items: center; }
+.gacha-charge-row input { flex: 1; min-width: 0; }
+.gacha-charge-row .sidebar-add-btn { width: auto; flex: 0 0 auto; padding: 8px 10px; }
+.gacha-pickup-chip-fes { border-color: #fbbf24; }
+
 /* ── ガチャシミュレーター ──────────────────────────────── */
 .sim-container {
   display: flex;
