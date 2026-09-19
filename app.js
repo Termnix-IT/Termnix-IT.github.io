@@ -42,9 +42,19 @@ const store = Vue.reactive({
     Object.assign(this.teamFilter, { purpose: '', name: '' });
   },
 
-  materialFilter: { type: '', name: '' },
+  // 素材: 'input' = 所持数の入力 / 'overview' = 一括確認
+  materialView: 'input',
+  materialFilter: { category: '', name: '', hideZero: false },
   resetMaterialFilter() {
-    Object.assign(this.materialFilter, { type: '', name: '' });
+    Object.assign(this.materialFilter, { category: '', name: '', hideZero: false });
+  },
+  // 素材の所持数 { [materialId]: 個数 } (localStorage 永続化、data/materials.js のマスタ id がキー)
+  materialInventory: {},
+  setMaterialQty(id, value) {
+    const n = Math.max(0, Math.floor(Number(value) || 0));
+    if (n > 0) this.materialInventory[id] = n;
+    else delete this.materialInventory[id];
+    saveMaterialInventory(this.materialInventory);
   },
 
   // ミニゲーム: 選択中のゲーム ID (null = ハブ画面)
@@ -80,8 +90,11 @@ const store = Vue.reactive({
   async loadTeams() {
     this.teams = await getAllTeams();
   },
+  // materials = 旧 db.materials (移行元・旧データ表示用)、materialInventory = 現行の所持数
   async loadMaterials() {
+    await migrateLegacyMaterials();
     this.materials = await getAllMaterials();
+    this.materialInventory = getMaterialInventory();
   },
   async loadAll() {
     this.loadGachaCharge();
@@ -303,7 +316,7 @@ app.config.globalProperties.OBTAINABILITIES = OBTAINABILITIES;
 app.config.globalProperties.MEMO_CATEGORIES = MEMO_CATEGORIES;
 app.config.globalProperties.TEAM_MODES      = TEAM_MODES;
 app.config.globalProperties.TEAM_PURPOSES   = TEAM_PURPOSES;
-app.config.globalProperties.MATERIAL_TYPES  = MATERIAL_TYPES;
+app.config.globalProperties.MATERIAL_CATEGORIES = MATERIAL_CATEGORIES;
 app.config.globalProperties.GACHA_MODES     = GACHA_MODES;
 
 // コンポーネント登録

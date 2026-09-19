@@ -387,6 +387,54 @@ async function deleteMaterial(id) {
   await db.materials.delete(id);
 }
 
+// ── 素材の所持数 (localStorage) ─────────────────────────
+//  素材の種類は data/materials.js のマスタで固定。ユーザーが入力するのは所持数だけなので、
+//  育成データと同じく { [materialId]: 個数 } の形で localStorage に置く。
+//  旧 db.materials (名前を手入力して登録した素材) はこの形式への移行元としてのみ使う。
+const LS_MATERIAL_INVENTORY = 'BlueArchive.materialInventory';
+const LS_MATERIAL_MIGRATED  = 'BlueArchive.materialInventoryMigrated';
+
+function getMaterialInventory() {
+  try {
+    const raw = localStorage.getItem(LS_MATERIAL_INVENTORY);
+    const map = raw ? JSON.parse(raw) : {};
+    return (map && typeof map === 'object') ? map : {};
+  } catch (e) {
+    console.warn('素材の所持数の読込に失敗', e);
+    return {};
+  }
+}
+
+function saveMaterialInventory(map) {
+  // 0 個の項目は保存しない (マスタにある全素材を持ち歩かないため)
+  const compact = {};
+  for (const [id, n] of Object.entries(map || {})) {
+    const v = Math.max(0, Math.floor(Number(n) || 0));
+    if (v > 0) compact[id] = v;
+  }
+  localStorage.setItem(LS_MATERIAL_INVENTORY, JSON.stringify(compact));
+}
+
+// 旧 db.materials のうち、名前がマスタと一致するものの個数を所持数へ引き継ぐ (一度きり)。
+// 旧レコードは削除しない。一致しなかったものは素材ページの「旧データ」欄に残して表示する。
+async function migrateLegacyMaterials() {
+  if (localStorage.getItem(LS_MATERIAL_MIGRATED)) return { migrated: 0 };
+  const legacy = await db.materials.toArray();
+  const inv = getMaterialInventory();
+  let migrated = 0;
+  for (const rec of legacy) {
+    const m = MATERIAL_BY_NAME[normalizeMaterialName(rec.name)];
+    if (!m) continue;
+    if (!inv[m.id]) {
+      inv[m.id] = Math.max(0, Number(rec.quantity) || 0);
+      migrated++;
+    }
+  }
+  saveMaterialInventory(inv);
+  localStorage.setItem(LS_MATERIAL_MIGRATED, '1');
+  return { migrated };
+}
+
 // ============================================================
 //  UI 定数 (SCHOOLS / ROLES / ATTACK_TYPES / GACHA_MODES など) は
 //  data/constants.js に分離している。db.js より先に読み込まれる。

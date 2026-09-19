@@ -166,13 +166,12 @@ const StudentDetailComponent = {
           <!-- 必要素材 -->
           <div class="form-group full-width">
             <label>必要素材</label>
-            <div v-if="store.materials.length === 0" class="need-empty">
-              素材管理タブで素材を先に登録してください
-            </div>
-            <div v-else class="need-add-row">
+            <div class="need-add-row">
               <select v-model="newNeedMaterialId" style="flex:1;min-width:140px">
                 <option value="">素材を選択</option>
-                <option v-for="m in store.materials" :key="m.id" :value="m.id">{{ m.name }}</option>
+                <optgroup v-for="c in MATERIAL_CATEGORIES" :key="c.value" :label="c.label">
+                  <option v-for="m in materialsIn(c.value)" :key="m.id" :value="m.id">{{ m.name }}</option>
+                </optgroup>
               </select>
               <input type="number" v-model.number="newNeedQuantity" min="1" style="width:80px" placeholder="数量">
               <button class="btn-edit" @click="addNeededMaterial">＋ 追加</button>
@@ -292,7 +291,8 @@ const StudentDetailComponent = {
         this.store.showToast('素材を選択してください', 'error');
         return;
       }
-      const mat = this.store.materials.find(m => m.id === this.newNeedMaterialId);
+      // 素材は data/materials.js のマスタから選ぶ (materialId はマスタの文字列 id)
+      const mat = MATERIAL_BY_ID[this.newNeedMaterialId];
       if (!mat) return;
       const already = (this.form.neededMaterials || []).findIndex(n => n.materialId === mat.id);
       if (already >= 0) {
@@ -311,6 +311,10 @@ const StudentDetailComponent = {
 
     removeNeededMaterial(idx) {
       this.form.neededMaterials.splice(idx, 1);
+    },
+
+    materialsIn(category) {
+      return MATERIAL_MASTER.filter(m => m.category === category);
     },
 
     attackTypeLabel(value) {

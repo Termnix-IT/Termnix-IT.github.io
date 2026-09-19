@@ -4,6 +4,7 @@
 //  スキーマ:
 //    schemaVersion 2 (現行) — 育成データ + 画像 + ガチャ + メモ + 編成 + 素材
 //                            + 呼び出しチャージ (gachaCharge: 任意項目。旧バックアップには無い)
+//                            + 素材の所持数 (materialInventory: 任意項目。旧バックアップには無い)
 //    schemaVersion 1 (旧)  — 旧 IndexedDB.students / gacha / memos のみ
 //                            v1 を取り込むときは旧テーブルへ入れた後
 //                            migrateStudentsV1ToV2() で新形式へ自動変換
@@ -37,6 +38,7 @@ async function exportAllData() {
       teams:     await db.teams.toArray(),
       materials: await db.materials.toArray(),
       gachaCharge: JSON.parse(localStorage.getItem(LS_GACHA_CHARGE_KEY) || 'null'),
+      materialInventory: getMaterialInventory(),
     };
 
     const json = JSON.stringify(data, null, 2);
@@ -84,6 +86,7 @@ function buildImportSummary(counts, mode) {
   if (counts.memos)         parts.push(`メモ ${counts.memos} 件`);
   if (counts.gacha)         parts.push(`ガチャ ${counts.gacha} 件`);
   if (counts.materials)     parts.push(`素材 ${counts.materials} 件`);
+  if (counts.materialInventory) parts.push(`素材の所持数 ${counts.materialInventory} 種`);
   if (counts.gachaCharge)   parts.push('呼び出しチャージ');
   const label = mode === 'replace' ? '置き換え' : '追記';
   if (parts.length === 0) {
@@ -139,6 +142,16 @@ async function importV2(data, mode) {
   const hasCharge = data.gachaCharge && typeof data.gachaCharge === 'object';
   if (hasCharge) localStorage.setItem(LS_GACHA_CHARGE_KEY, JSON.stringify(data.gachaCharge));
 
+  // 素材の所持数: replace は丸ごと置き換え、merge は同じ素材を取り込み側の値で上書き。無ければ触らない
+  const inv = (data.materialInventory && typeof data.materialInventory === 'object') ? data.materialInventory : null;
+  if (inv) {
+    const base = mode === 'replace' ? {} : getMaterialInventory();
+    saveMaterialInventory(Object.assign(base, inv));
+  } else if ((data.materials || []).length > 0) {
+    // 旧形式のバックアップ (手入力の素材だけ) は、次の読込で名前一致分を所持数へ引き継ぎ直す
+    localStorage.removeItem(LS_MATERIAL_MIGRATED);
+  }
+
   const counts = {
     userStudents:  Object.keys(data.userStudents  || {}).length,
     studentImages: imgs.length,
@@ -147,6 +160,7 @@ async function importV2(data, mode) {
     teams:         (data.teams     || []).length,
     materials:     (data.materials || []).length,
     gachaCharge:   hasCharge ? 1 : 0,
+    materialInventory: inv ? Object.keys(inv).length : 0,
   };
   return { ok: true, message: buildImportSummary(counts, mode) };
 }

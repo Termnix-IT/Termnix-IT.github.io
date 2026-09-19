@@ -261,24 +261,7 @@ const TEAM_PURPOSES = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-//  素材タイプ
+//  素材
+//   素材の種類・分類 (MATERIAL_CATEGORIES / MATERIAL_MASTER 等) は
+//   data/materials.js に分離している (件数が多く、段階ごとに生成するため)。
 // ─────────────────────────────────────────────────────────────
-const MATERIAL_TYPES = [
-  { value: "equip_t1", label: "装備素材T1" },
-  { value: "equip_t2", label: "装備素材T2" },
-  { value: "equip_t3", label: "装備素材T3" },
-  { value: "equip_t4", label: "装備素材T4" },
-  { value: "equip_t5", label: "装備素材T5" },
-  { value: "equip_t6", label: "装備素材T6" },
-  { value: "equip_t7", label: "装備素材T7" },
-  { value: "equip_t8", label: "装備素材T8" },
-  { value: "equip_t9", label: "装備素材T9" },
-  { value: "equip_t10", label: "装備素材T10" },
-  { value: "student_level", label: "生徒レベル素材(レポート)" },
-  { value: "skill", label: "スキル素材(ノート・BD)" },
-  { value: "equip_level", label: "装備レベル素材(強化珠)" },
-  { value: "ooparts", label: "オーパーツ" },
-  { value: "credit", label: "クレジット" },
-  { value: "character", label: "神名文字" },
-  { value: "other", label: "その他" },
-];

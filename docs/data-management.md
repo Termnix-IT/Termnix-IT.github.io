@@ -90,7 +90,8 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 | `GACHA_MODES` | 後述 | ガチャ排出率テーブル |
 | `TEAM_MODES` | `{value,label,striker,special}[]` | 編成モード(枠数) |
 | `TEAM_PURPOSES` | `{value,label}[]` | 編成の用途タグ |
-| `MATERIAL_TYPES` | `{value,label}[]` | 素材分類 |
+
+素材の種類は件数が多いため `data/materials.js` に分けている(`MATERIAL_CATEGORIES` / `MATERIAL_GROUPS` / `MATERIAL_MASTER` / `MATERIAL_BY_ID`)。bluearchive.wikiru.jp の「素材一覧」「装備一覧」を元に、学校・系統・部位ごとの段階を生成している。素材の id は所持数の保存キーなので、一度公開したら変更しない。新しい素材は該当グループの `items` に足すか、グループを追加する。
 
 #### 共通の追加ルール
 
@@ -126,7 +127,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 3. 既存以外の `pool` 識別子を使う場合は `components/GachaSimulator.js` の
    `poolCandidates` の `switch` 文に `case` を追加
 
-**新しい素材タイプ/メモカテゴリ/編成用途を追加したい**
+**新しいメモカテゴリ/編成用途を追加したい**
 - 該当の `{value, label}` を追加するだけ。`value` は ASCII の不変キー推奨
 
 ---
@@ -167,7 +168,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 | `memos` | `++id, category, title, updatedAt` | 攻略メモ |
 | `events` | `++id, eventName, type, startDate, cleared` | UI 削除済み(残置のみ) |
 | `teams` | `++id, name, purpose, updatedAt` | 編成 |
-| `materials` | `++id, name, type, updatedAt` | 素材在庫 |
+| `materials` | `++id, name, type, updatedAt` | 旧形式の素材(名前を手入力した在庫)。現在は所持数の移行元と「以前に手入力した素材」の表示にだけ使う |
 | `studentImages` | `studentId` | アップロード画像(Base64 JPEG) |
 
 **スキーマ変更時の注意**
@@ -196,7 +197,8 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 | `studentFilters` / `studentSortKey` | 生徒一覧の検索・並び替え |
 | `memoSelectedId` / `memoIsCreating` / `memoSearch` | 攻略メモのエディタ状態 |
 | `teamMode` / `teamFilter` | 編成のモード/フィルタ |
-| `materialFilter` | 素材のフィルタ |
+| `materialView` / `materialFilter` | 素材ページの表示モード(`'input'` / `'overview'`)と絞り込み |
+| `materialInventory` | 素材の所持数 `{ [materialId]: 個数 }`。**`localStorage['BlueArchive.materialInventory']` へ永続化**(0 個は保存しない) |
 | `gachaMode` / `gachaPickupIds` / `gachaLimitedFallthroughIds` | ガチャ募集モードと PU・周年限定の対象 |
 | `gachaCharge` | 呼び出しチャージ / アーカイブポイント。**例外的に `localStorage['BlueArchive.gacha.charge']` へ永続化**(募集期間をまたいで持ち越す仕様のため) |
 | `activeTab` | メイン+サイドパネルのタブ切替 |
@@ -222,7 +224,8 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
   "gacha":         [ ... ガチャ履歴 ],
   "memos":         [ ... メモ ],
   "teams":         [ ... 編成 ],
-  "materials":     [ ... 素材在庫 ],
+  "materials":     [ ... 旧形式の素材 ],
+  "materialInventory": { "<materialId>": 個数 },
   "gachaCharge":   { "pickup": 0, "limited": 0, "archive": 0 }
 }
 ```
