@@ -7,6 +7,7 @@ const HelpGuideComponent = {
   inject: ['store'],
   template: `
     <div class="help-guide">
+      <page-head ja="使い方" en="GUIDE"></page-head>
 
       <!-- ヘッダー -->
       <div class="os-panel help-hero">

@@ -42,13 +42,9 @@ const MiniGameHubComponent = {
   },
   template: `
     <div class="minigame-hub">
-      <div class="os-panel minigame-hero">
-        <div class="os-section-id">// MINIGAME / HUB</div>
-        <h2 class="minigame-hero-title">ミニゲーム</h2>
-        <p class="minigame-hero-lead">
-          休憩用の小ゲーム。スコアはあなたのブラウザに保存されます。
-        </p>
-      </div>
+      <page-head ja="ミニゲーム" en="MINIGAME">
+        <div class="page-head-meta">休憩用の小ゲーム。スコアはあなたのブラウザに保存されます。</div>
+      </page-head>
 
       <div class="minigame-hub-grid">
         <div v-for="g in games" :key="g.id"

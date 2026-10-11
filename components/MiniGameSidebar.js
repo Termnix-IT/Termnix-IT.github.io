@@ -22,7 +22,7 @@ const MiniGameSidebarComponent = {
   },
   template: `
     <div class="sidebar-content">
-      <div class="sidebar-section-id">// MINIGAMES</div>
+      <div class="sidebar-section-id">MINIGAMES</div>
 
       <ul class="help-sidebar-toc minigame-sidebar-list">
         <li>

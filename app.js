@@ -142,36 +142,30 @@ const App = {
           <button class="sidebar-toggle-btn" @click="toggleSidebar" title="サイドパネル">
             <span>≡</span>
           </button>
-          <h1>
-            <span class="os-bracket">SCHALE</span>Blue Archive DB<span class="os-version">v0.2</span>
+          <h1 class="app-logo">
+            <span class="app-logo-mark">SCHALE</span><span class="app-logo-text">Blue Archive DB</span>
           </h1>
           <div style="flex:1"></div>
-          <div class="header-status">
-            <span class="os-status-dot"></span>
-            <span>接続中 · {{ clockText }}</span>
+          <!-- 資源カウンター風: 所持生徒数 / 選択中の募集のチャージ -->
+          <div class="res-pill" title="所持している生徒 / 全生徒">
+            <span class="res-pill-ico">生</span><b>{{ ownedCount }}</b><span class="res-pill-max">/ {{ store.students.length }}</span>
           </div>
-          <div class="header-actions">
-            <button @click="handleExport" title="データをJSONファイルに書き出す">エクスポート</button>
-            <button @click="triggerImport" title="JSONファイルからデータを読み込む">インポート</button>
-            <input type="file" ref="importFile" accept=".json" style="display:none" @change="handleImport">
+          <div class="res-pill" :title="chargePill.title">
+            <span class="res-pill-ico yellow">{{ chargePill.icon }}</span><b>{{ chargePill.value }}</b><span class="res-pill-max">/ 200</span>
           </div>
+          <div class="data-menu" ref="dataMenu">
+            <button class="data-menu-btn" :class="{ open: dataMenuOpen }" @click="dataMenuOpen = !dataMenuOpen">⚙ データ ▾</button>
+            <div v-if="dataMenuOpen" class="data-menu-pop">
+              <button @click="handleExport">エクスポート<small>全データを JSON ファイルに書き出す</small></button>
+              <button @click="triggerImport">インポート<small>JSON ファイルから読み込む</small></button>
+            </div>
+          </div>
+          <input type="file" ref="importFile" accept=".json" style="display:none" @change="handleImport">
         </div>
         <!-- 下段: タブナビゲーション -->
         <nav class="tab-nav">
-          <button class="tab-btn" :class="{ active: store.activeTab === 'students' }"
-            @click="store.activeTab = 'students'"><span class="tab-glyph">◆</span>生徒</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'gacha' }"
-            @click="store.activeTab = 'gacha'"><span class="tab-glyph">◇</span>ガチャ</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'memos' }"
-            @click="store.activeTab = 'memos'"><span class="tab-glyph">◈</span>攻略メモ</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'teams' }"
-            @click="store.activeTab = 'teams'"><span class="tab-glyph">▤</span>編成</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'materials' }"
-            @click="store.activeTab = 'materials'"><span class="tab-glyph">▦</span>素材</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'minigame' }"
-            @click="store.activeTab = 'minigame'"><span class="tab-glyph">▷</span>ミニゲーム</button>
-          <button class="tab-btn" :class="{ active: store.activeTab === 'help' }"
-            @click="store.activeTab = 'help'"><span class="tab-glyph">?</span>使い方</button>
+          <button v-for="t in tabs" :key="t.id" class="tab-btn" :class="{ active: store.activeTab === t.id }"
+            @click="store.activeTab = t.id">{{ t.ja }}<span class="tab-en">{{ t.en }}</span></button>
         </nav>
       </header>
 
@@ -233,10 +227,35 @@ const App = {
   data() {
     return {
       store,
-      clockText: '',
+      tabs: [
+        { id: 'students',  ja: '生徒',       en: 'STUDENTS' },
+        { id: 'gacha',     ja: 'ガチャ',     en: 'RECRUIT' },
+        { id: 'memos',     ja: '攻略メモ',   en: 'MEMO' },
+        { id: 'teams',     ja: '編成',       en: 'FORMATION' },
+        { id: 'materials', ja: '素材',       en: 'ITEMS' },
+        { id: 'minigame',  ja: 'ミニゲーム', en: 'GAME' },
+        { id: 'help',      ja: '使い方',     en: 'HELP' },
+      ],
+      dataMenuOpen: false,
       sidebarCollapsed: JSON.parse(localStorage.getItem('schaleSidebarCollapsed') || 'false'),
       sidebarMobileOpen: false,
     };
+  },
+
+  computed: {
+    ownedCount() {
+      return store.students.filter(s => s.owned).length;
+    },
+    // ヘッダーのチャージ表示: ガチャタブで選んでいる募集のチャージ (アーカイブはポイント)
+    chargePill() {
+      const mode = GACHA_MODES.find(m => m.value === store.gachaMode) || GACHA_MODES[0];
+      const value = store.gachaCharge[mode.chargeType] || 0;
+      if (mode.chargeType === 'archive') {
+        return { icon: 'P', value, title: 'アーカイブポイント (200pt で PU と交換)' };
+      }
+      const label = mode.chargeType === 'limited' ? '限定・呼び出しチャージ' : '呼び出しチャージ';
+      return { icon: 'C', value, title: `${label} (100 で ★3 確定 / 200 で PU 確定)` };
+    },
   },
 
   watch: {
@@ -248,12 +267,16 @@ const App = {
   async mounted() {
     await seedStudentsIfEmpty();
     await store.loadAll();
-    this.updateClock();
-    this._clockTimer = setInterval(() => this.updateClock(), 1000);
+    this._onDocClick = (e) => {
+      if (this.dataMenuOpen && this.$refs.dataMenu && !this.$refs.dataMenu.contains(e.target)) {
+        this.dataMenuOpen = false;
+      }
+    };
+    document.addEventListener('click', this._onDocClick);
   },
 
   beforeUnmount() {
-    if (this._clockTimer) clearInterval(this._clockTimer);
+    document.removeEventListener('click', this._onDocClick);
   },
 
   methods: {
@@ -265,18 +288,14 @@ const App = {
       }
     },
 
-    updateClock() {
-      const d = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      this.clockText = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-    },
-
     async handleExport() {
+      this.dataMenuOpen = false;
       const result = await exportAllData();
       store.showToast(result.message, result.ok ? 'success' : 'error');
     },
 
     triggerImport() {
+      this.dataMenuOpen = false;
       this.$refs.importFile.value = '';
       this.$refs.importFile.click();
     },
@@ -318,6 +337,20 @@ app.config.globalProperties.TEAM_MODES      = TEAM_MODES;
 app.config.globalProperties.TEAM_PURPOSES   = TEAM_PURPOSES;
 app.config.globalProperties.MATERIAL_CATEGORIES = MATERIAL_CATEGORIES;
 app.config.globalProperties.GACHA_MODES     = GACHA_MODES;
+
+// 各ページ共通の大見出し (和文 + 英字)。右側の件数・並び替えなどはスロットで渡す
+app.component('page-head', {
+  props: { ja: String, en: String },
+  template: `
+    <div class="page-head">
+      <div>
+        <div class="page-head-ja">{{ ja }}</div>
+        <div class="page-head-en">{{ en }}</div>
+      </div>
+      <slot></slot>
+    </div>
+  `,
+});
 
 // コンポーネント登録
 app.component('student-list',        StudentListComponent);

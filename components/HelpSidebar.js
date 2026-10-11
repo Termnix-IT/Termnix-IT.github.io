@@ -6,7 +6,7 @@ const HelpSidebarComponent = {
   inject: ['store'],
   template: `
     <div class="sidebar-content">
-      <div class="sidebar-section-id">// CONTENTS</div>
+      <div class="sidebar-section-id">CONTENTS</div>
 
       <ul class="help-sidebar-toc">
         <li><a href="#help-tabs" @click="scrollTo('help-tabs', $event)">画面の見方</a></li>
