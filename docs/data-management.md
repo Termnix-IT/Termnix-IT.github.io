@@ -211,10 +211,11 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 
 | store の状態 | 用途 |
 |---|---|
-| `studentFilters` / `studentSortKey` | 生徒一覧の検索・並び替え |
-| `memoSelectedId` / `memoIsCreating` / `memoSearch` | 攻略メモのエディタ状態 |
-| `teamMode` / `teamFilter` | 編成のモード/フィルタ |
-| `materialView` / `materialFilter` | 素材ページの表示モード(`'input'` / `'overview'`)と絞り込み |
+| `studentFilters` / `studentSortKey` / `studentSortReverse` | 生徒一覧・所持チェッカーの検索・並び替え。`owned` 以外の絞り込みは複数選択の配列で、判定は `matchStudentFilter()` に集約 |
+| `memoSelectedId` / `memoIsCreating` / `memoSearch` | 攻略メモのエディタ状態 |
+| `memoCategory` / `memoSort` / `memoDirty` | メモボードのカテゴリ絞り込み・並び順と、エディタの未保存フラグ(`confirmLeaveMemo()` が移動前に確認する) |
+| `teamMode` / `teamFilter` | 編成のモードと、用途・編成名/生徒名検索・未所持を含む編成のフィルタ |
+| `materialView` / `materialFilter` | 素材ページの表示モード(`'input'` / `'overview'`)と、名前検索・一括確認の表示(`show`: all / owned / short)。`category` はサイドパネルで最後に移動したカテゴリ(強調表示用で、絞り込みには使わない) |
 | `materialInventory` | 素材の所持数 `{ [materialId]: 個数 }`。**`localStorage['BlueArchive.materialInventory']` へ永続化**(0 個は保存しない) |
 | `gachaMode` / `gachaPickupIds` / `gachaLimitedFallthroughIds` | ガチャ募集モードと PU・周年限定の対象 |
 | `gachaCharge` | 呼び出しチャージ / アーカイブポイント。**例外的に `localStorage['BlueArchive.gacha.charge']` へ永続化**(募集期間をまたいで持ち越す仕様のため) |
