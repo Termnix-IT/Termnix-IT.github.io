@@ -19,6 +19,10 @@ Usage:
 - position: POSITIONS のいずれか
 - imageUrl: 任意 (空可)
 
+画像チェック (警告のみ・ビルドは止めない):
+- assets/ 配下のローカル画像が正方形でない、または 1024px 以上なら警告する
+  (仕様は assets/students/README.md。推奨は 512×512)
+
 新学校を追加した場合の影響:
 - フィルタ・グルーピングは自動対応 (動的検出)
 - 表示順を制御したい場合は data/constants.js の SCHOOLS 配列に追加
@@ -28,6 +32,7 @@ Usage:
 import csv
 import json
 import re
+import struct
 import sys
 from pathlib import Path
 
@@ -43,6 +48,7 @@ CSV_PATH  = ROOT / 'data' / 'students.master.csv'
 JSON_PATH = ROOT / 'data' / 'students.master.json'
 IMG_DIR   = ROOT / 'assets' / 'students'
 IMG_EXTS  = ('.webp', '.png', '.jpg', '.jpeg')  # 優先順
+IMG_MAX_SIDE = 1024  # これ以上は重すぎるので警告 (推奨 512)
 
 # enum: data/constants.js の定数と一致させること
 CLASSES      = {'アタッカー', 'タンク', 'ヒーラー', 'サポーター', 'T.S'}
@@ -187,6 +193,72 @@ def validate_and_convert(rows):
     return out, errors
 
 
+def read_image_size(path: Path):
+    """webp / png / jpeg のヘッダーから (幅, 高さ) を読む。Pillow を使わず標準ライブラリだけで判定する。
+    読めない形式なら None。"""
+    with path.open('rb') as f:
+        head = f.read(32)
+        # PNG: シグネチャ 8byte + IHDR チャンク (幅・高さはビッグエンディアン 4byte)
+        if head[:8] == b'\x89PNG\r\n\x1a\n' and head[12:16] == b'IHDR':
+            return struct.unpack('>II', head[16:24])
+        # WebP: RIFF コンテナ。先頭チャンクの種類でレイアウトが異なる
+        if head[:4] == b'RIFF' and head[8:12] == b'WEBP':
+            chunk = head[12:16]
+            if chunk == b'VP8X':  # 拡張形式 (アルファ付き等): 幅-1 / 高さ-1 が 3byte LE
+                w = int.from_bytes(head[24:27], 'little') + 1
+                h = int.from_bytes(head[27:30], 'little') + 1
+                return w, h
+            if chunk == b'VP8L':  # ロスレス: 1byte シグネチャの後に 14bit ずつ
+                bits = int.from_bytes(head[21:25], 'little')
+                return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+            if chunk == b'VP8 ':  # ロッシー: フレームヘッダーの後に 14bit ずつ
+                w, h = struct.unpack('<HH', head[26:30])
+                return w & 0x3FFF, h & 0x3FFF
+            return None
+        # JPEG: SOFn マーカーを探して高さ・幅を読む
+        if head[:2] == b'\xff\xd8':
+            f.seek(2)
+            while True:
+                marker = f.read(2)
+                if len(marker) < 2 or marker[0] != 0xFF:
+                    return None
+                code = marker[1]
+                if code in (0xD8, 0x01) or 0xD0 <= code <= 0xD7:
+                    continue
+                seg_len = struct.unpack('>H', f.read(2))[0]
+                if 0xC0 <= code <= 0xCF and code not in (0xC4, 0xC8, 0xCC):
+                    h, w = struct.unpack('>xHH', f.read(5))
+                    return w, h
+                f.seek(seg_len - 2, 1)
+    return None
+
+
+def check_images(records):
+    """ローカルのマスタ画像が仕様 (1:1・1024px 未満) に沿っているか調べ、警告文のリストを返す。"""
+    warnings = []
+    for r in records:
+        url = r.get('imageUrl')
+        if not url or not url.startswith('assets/'):
+            continue  # 外部 URL は対象外
+        path = ROOT / url
+        if not path.exists():
+            warnings.append(f"{r['id']}: 画像ファイルがありません ({url})")
+            continue
+        try:
+            size = read_image_size(path)
+        except (OSError, struct.error):
+            size = None
+        if size is None:
+            warnings.append(f"{r['id']}: 画像サイズを読み取れません ({url})")
+            continue
+        w, h = size
+        if w != h:
+            warnings.append(f"{r['id']}: 正方形ではありません {w}×{h} ({url})")
+        if max(w, h) >= IMG_MAX_SIDE:
+            warnings.append(f"{r['id']}: {w}×{h} は大きすぎます。512×512 を推奨 ({url})")
+    return warnings
+
+
 def write_json(path: Path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open('w', encoding='utf-8') as f:
@@ -215,6 +287,8 @@ def main():
     with_img    = sum(1 for r in records if r.get('imageUrl'))
     without_img = len(records) - with_img
     print(f'✓ 検査: OK')
+    for warn in check_images(records):
+        print(f'⚠ 画像: {warn}', file=sys.stderr)
     print(f'✓ 出力: {JSON_PATH.relative_to(ROOT)} ({len(records)}件 / 画像あり {with_img} / 画像なし {without_img})')
     return 0
 
