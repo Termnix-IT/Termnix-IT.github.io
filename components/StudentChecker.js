@@ -8,16 +8,16 @@ const StudentCheckerComponent = {
   inject: ['store'],
   template: `
     <div class="checker-container">
-      <!-- ヘッダー: 件数 + 一括操作 -->
-      <div class="checker-header">
-        <div class="student-count">
-          <span class="count-num">{{ ownedCount }}</span>
-          <span class="count-divider">/</span>
-          <span class="count-total">{{ filtered.length }} 名</span>
-          <span class="count-divider">・</span>
-          <span class="count-owned">所持率 {{ ownedPercent }}%</span>
+      <!-- 見出し: 表示中の所持率 + 一括操作 -->
+      <page-head ja="所持チェッカー" en="OWNERSHIP CHECK">
+        <div class="roster-progress">
+          <div class="roster-progress-text">
+            <span>表示中の所持率</span>
+            <span><b>{{ ownedCount }}</b> / {{ filtered.length }} 名 · {{ ownedPercent }}%</span>
+          </div>
+          <div class="skew-bar"><div :style="{ width: ownedPercent + '%' }"></div></div>
         </div>
-        <div class="checker-bulk-actions">
+        <div class="page-head-right checker-bulk-actions">
           <button class="btn-edit" @click="bulkSet(true)" :disabled="filtered.length === 0">
             表示中を全て所持
           </button>
@@ -25,7 +25,8 @@ const StudentCheckerComponent = {
             表示中を全て未所持
           </button>
         </div>
-      </div>
+      </page-head>
+      <student-active-filters :count="filtered.length"></student-active-filters>
 
       <!-- グルーピング表示 -->
       <div v-if="grouped.length === 0" class="empty-state">
@@ -36,10 +37,15 @@ const StudentCheckerComponent = {
       <div v-else class="checker-list">
         <div v-for="g in grouped" :key="g.school" class="checker-group">
           <div class="checker-school-header checker-school-header--clickable"
+            :style="{ borderLeftColor: schoolColor(g.school) }"
             @click="toggleCollapse(g.school)"
             :title="isCollapsed(g.school) ? 'クリックで展開' : 'クリックで折りたたみ'">
             <span class="checker-school-toggle">{{ isCollapsed(g.school) ? '▶' : '▼' }}</span>
             <span class="checker-school-name">{{ g.school }}</span>
+            <span class="checker-school-en">{{ schoolEn(g.school) }}</span>
+            <div class="skew-bar checker-school-bar">
+              <div :style="{ width: (g.owned / g.students.length * 100) + '%', background: schoolColor(g.school) }"></div>
+            </div>
             <span class="checker-school-count">{{ g.owned }} / {{ g.students.length }}</span>
           </div>
           <label v-for="s in g.students" :key="s.id"
@@ -67,19 +73,7 @@ const StudentCheckerComponent = {
 
   computed: {
     filtered() {
-      const f = this.store.studentFilters;
-      return this.store.students.filter(s => {
-        if (f.name && !s.name.includes(f.name)) return false;
-        if (f.school && s.school !== f.school) return false;
-        if (f.class  && s.class  !== f.class)  return false;
-        if (f.rarity && String(s.rarity) !== f.rarity) return false;
-        if (f.attackType && s.attackType !== f.attackType) return false;
-        if (f.owned !== '') {
-          const owned = f.owned === 'true';
-          if (s.owned !== owned) return false;
-        }
-        return true;
-      });
+      return this.store.students.filter(s => this.store.matchStudentFilter(s));
     },
 
     grouped() {
@@ -118,6 +112,14 @@ const StudentCheckerComponent = {
   },
 
   methods: {
+    schoolColor(school) {
+      return schoolAccentColor(school);
+    },
+
+    schoolEn(school) {
+      return SCHOOL_EN[school] || '';
+    },
+
     avatarStyle(s) {
       return { background: SCHOOL_COLORS[s.school] || SCHOOL_COLOR_FALLBACK };
     },

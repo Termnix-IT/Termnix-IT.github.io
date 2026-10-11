@@ -62,6 +62,33 @@ const SCHOOL_COLORS = {
 const SCHOOL_COLOR_FALLBACK =
   "linear-gradient(160deg, #c8d0e0 0%, #a0aab8 100%)";
 
+// 学校の単色 (フィルタの丸印・帯など)。SCHOOL_COLORS のグラデーション終端色を使う
+function schoolAccentColor(school) {
+  const g = SCHOOL_COLORS[school] || SCHOOL_COLOR_FALLBACK;
+  const hexes = g.match(/#[0-9a-fA-F]{6}/g);
+  return hexes ? hexes[hexes.length - 1] : "#a0aab8";
+}
+
+// 学校の英字表記 (カードの透かし・モーダルのタグ)。未登録の学校は透かしを出さない
+const SCHOOL_EN = {
+  アビドス: "ABYDOS",
+  トリニティ: "TRINITY",
+  ゲヘナ: "GEHENNA",
+  ミレニアム: "MILLENNIUM",
+  アリウス: "ARIUS",
+  レッドウィンター: "RED WINTER",
+  百鬼夜行: "HYAKKIYAKO",
+  ヴァルキューレ: "VALKYRIE",
+  山海経: "SHANHAIJING",
+  ワイルドハント: "WILDHUNT",
+  ハイランダー: "HIGHLANDER",
+  SRT: "SRT",
+  オデュッセイア: "ODYSSEY",
+  シャーレ: "SCHALE",
+  常盤台中学: "TOKIWADAI",
+  柵川中学: "SAKUGAWA",
+};
+
 // ─────────────────────────────────────────────────────────────
 //  クラス (CLASSES)
 //   生徒のクラス分類。文字列配列 (value === label)。
@@ -116,6 +143,15 @@ const ATTACK_TYPES = [
   { value: "sonic", label: "振動" },
   { value: "decomposition", label: "分解" },
 ];
+
+// 攻撃タイプの色 (カード左端の色帯・フィルタの丸印・編成の内訳)
+const ATTACK_TYPE_COLORS = {
+  explosive: "#f43f5e",
+  piercing: "#f59e0b",
+  mystic: "#a855f7",
+  sonic: "#3ea8ff",
+  decomposition: "#10b981",
+};
 
 // ─────────────────────────────────────────────────────────────
 //  入手区分 (OBTAINABILITIES)

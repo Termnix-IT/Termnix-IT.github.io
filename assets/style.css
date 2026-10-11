@@ -1209,18 +1209,6 @@ body {
   gap: 12px;
 }
 
-.checker-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  background: #ffffff;
-  border: 1px solid #c9dcef;
-  border-radius: 4px;
-}
-
 .checker-bulk-actions {
   display: flex;
   gap: 6px;
@@ -1235,22 +1223,38 @@ body {
 .checker-group {
   background: #ffffff;
   border: 1px solid #c9dcef;
-  border-radius: 4px;
   overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
 }
 
+/* 学校ごとの見出し: 学校カラーの縦帯 + 所持率バー */
 .checker-school-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 14px;
+  gap: 10px;
+  padding: 9px 18px 9px 12px;
   background: #f6faff;
   border-bottom: 1px solid #c9dcef;
-  border-left: 3px solid #3ea8ff;
+  border-left: 5px solid #3ea8ff;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   color: #0d1b2a;
+}
+
+.checker-school-en {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.15em;
+  color: #8aa0b8;
+}
+
+.checker-school-bar {
+  width: 160px;
+  margin-left: auto;
+  height: 6px;
 }
 
 .checker-school-header--clickable {
@@ -1271,8 +1275,8 @@ body {
 }
 
 .checker-school-name {
-  color: #128afa;
-  flex: 1 1 auto;
+  font-style: italic;
+  font-weight: 900;
 }
 
 .checker-school-count {
@@ -1455,46 +1459,72 @@ body {
 }
 
 /* ── 生徒カードグリッド ──────────────────────────────────── */
-.student-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
+.roster-progress { width: 260px; margin-bottom: 2px; }
+
+.roster-progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 12px;
+  color: #4a5d75;
+  margin-bottom: 4px;
 }
 
+.roster-progress-text b { font-size: 15px; color: #0d1b2a; }
+
+.sort-dir-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #c9dcef;
+  background: #ffffff;
+  color: #128afa;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.sort-dir-btn:hover { border-color: #3ea8ff; }
+
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 14px;
+}
+
+/* 右上を斜めにカットしたカード */
 .student-card {
   position: relative;
   background: #ffffff;
-  border: 1px solid #c9dcef;
-  border-radius: 4px;
-  overflow: hidden;
+  border: 1.5px solid #c9dcef;
   cursor: pointer;
-  transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
   user-select: none;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  transition: transform 0.18s, border-color 0.18s;
 }
+
+.student-card--owned { border-color: #128afa; }
 
 .student-card:hover {
+  transform: translateY(-3px);
   border-color: #3ea8ff;
-  box-shadow: 0 0 0 1px #3ea8ff, 0 0 14px rgba(62,168,255,0.25);
-  transform: translateY(-2px);
 }
 
-.student-card--owned {
-  border-color: #128afa;
-  border-width: 1.5px;
-}
-
-.student-card--owned::before {
+/* ホバー時に斜めの光が一度だけ走る */
+.student-card::after {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 16px 16px 0;
-  border-color: transparent #ff4f8b transparent transparent;
-  z-index: 3;
+  inset: 0;
+  z-index: 5;
   pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.6) 48%, transparent 60%);
+  transform: translateX(-120%);
+}
+
+.student-card:hover::after { animation: cardShine 0.6s ease-out 1; }
+
+@keyframes cardShine {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120%); }
 }
 
 /* 画像エリア */
@@ -1503,9 +1533,6 @@ body {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .student-card-photo {
@@ -1517,102 +1544,192 @@ body {
   object-position: center top;
 }
 
-/* 所持ピン (左上) */
-.student-card-pin {
+.student-card-art {
   position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 24px;
-  height: 24px;
+  inset: 0;
+}
+
+/* 未所持: 背景の彩度を下げて薄くする */
+.student-card--unowned .student-card-art {
+  filter: grayscale(0.85) brightness(1.08);
+  opacity: 0.55;
+}
+
+.student-card--unowned .student-card-name { color: #8aa0b8; }
+
+.student-card-unowned-tag {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  z-index: 3;
+  transform: translate(-50%, -50%) skewX(-12deg);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #c9dcef;
+  color: #4a5d75;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  padding: 2px 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 画像がないときのハロー・頭文字・学校名の透かし */
+.student-card-halo {
+  position: absolute;
+  left: 50%;
+  top: 16%;
+  width: 62%;
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
   border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  cursor: pointer;
-  z-index: 2;
-  transition: transform 0.12s;
-  padding: 0;
-  line-height: 1;
-  color: #ffffff;
-  font-weight: 700;
-}
-.student-card-pin:hover { transform: scale(1.18); }
-
-.student-card-pin--owned {
-  background: #128afa;
-  box-shadow: 0 1px 4px rgba(13,27,42,0.3);
+  border: 3px solid rgba(255,255,255,0.75);
+  box-shadow: 0 0 0 6px rgba(255,255,255,0.18);
 }
 
-.student-card-pin--unowned {
-  background: rgba(13,27,42,0.45);
-}
-
-/* 攻撃タイプバッジ (名前の上の段) */
-.student-card-atk {
-  flex: 0 0 auto;
-  font-size: 9px;
-  padding: 0 4px;
-  line-height: 1.5;
-}
-
-/* 絆Lv (左) + レアリティ星 (右) のオーバーレイ (下部) */
-.student-card-level {
+.student-card-initial {
   position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
+  top: 31%;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: rgba(255,255,255,0.95);
+}
+
+.student-card-wm {
+  position: absolute;
+  left: 8px;
+  bottom: 24px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 16px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.38);
+  white-space: nowrap;
+}
+
+/* 攻撃タイプの色帯 (左端) */
+.student-card-atk {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  z-index: 2;
+}
+
+/* レアリティ星 (右上) */
+.student-card-stars {
+  position: absolute;
+  right: 18px;
+  top: 5px;
+  z-index: 2;
+  font-size: 15px;
+  letter-spacing: -1px;
+  color: #fbbf24;
+  text-shadow: 0 1px 0 #7a5800;
+}
+
+/* 限定・配布のリボン (右下の角) */
+.student-card-ribbon {
+  position: absolute;
+  right: -26px;
+  bottom: 34px;
+  width: 96px;
+  z-index: 2;
+  transform: rotate(-45deg);
+  text-align: center;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  padding: 1px 0;
+}
+
+.student-card-ribbon--limited { background: #ff4f8b; }
+.student-card-ribbon--event   { background: #10b981; }
+
+/* 画像下端の帯: 絆Lv (左) + ST/SP (右) */
+.student-card-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3px 8px;
+  padding: 0 8px 0 10px;
   background: rgba(13,27,42,0.72);
   color: #ffffff;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  z-index: 2;
 }
 
-/* カード下部 */
-.student-card-footer {
-  padding: 6px 8px 7px;
-  background: #ffffff;
-  border-top: 1px solid #c9dcef;
-}
+.student-card-bond { color: #ff9cc0; }
 
-/* バッジ段 (名前の上・右寄せ) */
-.student-card-badges {
+/* 所持ピン (左上) */
+.student-card-pin {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+  z-index: 4;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background: rgba(13,27,42,0.35);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
   display: flex;
-  justify-content: flex-end;
-  gap: 4px;
-  margin-bottom: 3px;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s;
+}
+
+.student-card-pin:hover { transform: scale(1.18); }
+.student-card-pin--owned { background: #10b981; }
+
+/* カード下部: 名前 + 学校・クラス */
+.student-card-footer {
+  padding: 7px 9px 9px 11px;
+  background: #ffffff;
 }
 
 /* 名前: 衣装名まで省略せず表示 (長い場合は折り返す) */
 .student-card-name {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   color: #0d1b2a;
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
 
-.student-card-obt {
-  flex: 0 0 auto;
-  font-size: 9px;
-  padding: 0 4px;
-  line-height: 1.5;
+.student-card-meta {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+  font-size: 10px;
+  color: #8aa0b8;
 }
 
-/* レアリティ星 (Lv 帯の右側) */
-.student-card-stars {
-  font-size: 12px;
-  color: #fbbf24;
-  letter-spacing: -1px;
-  line-height: 1.2;
-  text-shadow: 0 0 4px rgba(251,191,36,0.5);
+.student-card-meta b { color: #4a5d75; }
+
+@media (prefers-reduced-motion: reduce) {
+  .student-card, .student-card:hover { transform: none; }
+  .student-card:hover::after { animation: none; }
 }
 
 /* ── 画像アップロード ────────────────────────────────────── */

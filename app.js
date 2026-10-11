@@ -19,17 +19,36 @@ const store = Vue.reactive({
   _toastTimer: null,
 
   // ── ページ別サイドパネル状態 ─────────────────────────
-  studentFilters: { name: '', school: '', class: '', rarity: '', attackType: '', owned: '' },
+  // owned は '' (すべて) / 'true' / 'false'。それ以外の配列は複数選択のチップ (空 = 絞り込みなし)
+  studentFilters: { name: '', owned: '', school: [], class: [], rarity: [], attackType: [], obtainability: [] },
   studentSortKey: 'school',
+  studentSortReverse: false,
   studentView: 'grid',  // 'grid' (カードグリッド) / 'checker' (所持チェッカー)
   checkerCollapsed: {},  // 所持チェッカーの学校別折りたたみ状態 { [school]: true }
   // Object.assign で既存の reactive オブジェクトを mutate する
   // (this.foo = {...} の再代入だと v-model 側の双方向バインドが残ることがある)
   resetStudentFilters() {
     Object.assign(this.studentFilters, {
-      name: '', school: '', class: '', rarity: '', attackType: '', owned: '',
+      name: '', owned: '', school: [], class: [], rarity: [], attackType: [], obtainability: [],
     });
-    this.studentSortKey = 'school';
+  },
+  toggleStudentFilter(key, value) {
+    const list = this.studentFilters[key];
+    const i = list.indexOf(value);
+    if (i < 0) list.push(value);
+    else list.splice(i, 1);
+  },
+  // 生徒一覧と所持チェッカーで共通の絞り込み条件
+  matchStudentFilter(s) {
+    const f = this.studentFilters;
+    if (f.name && !s.name.includes(f.name)) return false;
+    if (f.owned !== '' && s.owned !== (f.owned === 'true')) return false;
+    if (f.school.length && !f.school.includes(s.school)) return false;
+    if (f.class.length && !f.class.includes(s.class)) return false;
+    if (f.rarity.length && !f.rarity.includes(s.rarity)) return false;
+    if (f.attackType.length && !f.attackType.includes(s.attackType)) return false;
+    if (f.obtainability.length && !f.obtainability.includes(s.obtainability || 'permanent')) return false;
+    return true;
   },
 
   memoSelectedId: null,
@@ -354,6 +373,7 @@ app.component('page-head', {
 
 // コンポーネント登録
 app.component('student-list',        StudentListComponent);
+app.component('student-active-filters', StudentActiveFiltersComponent);
 app.component('student-sidebar',     StudentSidebarComponent);
 app.component('student-checker',     StudentCheckerComponent);
 app.component('student-detail',      StudentDetailComponent);
