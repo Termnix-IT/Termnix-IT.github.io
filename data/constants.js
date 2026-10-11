@@ -288,6 +288,17 @@ const TEAM_MODES = [
   { value: "unrestricted", label: "制約解除決戦", striker: 6, special: 4 },
 ];
 
+// 編成の用途・攻略メモのカテゴリで共通の色 (main = 帯・◆ / bg + text = タグ)
+const PURPOSE_COLORS = {
+  total_assault: { main: "#ff4f8b", bg: "#ffe0ec", text: "#c41856" },
+  joint_assault: { main: "#a855f7", bg: "#f3e8ff", text: "#7e22ce" },
+  joint_firing:  { main: "#10b981", bg: "#e6f7ef", text: "#047857" },
+  pvp:           { main: "#f59e0b", bg: "#fff1dc", text: "#b45309" },
+  event:         { main: "#3ea8ff", bg: "#e6f3ff", text: "#128afa" },
+  other:         { main: "#9aaabb", bg: "#eef2f6", text: "#4a5d75" },
+  misc:          { main: "#9aaabb", bg: "#eef2f6", text: "#4a5d75" },
+};
+
 const TEAM_PURPOSES = [
   { value: "total_assault", label: "総力戦" },
   { value: "joint_assault", label: "大決戦" },

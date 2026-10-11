@@ -56,9 +56,10 @@ const store = Vue.reactive({
   memoSearch: '',
 
   teamMode: 'normal',
-  teamFilter: { purpose: '', name: '' },
+  // name は編成名・メンバー名の検索、unownedOnly は未所持の生徒を含む編成だけを表示
+  teamFilter: { purpose: '', name: '', unownedOnly: false },
   resetTeamFilter() {
-    Object.assign(this.teamFilter, { purpose: '', name: '' });
+    Object.assign(this.teamFilter, { purpose: '', name: '', unownedOnly: false });
   },
 
   // 素材: 'input' = 所持数の入力 / 'overview' = 一括確認
