@@ -305,13 +305,7 @@ const MaterialManagementComponent = {
 
     // 必要素材 1 件の表示名と所持数。新形式はマスタ id (文字列)、旧形式は db.materials の数値 id
     resolveNeed(need) {
-      const m = MATERIAL_BY_ID[need.materialId];
-      if (m) return { name: m.name, stock: this.qty(m.id) };
-      const legacy = (this.store.materials || []).find(x => x.id === need.materialId);
-      const name = need.materialName || (legacy ? legacy.name : '不明な素材');
-      const byName = MATERIAL_BY_NAME[normalizeMaterialName(name)];
-      if (byName) return { name: byName.name, stock: this.qty(byName.id) };
-      return { name, stock: legacy ? (legacy.quantity || 0) : 0 };
+      return resolveMaterialNeed(need, this.inv, this.store.materials);
     },
 
     async removeLegacy(m) {

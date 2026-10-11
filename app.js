@@ -371,6 +371,34 @@ app.component('page-head', {
   `,
 });
 
+// −/＋ ボタン付きの数値入力 (v-model 対応)。中央の数字は直接入力もできる
+app.component('num-stepper', {
+  props: {
+    modelValue: { type: Number, default: 0 },
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 999 },
+    accent: { type: String, default: '' },  // 'pink' など。枠とボタンの色を変える
+  },
+  emits: ['update:modelValue'],
+  template: `
+    <div class="num-stepper" :class="accent ? 'num-stepper--' + accent : ''">
+      <button type="button" :disabled="modelValue <= min" @click="set(modelValue - 1)">−</button>
+      <input type="number" :min="min" :max="max" :value="modelValue"
+        @focus="$event.target.select()"
+        @change="set($event.target.value); $event.target.value = modelValue"
+        @keydown.enter="$event.target.blur()">
+      <button type="button" :disabled="modelValue >= max" @click="set(modelValue + 1)">＋</button>
+    </div>
+  `,
+  methods: {
+    set(v) {
+      const n = Math.round(Number(v));
+      const clamped = Number.isFinite(n) ? Math.min(this.max, Math.max(this.min, n)) : this.min;
+      this.$emit('update:modelValue', clamped);
+    },
+  },
+});
+
 // コンポーネント登録
 app.component('student-list',        StudentListComponent);
 app.component('student-active-filters', StudentActiveFiltersComponent);

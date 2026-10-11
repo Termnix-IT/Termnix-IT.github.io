@@ -67,6 +67,7 @@ function defaultUserStudent() {
     owned: false,
     starRank: 1,                                              // 神秘開放レベル (1〜5)
     bondLevel: 1,
+    uniqueWeaponStar: 0,                                      // 固有武器の★ (0〜4)。神秘開放 5 で ★1 が付く
     uniqueWeaponLevel: 0,                                     // 固有武器レベル (0〜60、0は未解放)
     skillLevels: { ex: 1, normal: 1, passive: 1, sub: 1 },
     equipmentLevels: [1, 1, 1],
@@ -74,6 +75,15 @@ function defaultUserStudent() {
     notes: '',
     neededMaterials: [],
   };
+}
+
+// 固有武器の★。uniqueWeaponStar 導入前のデータは、神秘開放 5 なら固有武器レベルから推定する
+// (★1 = Lv30 / ★2 = Lv40 / ★3 = Lv50 / ★4 = Lv60 が上限)
+function resolveUniqueWeaponStar(user) {
+  if (user.uniqueWeaponStar != null) return user.uniqueWeaponStar;
+  if (user.starRank !== 5) return 0;
+  const lv = user.uniqueWeaponLevel || 0;
+  return lv > 50 ? 4 : lv > 40 ? 3 : lv > 30 ? 2 : 1;
 }
 
 function getUserStudents() {
@@ -160,6 +170,7 @@ async function getAllStudentsMerged() {
       owned:             user.owned,
       starRank:          user.starRank,
       bondLevel:         user.bondLevel,
+      uniqueWeaponStar:  resolveUniqueWeaponStar(user),
       uniqueWeaponLevel: user.uniqueWeaponLevel,
       skillLevels:       { ...defaultUserStudent().skillLevels, ...(user.skillLevels || {}) },
       equipmentLevels:   user.equipmentLevels && user.equipmentLevels.length ? user.equipmentLevels : [1, 1, 1],
@@ -281,9 +292,11 @@ async function saveStudent(student) {
     owned:             student.owned,
     starRank:          student.starRank,
     bondLevel:         student.bondLevel,
+    uniqueWeaponStar:  student.uniqueWeaponStar,
     uniqueWeaponLevel: student.uniqueWeaponLevel,
     skillLevels:       student.skillLevels,
     equipmentLevels:   student.equipmentLevels,
+    releaseBonus:      student.releaseBonus,
     notes:             student.notes,
     neededMaterials:   student.neededMaterials,
   };

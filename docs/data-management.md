@@ -159,6 +159,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
     owned: false,
     starRank: 1,
     bondLevel: 1,
+    uniqueWeaponStar: 0,   // 固有武器の★ (0〜4)。神秘開放 5 で ★1 が付き、★ごとに Lv 上限 30/40/50/60
     uniqueWeaponLevel: 0,
     skillLevels: { ex: 1, normal: 1, passive: 1, sub: 1 },
     equipmentLevels: [1, 1, 1],
@@ -171,6 +172,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 
 新フィールドを追加する場合は `defaultUserStudent()` にデフォルト値を入れ、
 `saveUserStudent()` のマージロジックで欠損を補完する(既存ユーザーのデータが壊れないように)。
+`uniqueWeaponStar` を持たない旧データは、`db.js` の `resolveUniqueWeaponStar()` が神秘開放と固有武器レベルから★を推定して表示する。
 
 ### 2-2. IndexedDB(Dexie) — DB 名 `BlueArchiveDB`
 

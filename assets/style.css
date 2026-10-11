@@ -1358,33 +1358,6 @@ body {
   text-align: right;
 }
 
-/* 読み取り専用フィールド (マスタデータ表示用) */
-.form-readonly {
-  padding: 7px 10px;
-  font-size: 13px;
-  font-family: inherit;
-  border: 1px solid #e6eef8;
-  border-radius: 2px;
-  background: #f6faff;
-  color: #4a5d75;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.02em;
-}
-
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.equip-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
 .modal-footer {
   display: flex;
   gap: 8px;
@@ -1732,124 +1705,656 @@ body {
   .student-card:hover::after { animation: none; }
 }
 
-/* ── 画像アップロード ────────────────────────────────────── */
-.img-upload-area {
+/* ── 共通: 斜めボタン・数値ステッパー ─────────────────────── */
+.skew-btn {
+  height: 38px;
+  padding: 0 28px;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition: background 0.15s;
+}
+
+.skew-btn--primary { background: #fbbf24; color: #4a3000; min-width: 150px; font-size: 14px; }
+.skew-btn--primary:hover { background: #f5ad00; }
+.skew-btn--ghost { background: #eef4fb; color: #4a5d75; }
+.skew-btn--ghost:hover { background: #dcecfb; color: #128afa; }
+.skew-btn--blue { background: #ffffff; color: #128afa; box-shadow: inset 0 0 0 2px #3ea8ff; }
+.skew-btn--blue:hover { background: #e6f3ff; }
+.skew-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.num-stepper {
+  display: inline-flex;
+  align-items: stretch;
+  height: 30px;
+  border: 1.5px solid #3ea8ff;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.num-stepper button {
+  width: 28px;
+  border: none;
+  background: transparent;
+  color: #128afa;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.num-stepper button:hover:not(:disabled) { background: #e6f3ff; }
+.num-stepper button:disabled { color: #c9dcef; cursor: default; }
+
+.num-stepper input {
+  width: 46px;
+  border: none;
+  border-left: 1px solid #c9dcef;
+  border-right: 1px solid #c9dcef;
+  text-align: center;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0d1b2a;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.num-stepper input::-webkit-outer-spin-button,
+.num-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.num-stepper input:focus { background: #f6faff; }
+
+.num-stepper--pink { border-color: #ff4f8b; }
+.num-stepper--pink button { color: #ff4f8b; }
+.num-stepper--pink button:hover:not(:disabled) { background: #fff0f5; }
+
+/* ── 生徒詳細モーダル ───────────────────────────────────── */
+.modal-box.sd-modal {
+  max-width: 1040px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 64px);
+  overflow: visible;
+}
+
+/* 四隅のピンクのブラケット */
+.sd-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: #ff4f8b;
+  border-style: solid;
+  z-index: 3;
+  pointer-events: none;
+}
+.sd-corner--tl { left: -4px;  top: -4px;    border-width: 3px 0 0 3px; }
+.sd-corner--tr { right: -4px; top: -4px;    border-width: 3px 3px 0 0; }
+.sd-corner--bl { left: -4px;  bottom: -4px; border-width: 0 0 3px 3px; }
+.sd-corner--br { right: -4px; bottom: -4px; border-width: 0 3px 3px 0; }
+
+.sd-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 56px;
+  padding: 0 16px 0 24px;
+  background: #128afa;
+  color: #ffffff;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sd-head::before {
+  content: "";
+  position: absolute;
+  right: 110px;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  background: repeating-linear-gradient(-60deg, rgba(255,255,255,0.12) 0 14px, transparent 14px 28px);
+  pointer-events: none;
+}
+
+.sd-name { font-size: 24px; font-weight: 900; font-style: italic; letter-spacing: 0.02em; }
+
+.sd-school-tag {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background: rgba(255,255,255,0.2);
+  padding: 3px 10px;
+}
+
+.sd-id {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.sd-close {
+  position: relative;
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  background: transparent;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sd-close:hover { background: #ffffff; color: #128afa; }
+
+.sd-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* 左: 生徒の顔 */
+.sd-left {
+  width: 330px;
+  flex-shrink: 0;
+  padding: 20px;
+  background: #f6faff;
+  border-right: 1px solid #c9dcef;
+  overflow-y: auto;
+}
+
+.sd-portrait {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
+}
+
+.sd-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.sd-portrait-halo {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  width: 60%;
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.75);
+  box-shadow: 0 0 0 12px rgba(255,255,255,0.18);
+}
+
+.sd-portrait-initial {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 29%;
+  text-align: center;
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.sd-portrait-stars {
+  position: absolute;
+  left: 14px;
+  bottom: 10px;
+  font-size: 22px;
+  color: #fbbf24;
+  text-shadow: 0 1px 0 #7a5800;
+}
+
+.sd-portrait-change {
+  position: absolute;
+  right: 30px;
+  bottom: 10px;
+  background: rgba(13,27,42,0.72);
+  color: #ffffff;
+  font-size: 11px;
+  padding: 4px 10px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.sd-portrait:hover .sd-portrait-change { opacity: 1; }
+
+.sd-link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  margin-top: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  color: #3ea8ff;
+  cursor: pointer;
+}
+
+.sd-link-btn:hover { text-decoration: underline; }
+
+.sd-tags {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.sd-tag {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 9px;
+  background: #ffffff;
+  border: 1px solid #c9dcef;
+}
+
+.sd-tag--wide { grid-column: 1 / 3; }
+
+.sd-tag small {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #8aa0b8;
+}
+
+.sd-tag b { font-size: 13px; }
+
+.sd-own {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1.5px solid #c9dcef;
+}
+
+.sd-own b { font-size: 13px; color: #4a5d75; }
+.sd-own small { display: block; font-size: 11px; color: #8aa0b8; }
+.sd-own--on { border-color: #10b981; }
+.sd-own--on b { color: #047857; }
+
+.sd-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  background: #c9dcef;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.sd-switch::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: left 0.15s;
+}
+
+.sd-own--on .sd-switch { background: #10b981; }
+.sd-own--on .sd-switch::after { left: 25px; }
+
+/* 右: 編集タブ */
+.sd-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 14px 24px 0;
+  border-bottom: 1px solid #c9dcef;
+  flex-shrink: 0;
+}
+
+.sd-tab {
+  position: relative;
+  padding: 8px 22px;
+  border: none;
+  background: #eef4fb;
+  color: #4a5d75;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+.sd-tab:hover { color: #128afa; background: #dcecfb; }
+.sd-tab.active { background: #128afa; color: #ffffff; }
+
+.sd-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 3px;
+  background: #fbbf24;
+}
+
+.sd-content {
+  flex: 1;
+  padding: 18px 24px;
+  overflow-y: auto;
+  min-height: 430px;
+}
+
+.sd-block { margin-bottom: 22px; }
+
+.sd-block-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #3ea8ff;
+}
+
+.sd-block-h::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #c9dcef;
+}
+
+.sd-block-h span {
+  font-family: -apple-system, "system-ui", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: #0d1b2a;
+}
+
+.sd-hint { font-size: 11px; color: #8aa0b8; line-height: 1.5; }
+
+.sd-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.sd-row-label { width: 90px; font-size: 12px; color: #4a5d75; flex-shrink: 0; }
+
+/* 神秘開放 (黄) + 固有武器 (水色) の星 */
+.sd-starrow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sd-star {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  line-height: 40px;
+  color: #dbe8f5;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+
+.sd-star:hover:not(:disabled) { transform: scale(1.15); }
+.sd-star.on { color: #fbbf24; text-shadow: 0 1px 0 #7a5800; }
+.sd-star--uw { color: #d6ecfb; }
+.sd-star--uw.on { color: #5cc8ff; text-shadow: 0 1px 0 #1a7fc0; }
+.sd-star:disabled { color: #e8eef5; cursor: not-allowed; }
+
+.sd-star-div {
+  width: 1px;
+  height: 28px;
+  background: #c9dcef;
+  margin: 0 6px;
+}
+
+.sd-starrow .sd-hint { margin-left: 10px; }
+
+/* 絆レベル */
+.sd-bond {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sd-heart {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px dashed #3ea8ff;
-  border-radius: 4px;
+  padding-bottom: 6px;
+  background: #ff4f8b;
+  color: #ffffff;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 19px;
+  font-weight: 900;
+  clip-path: polygon(50% 100%, 0 40%, 0 15%, 25% 0, 50% 18%, 75% 0, 100% 15%, 100% 40%);
+}
+
+.sd-bond-bar { flex: 1; }
+.sd-bond-bar .sd-hint { margin-top: 4px; font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace; }
+
+/* スキルのタイル */
+.sd-skills {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.sd-skill {
+  position: relative;
+  padding: 10px 10px 12px;
+  background: #ffffff;
+  border: 1.5px solid #c9dcef;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+.sd-skill--max { border-color: #fbbf24; background: #fffaeb; }
+
+.sd-skill-max {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  background: #fbbf24;
+  color: #5b3d00;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+}
+
+.sd-skill-k {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #8aa0b8;
+}
+
+.sd-skill-v {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 26px;
+  font-weight: 900;
+  margin: 2px 0 8px;
+}
+
+.sd-skill-v small { font-size: 12px; font-weight: 400; color: #8aa0b8; }
+
+.sd-pips { display: flex; gap: 3px; margin-bottom: 8px; }
+.sd-pips i { flex: 1; height: 5px; background: #dbe8f5; }
+.sd-pips i.on { background: #3ea8ff; }
+.sd-skill--max .sd-pips i.on { background: #fbbf24; }
+
+.sd-skill .num-stepper { height: 26px; }
+.sd-skill .num-stepper input { width: 34px; font-size: 13px; }
+.sd-skill .num-stepper button { width: 24px; }
+
+/* 装備・能力開放 */
+.sd-equips { display: flex; gap: 10px; }
+
+.sd-equip {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border: 1.5px solid #c9dcef;
+  background: #ffffff;
+}
+
+.sd-equip-slot {
+  width: 60px;
+  height: 48px;
+  margin: 0 auto 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef4fb;
+  border: 1px dashed #9fb3c8;
+  font-size: 10px;
+  color: #4a5d75;
+  white-space: nowrap;
+}
+
+.sd-equip-lv {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.sd-release {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.sd-release-bar { flex: 1; }
+.sd-release .sd-hint { width: 48px; text-align: right; }
+
+/* 必要素材 */
+.sd-empty { font-size: 13px; color: #8aa0b8; padding: 6px 0 10px; }
+
+.sd-need {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dashed #c9dcef;
+  font-size: 13px;
+}
+
+.sd-need-ic { width: 22px; height: 22px; flex-shrink: 0; }
+.sd-need-name { flex: 1; }
+
+.sd-need-qty {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-weight: 700;
+}
+
+.sd-need-qty.ok { color: #10b981; }
+.sd-need-qty.ng { color: #f43f5e; }
+
+.sd-need-remove {
+  border: none;
+  background: none;
+  color: #8aa0b8;
   cursor: pointer;
-  overflow: hidden;
-  transition: border-color 0.15s, background 0.15s;
-  min-height: 140px;
+  font-size: 13px;
+}
+
+.sd-need-remove:hover { color: #f43f5e; }
+
+.sd-need-add {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.sd-need-add select {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 8px;
+  font-family: inherit;
+  font-size: 12px;
+  border: 1px solid #c9dcef;
   background: #f6faff;
 }
 
-.img-upload-area:hover {
-  border-color: #128afa;
-  background: rgba(62,168,255,0.08);
-}
-
-.img-upload-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  color: #4a5d75;
-  font-size: 12px;
-}
-
-.img-preview {
-  max-height: 180px;
-  max-width: 100%;
-  object-fit: contain;
-  border-radius: 2px;
-  display: block;
-  padding: 6px;
-}
-
-/* ── 画像アップロード (詳細モーダル) ─────────────── */
-.img-upload-icon {
-  font-size: 28px;
-  font-weight: 400;
-  color: #3ea8ff;
-}
-.img-upload-text {
+.sd-notes {
+  width: 100%;
+  min-height: 260px;
+  padding: 10px 12px;
+  font-family: inherit;
   font-size: 13px;
-  color: #128afa;
-  margin-top: 4px;
-  font-weight: 600;
-}
-.img-upload-hint {
-  font-size: 11px;
-  color: #8aa0b8;
-  margin-top: 2px;
-}
-.img-remove-btn {
-  margin-top: 6px;
-  font-size: 12px;
-  padding: 4px 12px;
+  line-height: 1.7;
+  border: 1px solid #c9dcef;
+  background: #f6faff;
+  resize: vertical;
+  outline: none;
 }
 
-/* ── 必要素材リスト ───────────────────────────────── */
+.sd-notes:focus { border-color: #128afa; background: #ffffff; }
+
+.sd-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 24px;
+  border-top: 1px solid #c9dcef;
+  background: #fbfdff;
+  flex-shrink: 0;
+}
+
+.sd-reset {
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f43f5e;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+.sd-reset:hover { text-decoration: underline; }
+
 .need-empty {
   font-size: 13px;
   color: #8aa0b8;
   margin-bottom: 6px;
-}
-
-.need-add-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.need-list {
-  border: 1px solid #c9dcef;
-  border-left: 3px solid #3ea8ff;
-  border-radius: 2px;
-  overflow: hidden;
-  background: #f6faff;
-}
-
-.need-list-row {
-  display: flex;
-  align-items: center;
-  padding: 6px 12px;
-  border-bottom: 1px solid #e6eef8;
-  gap: 8px;
-}
-.need-list-row:last-child { border-bottom: none; }
-
-.need-list-name {
-  flex: 1;
-  font-size: 13px;
-  color: #0d1b2a;
-}
-
-.need-list-qty {
-  font-size: 13px;
-  color: #128afa;
-  font-weight: 700;
-}
-
-.need-list-remove {
-  background: none;
-  border: 1px solid transparent;
-  color: #f43f5e;
-  cursor: pointer;
-  padding: 2px 6px;
-  font-size: 14px;
-  line-height: 1;
-  border-radius: 2px;
-  transition: all 0.12s;
-}
-.need-list-remove:hover {
-  background: #f43f5e;
-  color: #ffffff;
 }
 
 /* ── 統計行 (ガチャ統計など) ──────────────────────── */
@@ -2994,7 +3499,6 @@ body {
   #main-content { padding: 14px; }
   .form-grid    { grid-template-columns: 1fr; }
   .memo-content-area.split-view { grid-template-columns: 1fr; }
-  .skill-grid { grid-template-columns: 1fr 1fr; }
 }
 
 

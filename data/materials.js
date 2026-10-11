@@ -136,3 +136,34 @@ function normalizeMaterialName(name) {
   return String(name || '').replace(/[()（）\s　]/g, '').replace(/ウイン/g, 'ウィン');
 }
 const MATERIAL_BY_NAME = Object.fromEntries(MATERIAL_MASTER.map(m => [normalizeMaterialName(m.name), m]));
+
+// ── 段階の色 (初級 = 灰 / 中級 = 青 / 上級 = 黄 / 最上級 = 紫) ──
+//   素材ページの列見出し・タイル、生徒詳細の必要素材で共通に使う
+const MATERIAL_TIER_COLORS = ['#9aaabb', '#3ea8ff', '#e9a800', '#a855f7'];
+
+// 素材の段階 (0〜3)。設計図は T2〜T10 を 4 段階にまとめ、万能設計図は最上級扱い。段階のない素材は null
+function materialTierIndex(m) {
+  if (!m) return null;
+  const cat = MATERIAL_CATEGORIES.find(c => c.value === m.category);
+  if (!cat || !cat.columns) return null;
+  if (m.category === 'blueprint') return Math.min(3, Math.floor(m.col / 2));
+  return Math.min(3, m.col);
+}
+
+function materialTierColor(m) {
+  const i = materialTierIndex(m);
+  return i == null ? '#ff9cc0' : MATERIAL_TIER_COLORS[i];
+}
+
+// 生徒の必要素材 1 件から { name, stock, material } を求める。
+// 新形式はマスタの文字列 id、旧形式の数値 id は旧レコード → 名前一致のマスタの順で解決する
+function resolveMaterialNeed(need, inventory, legacyMaterials) {
+  const stockOf = id => (inventory && inventory[id]) || 0;
+  const m = MATERIAL_BY_ID[need.materialId];
+  if (m) return { name: m.name, stock: stockOf(m.id), material: m };
+  const legacy = (legacyMaterials || []).find(x => x.id === need.materialId);
+  const name = need.materialName || (legacy ? legacy.name : '不明な素材');
+  const byName = MATERIAL_BY_NAME[normalizeMaterialName(name)];
+  if (byName) return { name: byName.name, stock: stockOf(byName.id), material: byName };
+  return { name, stock: legacy ? (legacy.quantity || 0) : 0, material: null };
+}
