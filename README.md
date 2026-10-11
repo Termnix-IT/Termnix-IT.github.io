@@ -65,7 +65,8 @@ BlueArchiveWiki/
 │   ├── students.master.csv     # 生徒マスタ編集ソース
 │   └── students.master.json    # ビルド成果物 (CSV から生成)
 ├── scripts/
-│   └── build-students.py       # CSV → JSON ビルド
+│   ├── build-students.py       # CSV → JSON ビルド (画像の補完・検査、--push で公開)
+│   └── import-wiki-students.py # wiki のキャラクター一覧 → CSV 取り込み
 ├── utils/io.js             # JSON エクスポート/インポート
 ├── components/
 │   ├── StudentList.js          # 生徒カードグリッド
@@ -80,12 +81,18 @@ BlueArchiveWiki/
 │   ├── TeamSidebar.js          # 編成: モード切替 + フィルタ
 │   ├── MaterialManagement.js   # 素材: 在庫 + 必要素材
 │   ├── MaterialSidebar.js      # 素材: フィルタ
+│   ├── MiniGameHub.js          # ミニゲーム: ハブ + ゲーム登録
+│   ├── MiniGameSidebar.js      # ミニゲーム: ゲーム一覧
+│   ├── MiniGameHaloSuika.js    # ミニゲーム: ヘイローゲーム
 │   ├── HelpGuide.js            # 使い方: ガイド本体
 │   └── HelpSidebar.js          # 使い方: もくじ
 ├── app.js                  # Vue ルート + ストア + 起動
-├── assets/style.css        # SCHALE.OS テーマ全体
+├── assets/
+│   ├── style.css               # SCHALE.OS テーマ全体
+│   └── students/               # 生徒のマスタ画像 (<id>.webp。仕様は同フォルダの README)
 └── docs/
-    └── data-management.md      # データ層・定数・拡張手順のまとめ
+    ├── data-management.md      # データ層・定数・拡張手順のまとめ
+    └── minigame-halo-assets.md # ヘイローゲームの画像差し替え手順
 ```
 
 ## データ管理 / 拡張
@@ -97,6 +104,7 @@ BlueArchiveWiki/
 主な要点:
 
 - 生徒マスタは `data/students.master.csv` を編集 → `python scripts/build-students.py` でJSON再生成
+- 生徒のマスタ画像は `assets/students/<id>.webp` に置いて `python scripts/build-students.py --push` で公開(手順は [`assets/students/README.md`](assets/students/README.md))
 - UI 選択肢系の定数は `data/constants.js` に集約
 - 育成データは `localStorage`、ガチャ履歴・メモ・編成・素材は IndexedDB(Dexie)、画像は IndexedDB の専用テーブルに分けて保存
 - データはブラウザ内のみ。**サーバーには送信されない**(エクスポートでバックアップ可能)

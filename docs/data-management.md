@@ -42,7 +42,16 @@
 data/students.master.csv  →  python scripts/build-students.py  →  data/students.master.json
 ```
 
-`--push` を付けると、ビルドエラーと画像の警告がない場合に限り、`assets/students/` の画像と `data/students.master.{csv,json}` だけを commit して現在のブランチの upstream へ push する(GitHub Pages に公開される)。ほかの未コミット変更は commit に含めない。remote に未取り込みのコミットがある、upstream が無い、のいずれかなら commit せずに止まるので、`git pull` などで解消してから再実行する。
+`build-students.py` は CSV の検査に加えて、`assets/students/<id>.<ext>` にある画像を `imageUrl` に自動で補完し、仕様から外れた画像を警告する(画像の仕様は [`assets/students/README.md`](../assets/students/README.md))。
+
+`--push` を付けると、JSON を書き出したあとに `assets/students/` の画像と `data/students.master.{csv,json}` だけを commit し、現在のブランチの upstream へ push する。push すると GitHub Pages に公開される。
+
+- ほかの未コミット変更や stage 済みの変更は commit に含めず、そのまま残す
+- commit メッセージは変更内容から作る(例: `add: 生徒のマスタ画像を追加 (miyo)`)。force push はしない
+- 次のいずれかに当てはまる場合は commit せずに止まるので、原因を解消してから再実行する
+  - ビルドエラー、または画像の警告がある
+  - remote に未取り込みのコミットがある(`git pull` してから再実行)
+  - 現在のブランチに upstream が無い
 
 | フィールド | 型 | 説明 |
 |---|---|---|
@@ -57,7 +66,7 @@ data/students.master.csv  →  python scripts/build-students.py  →  data/stude
 | `position` | string | ポジション(`POSITIONS[i].value`、空可) |
 | `weapon` | string | 使用武器種(`WEAPONS[i].value`、空可) |
 | `obtainability` | string | 入手区分(`OBTAINABILITIES[i].value`: `permanent` / `limited` / `event`) |
-| `imageUrl` | string | 既定画像のURL(空でも可。ユーザーアップロードがあればそちら優先) |
+| `imageUrl` | string | 既定画像のURL(空でも可。CSV が空なら `assets/students/<id>.<ext>` をビルド時に自動補完。ユーザーアップロードがあればそちら優先) |
 
 **新生徒を追加するとき**
 
@@ -71,6 +80,10 @@ wiki(bluearchive.wikiru.jp「キャラクター一覧」)から一括で取り�
 2. `data/students.master.csv` / `data/students.master.json` の差分を git に含めてコミット
 
 手で 1 行だけ足す場合は CSV に行を追加 → `python scripts/build-students.py` でもよい。
+
+**マスタ画像を追加するとき**
+
+作成ツール [Termnix-IT/imageconversion](https://github.com/Termnix-IT/imageconversion)(Icon Cropper、別リポジトリ)で 1:1 webp を作り、`assets/students/<id>.webp` に置いて `python scripts/build-students.py --push` を実行する。仕様と詳しい手順は [`assets/students/README.md`](../assets/students/README.md) を参照。
 
 **カスタム生徒(マスタ外)は非対応**。CSV を編集する手順のみ。
 
@@ -184,7 +197,7 @@ ES モジュール非使用のため、各定数はグローバル変数とし�
 - `Base64 JPEG` を `imageData` フィールドに保存
 - アップロード時に Canvas で最大 300×400 / JPEG 85% に圧縮
 - マスタ画像は `students.master.json` の `imageUrl` から、ユーザー画像はこのテーブルから取得し、`getAllStudentsMerged()` でマージされて `store.students` に入る
-- 表示は `imageData`(アップロード)→ `imageUrl`(マスタ: `assets/students/<id>.webp` をビルド時に自動検出)→ 学校カラー の優先順。マスタ画像は [Termnix-IT/imageconversion](https://github.com/Termnix-IT/imageconversion)(Icon Cropper)で自作イラストから 1:1 webp を作成して配置する(仕様・推奨サイズは `assets/students/README.md` 参照)
+- 表示は `imageData`(アップロード)→ `imageUrl`(マスタ: `assets/students/<id>.webp` をビルド時に自動検出)→ 学校カラー の優先順。マスタ画像の追加は「1-1. 生徒マスタ」を参照
 
 ---
 
