@@ -1,39 +1,34 @@
 // ============================================================
 //  components/MemoSidebar.js  —  攻略メモのサイドパネル
-//  検索・新規作成・カテゴリ別メモ一覧
+//  新規作成・検索・カテゴリ別メモ一覧 (更新日つき)
 // ============================================================
 
 const MemoSidebarComponent = {
   inject: ['store'],
   template: `
     <div class="sidebar-content memo-sidebar-panel">
-      <button class="sidebar-add-btn" @click="newMemo">
-        ＋ 新規メモ
-      </button>
+      <button class="sidebar-add-btn" @click="newMemo">＋ 新規メモ</button>
 
-      <div class="sidebar-section-id">
-        // MEMO_LIST ({{ store.memos.length }})
-      </div>
-
+      <div class="sidebar-section-id">SEARCH</div>
       <div class="sidebar-field">
-        <input type="text" v-model="store.memoSearch" placeholder="検索...">
+        <input type="text" v-model="store.memoSearch" placeholder="タイトル・本文を検索">
       </div>
 
+      <div class="sidebar-section-id">NOTES ({{ store.memos.length }})</div>
       <div class="memo-list">
         <div v-if="filteredMemos.length === 0" class="memo-sidebar-empty">
           {{ store.memoSearch ? '該当なし' : 'メモがありません' }}
         </div>
-
-        <template v-for="row in groupedMemos" :key="row.key">
-          <div v-if="row.type === 'header'" class="memo-category-header">
-            {{ row.label }}
+        <template v-for="g in groupedMemos" :key="g.value">
+          <div class="memo-category-header">
+            <i :style="{ background: g.color }"></i>{{ g.label }}<span>{{ g.memos.length }}</span>
           </div>
-          <div v-else
-            class="memo-item"
-            :class="{ active: store.memoSelectedId === row.memo.id }"
-            @click="selectMemo(row.memo.id)">
-            {{ row.memo.title || '(無題)' }}
-          </div>
+          <button v-for="m in g.memos" :key="m.id" class="memo-item"
+            :class="{ active: store.memoSelectedId === m.id }"
+            @click="selectMemo(m.id)">
+            {{ m.title || '(無題)' }}
+            <small>{{ formatDate(m.updatedAt) }}<span v-if="store.memoSelectedId === m.id && store.memoDirty" class="memo-item-dirty">● 未保存</span></small>
+          </button>
         </template>
       </div>
     </div>
@@ -49,30 +44,34 @@ const MemoSidebarComponent = {
         (m.content || '').toLowerCase().includes(q)
       );
     },
-
-    /** カテゴリヘッダーとメモ項目を1次元配列にフラット化 */
+    // カテゴリごとにまとめる (カテゴリの順は MEMO_CATEGORIES、メモは更新が新しい順)
     groupedMemos() {
-      const rows = [];
-      for (const cat of MEMO_CATEGORIES) {
-        const items = this.filteredMemos.filter(m => m.category === cat.value);
-        if (items.length === 0) continue;
-        rows.push({ type: 'header', key: 'h-' + cat.value, label: cat.label });
-        for (const m of items) {
-          rows.push({ type: 'item', key: 'm-' + m.id, memo: m });
-        }
-      }
-      return rows;
+      return MEMO_CATEGORIES
+        .map(cat => ({
+          value: cat.value,
+          label: cat.label,
+          color: (PURPOSE_COLORS[cat.value] || PURPOSE_COLORS.misc).main,
+          memos: this.filteredMemos.filter(m => (m.category || 'misc') === cat.value),
+        }))
+        .filter(g => g.memos.length > 0);
     },
   },
 
   methods: {
     newMemo() {
+      if (!this.store.confirmLeaveMemo()) return;
       this.store.memoSelectedId = null;
       this.store.memoIsCreating = true;
     },
     selectMemo(id) {
+      if (id === this.store.memoSelectedId) return;
+      if (!this.store.confirmLeaveMemo()) return;
       this.store.memoSelectedId = id;
       this.store.memoIsCreating = false;
     },
+    formatDate(iso) {
+      return formatMemoDate(iso);
+    },
   },
 };
+

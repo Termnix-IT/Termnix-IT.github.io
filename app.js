@@ -54,6 +54,16 @@ const store = Vue.reactive({
   memoSelectedId: null,
   memoIsCreating: false,
   memoSearch: '',
+  memoCategory: '',      // メモボードのカテゴリ絞り込み ('' = すべて)
+  memoSort: 'updated',   // メモボードの並び順 ('updated' / 'title' / 'category')
+  memoDirty: false,      // エディタに保存していない変更がある
+  // 未保存の変更があれば、破棄してよいか確認する (true = 移動してよい)
+  confirmLeaveMemo() {
+    if (!this.memoDirty) return true;
+    if (!confirm('保存していない変更があります。破棄して移動しますか？')) return false;
+    this.memoDirty = false;
+    return true;
+  },
 
   teamMode: 'normal',
   // name は編成名・メンバー名の検索、unownedOnly は未所持の生徒を含む編成だけを表示
@@ -187,7 +197,7 @@ const App = {
         <!-- 下段: タブナビゲーション -->
         <nav class="tab-nav">
           <button v-for="t in tabs" :key="t.id" class="tab-btn" :class="{ active: store.activeTab === t.id }"
-            @click="store.activeTab = t.id">{{ t.ja }}<span class="tab-en">{{ t.en }}</span></button>
+            @click="switchTab(t.id)">{{ t.ja }}<span class="tab-en">{{ t.en }}</span></button>
         </nav>
       </header>
 
@@ -302,6 +312,12 @@ const App = {
   },
 
   methods: {
+    // 攻略メモに未保存の変更があるときは、ほかのタブへ移る前に確認する
+    switchTab(id) {
+      if (store.activeTab === 'memos' && id !== 'memos' && !store.confirmLeaveMemo()) return;
+      store.activeTab = id;
+    },
+
     toggleSidebar() {
       if (window.innerWidth <= 768) {
         this.sidebarMobileOpen = !this.sidebarMobileOpen;

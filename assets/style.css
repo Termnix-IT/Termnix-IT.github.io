@@ -3117,108 +3117,276 @@ body {
 
 
 /* ── 攻略メモ ─────────────────────────────────────────────── */
-.memo-layout {
+.memo-layout { display: flex; flex-direction: column; }
+
+/* サイドパネルのメモ一覧 */
+.memo-sidebar-panel .sidebar-add-btn { margin-bottom: 4px; }
+.memo-list { display: flex; flex-direction: column; }
+
+.memo-sidebar-empty {
+  padding: 18px 4px;
+  font-size: 12px;
+  color: #8aa0b8;
+  text-align: center;
+}
+
+.memo-category-header {
   display: flex;
-  flex-direction: column;
-  height: calc(100vh - 156px);
-  min-height: 500px;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0 4px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #8aa0b8;
 }
 
-/* サイドパネル内のメモリスト */
-.memo-sidebar-panel .memo-list {
-  margin: 8px -12px 0;
-  border-top: 1px solid #c9dcef;
-}
-
-.memo-sidebar-panel .memo-item {
-  padding: 8px 12px;
-  font-size: 13px;
-}
-
-.memo-sidebar-panel .memo-category-header {
-  padding: 6px 12px 4px;
-  background: #f6faff;
-  border-top: 1px solid #c9dcef;
-}
-
-.memo-sidebar-panel .memo-category-header:first-child {
-  border-top: none;
-}
-
-.memo-sidebar-panel .memo-sidebar-empty {
-  padding: 16px 12px;
-}
+.memo-category-header:first-child { margin-top: 0; }
+.memo-category-header i { width: 8px; height: 8px; transform: rotate(45deg); display: inline-block; }
+.memo-category-header span { margin-left: auto; }
 
 .memo-item {
-  padding: 9px 14px;
-  cursor: pointer;
-  border-bottom: 1px solid #e6eef8;
-  font-size: 13px;
-  transition: background 0.12s, color 0.12s;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 7px 10px 7px 12px;
+  border: none;
+  border-left: 3px solid transparent;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
   color: #0d1b2a;
+  text-align: left;
+  cursor: pointer;
+}
+
+.memo-item small {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: #8aa0b8;
 }
 
 .memo-item:hover { background: #f6faff; color: #128afa; }
+.memo-item.active { background: #e6f3ff; color: #128afa; border-left-color: #128afa; }
+.memo-item-dirty { margin-left: 8px; color: #e9a800; font-weight: 700; }
 
-.memo-item.active {
-  background: rgba(62,168,255,0.10);
-  border-left: 3px solid #128afa;
-  color: #128afa;
-  font-weight: 700;
-  padding-left: 11px;
+/* メモボード */
+.memo-catsum {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
 }
 
-.memo-editor-area {
-  flex: 1;
-  background: #ffffff;
+.memo-cs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
   border: 1px solid #c9dcef;
-  border-radius: 4px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0d1b2a;
+  cursor: pointer;
+  text-align: left;
+}
+
+.memo-cs i { width: 10px; height: 10px; transform: rotate(45deg); flex-shrink: 0; }
+
+.memo-cs b {
+  margin-left: auto;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.memo-cs:hover { border-color: #3ea8ff; }
+.memo-cs.active { border-color: #128afa; background: #e6f3ff; }
+
+.memo-board-id { margin: 18px 0 10px; }
+
+.memo-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.memo-card {
+  position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 170px;
+  padding: 0 0 12px;
+  border: 1.5px solid #c9dcef;
+  background: #ffffff;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.memo-card:hover { border-color: #3ea8ff; transform: translateY(-2px); }
+.memo-card-bar { height: 5px; }
+
+.memo-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 0;
+}
+
+.memo-card-date {
+  margin-left: auto;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  color: #8aa0b8;
+}
+
+.memo-card-title {
+  padding: 8px 14px 4px;
+  font-size: 15px;
+  font-weight: 900;
+  font-style: italic;
+  color: #0d1b2a;
+}
+
+.memo-card-excerpt {
+  flex: 1;
+  padding: 0 14px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #4a5d75;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.memo-card--new {
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 2px dashed #3ea8ff;
+  background: rgba(230,243,255,0.6);
+  color: #128afa;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.memo-card--new b { font-size: 30px; line-height: 1; }
+
+/* エディタ */
+.memo-editor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  min-height: 520px;
+  background: #ffffff;
+  border: 1px solid #c9dcef;
+}
+
+.memo-ed-head {
+  position: relative;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid #e1ebf5;
+  overflow: hidden;
+}
+
+.memo-ed-head::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  background: repeating-linear-gradient(-60deg, rgba(62,168,255,0.07) 0 16px, transparent 16px 32px);
+  pointer-events: none;
+}
+
+.memo-back {
+  position: relative;
+  border: none;
+  background: none;
+  padding: 0;
+  margin-bottom: 6px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  color: #8aa0b8;
+  cursor: pointer;
+}
+
+.memo-back:hover { color: #128afa; }
+
+.memo-title-input {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 2px 0 6px;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 900;
+  font-style: italic;
+  color: #0d1b2a;
+  border: none;
+  border-bottom: 2px solid #c9dcef;
+  outline: none;
+  background: transparent;
+}
+
+.memo-title-input:focus { border-bottom-color: #3ea8ff; }
+
+.memo-ed-meta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.memo-ed-dates {
+  margin-left: auto;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  color: #8aa0b8;
 }
 
 .memo-toolbar {
   display: flex;
-  gap: 4px;
-  padding: 6px 14px;
-  border-bottom: 1px solid #c9dcef;
-  background: #f6faff;
-  flex-wrap: wrap;
   align-items: center;
+  gap: 4px;
+  padding: 8px 20px;
+  border-bottom: 1px solid #e1ebf5;
+  background: #fbfdff;
 }
 
-.memo-toolbar button {
-  padding: 4px 10px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  border-radius: 2px;
-  cursor: pointer;
+.memo-mode-seg { width: 260px; margin: 0 12px 0 0; }
+
+.memo-tool {
+  min-width: 32px;
+  height: 28px;
+  padding: 0 8px;
   border: 1px solid #c9dcef;
   background: #ffffff;
   color: #4a5d75;
-  transition: all 0.12s;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.memo-toolbar button:hover {
-  background: #128afa;
-  color: #ffffff;
-  border-color: #128afa;
-}
-
-.memo-toolbar button.active,
-.memo-toolbar button.active-mode,
-.memo-toolbar .active-mode {
-  background: #128afa;
-  color: #ffffff;
-  border-color: #128afa;
-}
+.memo-tool:hover { border-color: #3ea8ff; color: #128afa; }
+.memo-tool-note { margin-left: 8px; font-size: 11px; color: #8aa0b8; }
 
 .memo-content-area {
   flex: 1;
-  overflow: hidden;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -3230,40 +3398,120 @@ body {
 
 .memo-textarea {
   flex: 1;
-  padding: 16px;
+  min-height: 0;
+  padding: 16px 20px;
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.85;
   border: none;
+  border-right: 1px solid #c9dcef;
   resize: none;
   outline: none;
   color: #0d1b2a;
-  background: #ffffff;
-  border-right: 1px solid #c9dcef;
+  background: #f6faff;
 }
 
+/* プレビュー: アプリの見た目に合わせた Markdown */
 .memo-preview {
   flex: 1;
-  padding: 16px;
+  min-height: 0;
+  padding: 16px 24px;
   overflow-y: auto;
   font-size: 14px;
   line-height: 1.8;
   color: #0d1b2a;
-  background: #fafdff;
+  background: #ffffff;
 }
 
-.memo-preview h1, .memo-preview h2, .memo-preview h3 {
-  border-bottom: 1px solid #c9dcef;
-  padding-bottom: 6px;
-  margin-top: 18px;
-  font-weight: 700;
+.memo-preview h1,
+.memo-preview h2 {
+  margin: 14px 0 8px;
+  padding: 3px 0 3px 12px;
+  border-left: 5px solid #128afa;
+  background: linear-gradient(90deg, #e6f3ff, transparent);
+  font-size: 18px;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.memo-preview h1 { font-size: 21px; }
+
+.memo-preview h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 6px;
+  font-size: 15px;
+}
+
+.memo-preview h3::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #ff4f8b;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.memo-preview > :first-child { margin-top: 0; }
+.memo-preview ul { list-style: none; padding-left: 4px; }
+.memo-preview ul li { position: relative; padding-left: 16px; }
+
+.memo-preview ul li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  background: #3ea8ff;
+  transform: rotate(45deg);
+}
+
+/* チェックリスト (- [ ] / - [x]) */
+.memo-preview ul li:has(> input[type="checkbox"]) { padding-left: 2px; }
+.memo-preview ul li:has(> input[type="checkbox"])::before { display: none; }
+.memo-preview input[type="checkbox"] { accent-color: #10b981; margin-right: 6px; vertical-align: -1px; }
+
+.memo-preview table { border-collapse: collapse; width: 100%; margin: 8px 0 12px; font-size: 13px; }
+
+.memo-preview th {
+  background: #128afa;
+  color: #ffffff;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 12px;
+  padding: 4px 10px;
+  text-align: left;
+}
+
+.memo-preview td { border-bottom: 1px solid #e1ebf5; padding: 4px 10px; }
+
+.memo-preview blockquote {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-left: 4px solid #c9dcef;
+  background: #f6faff;
+  color: #4a5d75;
+}
+
+.memo-preview blockquote p { margin: 0; }
+
+/* 注意書き (> [!NOTE] / > [!WARNING]) */
+.memo-preview .md-callout--note { border-left-color: #fbbf24; background: #fff8e1; color: #6b4a00; }
+.memo-preview .md-callout--warning { border-left-color: #f43f5e; background: #fff5f7; color: #9f1239; }
+
+.md-callout-label {
+  display: block;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
 }
 
 .memo-preview code {
   background: rgba(62,168,255,0.10);
   color: #128afa;
   padding: 1px 6px;
-  border-radius: 2px;
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 0.92em;
 }
@@ -3273,123 +3521,37 @@ body {
   border: 1px solid #c9dcef;
   border-left: 3px solid #3ea8ff;
   padding: 10px 14px;
-  border-radius: 2px;
   overflow-x: auto;
 }
 
-.memo-category-header {
-  font-size: 11px;
-  font-weight: 700;
-  color: #4a5d75;
-  letter-spacing: 0.04em;
-  padding: 6px 14px 4px;
-  background: #f6faff;
-  border-bottom: 1px solid #c9dcef;
-  margin-top: 4px;
-}
+.memo-preview pre code { background: none; padding: 0; color: #0d1b2a; }
 
-.memo-title-input {
-  width: 100%;
-  padding: 10px 16px;
-  font-size: 16px;
-  font-family: inherit;
-  font-weight: 700;
-  border: none;
-  border-bottom: 1.5px solid #c9dcef;
-  outline: none;
-  color: #0d1b2a;
-  background: transparent;
-}
-
-.memo-title-input:focus {
-  border-bottom-color: #128afa;
-}
-
-.memo-empty {
+.memo-ed-foot {
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #8aa0b8;
-  font-size: 13px;
+  gap: 10px;
+  height: 56px;
+  padding: 0 20px;
+  border-top: 1px solid #c9dcef;
+  background: #fbfdff;
+  flex-shrink: 0;
 }
 
-.memo-sidebar-tools {
-  display: flex;
-  gap: 6px;
-  padding: 8px 10px;
-  border-bottom: 1px solid #c9dcef;
-  align-items: center;
-}
-
-.memo-search {
-  flex: 1;
-  padding: 5px 8px;
-  font-size: 12px;
-  font-family: inherit;
-  border: 1px solid #c9dcef;
-  border-radius: 2px;
-  background: #f6faff;
-  color: #0d1b2a;
-  outline: none;
-  height: 28px;
-  min-width: 0;
-}
-.memo-search:focus {
-  border-color: #128afa;
-  background: #ffffff;
-  box-shadow: 0 0 0 2px rgba(62,168,255,0.18);
-}
-
-.memo-sidebar-empty {
-  color: #8aa0b8;
-  font-size: 12px;
-  text-align: center;
-  padding: 16px;
-}
-
-.memo-category-select {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 2px;
-  border: 1px solid #c9dcef;
-  background: #ffffff;
-  color: #0d1b2a;
-  outline: none;
-  height: 26px;
-  font-family: inherit;
-}
-.memo-category-select:focus {
-  border-color: #128afa;
-  box-shadow: 0 0 0 2px rgba(62,168,255,0.18);
-}
-
-.memo-saved-time {
+.memo-dirty {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 11px;
-  color: #047857;
+  font-weight: 700;
+  color: #b07d00;
+  background: #fff8e1;
+  padding: 3px 10px;
 }
 
-.memo-save-btn {
-  background: #128afa !important;
-  color: #ffffff !important;
-  border-color: #128afa !important;
+.memo-save-key {
+  margin-left: 6px;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  opacity: 0.7;
 }
-.memo-save-btn:hover {
-  background: #0d6dd1 !important;
-  border-color: #0d6dd1 !important;
-  box-shadow: 0 0 12px rgba(62,168,255,0.4);
-}
-
-.memo-delete-btn {
-  background: #ffffff !important;
-  color: #f43f5e !important;
-  border-color: #f43f5e !important;
-}
-.memo-delete-btn:hover {
-  background: #f43f5e !important;
-  color: #ffffff !important;
-}
-
 
 
 /* ── トースト通知 ──────────────────────────────────────── */
