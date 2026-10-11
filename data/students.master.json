@@ -1362,7 +1362,8 @@
     "role": "striker",
     "position": "BACK",
     "weapon": "SL",
-    "obtainability": "permanent"
+    "obtainability": "permanent",
+    "imageUrl": "assets/students/haruna.webp"
   },
   {
     "id": "haruna-taisoufuku",
