@@ -42,6 +42,8 @@
 data/students.master.csv  →  python scripts/build-students.py  →  data/students.master.json
 ```
 
+`--push` を付けると、ビルドエラーと画像の警告がない場合に限り、`assets/students/` の画像と `data/students.master.{csv,json}` だけを commit して現在のブランチの upstream へ push する(GitHub Pages に公開される)。ほかの未コミット変更は commit に含めない。remote に未取り込みのコミットがある、upstream が無い、のいずれかなら commit せずに止まるので、`git pull` などで解消してから再実行する。
+
 | フィールド | 型 | 説明 |
 |---|---|---|
 | `id` | string | スラグ ID(例: `aru`)。DB上の永続キー |

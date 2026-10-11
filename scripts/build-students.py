@@ -7,7 +7,13 @@ CSV を本番データ JSON に変換する。アプリは JSON を fetch する
 CSV を編集したら必ず本スクリプトを実行して JSON を再生成する。
 
 Usage:
-    python scripts/build-students.py
+    python scripts/build-students.py           # JSON を再生成するだけ
+    python scripts/build-students.py --push    # 問題がなければ commit → push まで行う
+
+--push の動作:
+- 対象は assets/students/ の画像と data/students.master.{csv,json} だけ。それ以外の未コミット変更は触らない
+- ビルドエラー・画像の警告がある、upstream が無い、remote に未取り込みのコミットがある場合は commit しない
+- 現在のブランチをその upstream へ通常の push で送る (force push はしない)
 
 バリデーション:
 - id: 必須・英小文字+数字+ハイフンのみ・重複禁止
@@ -22,6 +28,7 @@ Usage:
 画像チェック (警告のみ・ビルドは止めない):
 - assets/ 配下のローカル画像が正方形でない、または 1024px 以上なら警告する
   (仕様は assets/students/README.md。推奨は 512×512)
+- assets/students/ にあるのに、ファイル名がどの id とも一致しない画像も警告する
 
 新学校を追加した場合の影響:
 - フィルタ・グルーピングは自動対応 (動的検出)
@@ -29,10 +36,12 @@ Usage:
 - 専用カラーを当てたい場合は data/constants.js の SCHOOL_COLORS に追加
 """
 
+import argparse
 import csv
 import json
 import re
 import struct
+import subprocess
 import sys
 from pathlib import Path
 
@@ -49,6 +58,10 @@ JSON_PATH = ROOT / 'data' / 'students.master.json'
 IMG_DIR   = ROOT / 'assets' / 'students'
 IMG_EXTS  = ('.webp', '.png', '.jpg', '.jpeg')  # 優先順
 IMG_MAX_SIDE = 1024  # これ以上は重すぎるので警告 (推奨 512)
+
+# --push で commit する対象 (git の pathspec。ROOT からの相対)
+PUBLISH_PATHS = ['data/students.master.csv', 'data/students.master.json'] + \
+                [f'assets/students/*{ext}' for ext in IMG_EXTS]
 
 # enum: data/constants.js の定数と一致させること
 CLASSES      = {'アタッカー', 'タンク', 'ヒーラー', 'サポーター', 'T.S'}
@@ -256,7 +269,85 @@ def check_images(records):
             warnings.append(f"{r['id']}: 正方形ではありません {w}×{h} ({url})")
         if max(w, h) >= IMG_MAX_SIDE:
             warnings.append(f"{r['id']}: {w}×{h} は大きすぎます。512×512 を推奨 ({url})")
+
+    # ファイル名の打ち間違いなどで、どの生徒にも紐づかない画像
+    ids = {r['id'] for r in records}
+    if IMG_DIR.exists():
+        for p in sorted(IMG_DIR.iterdir()):
+            if p.suffix.lower() in IMG_EXTS and p.stem not in ids:
+                warnings.append(f'{p.name}: ファイル名に一致する id がありません')
     return warnings
+
+
+def git(*args):
+    """ROOT で git を実行し、標準出力を返す。失敗したら CalledProcessError。"""
+    res = subprocess.run(['git', '-c', 'core.quotepath=false', *args], cwd=ROOT,
+                         capture_output=True, text=True, encoding='utf-8')
+    if res.returncode != 0:
+        raise subprocess.CalledProcessError(res.returncode, ['git', *args],
+                                            res.stdout, res.stderr)
+    return res.stdout.strip()
+
+
+def commit_message(name_status):
+    """`git diff --cached --name-status` の結果から commit メッセージを作る。"""
+    images = {'A': [], 'M': [], 'D': []}  # 追加 / 更新 / 削除
+    for line in name_status.splitlines():
+        status, path = line.split('\t', 1)
+        if path.startswith('assets/students/'):
+            images.setdefault(status, []).append(Path(path).stem)
+    labels = {'A': '追加', 'M': '更新', 'D': '削除'}
+    kinds = [k for k in labels if images[k]]
+    if not kinds:
+        subject = 'update: 生徒マスタを更新'
+    elif len(kinds) == 1:
+        prefix = {'A': 'add', 'M': 'update', 'D': 'remove'}[kinds[0]]
+        subject = f"{prefix}: 生徒のマスタ画像を{labels[kinds[0]]} ({', '.join(images[kinds[0]])})"
+    else:
+        detail = ' / '.join(f"{labels[k]}: {', '.join(images[k])}" for k in kinds)
+        subject = f'update: 生徒のマスタ画像を変更 ({detail})'
+    return f'{subject}\n\n{name_status}\n'
+
+
+def publish():
+    """PUBLISH_PATHS の変更だけを commit し、現在のブランチの upstream へ push する。
+    戻り値は終了コード (0 = 成功または変更なし)。"""
+    try:
+        branch = git('rev-parse', '--abbrev-ref', 'HEAD')
+        try:
+            upstream = git('rev-parse', '--abbrev-ref', '@{u}')
+        except subprocess.CalledProcessError:
+            print(f'✗ push 中止: ブランチ {branch} に upstream がありません', file=sys.stderr)
+            return 4
+        # 一致しない pathspec を add / commit に渡すとエラーになるため、変更のあるファイルを列挙して渡す
+        changed = git('diff', '--name-only', '--no-renames', 'HEAD', '--', *PUBLISH_PATHS).splitlines() + \
+                  git('ls-files', '--others', '--exclude-standard', '--', *PUBLISH_PATHS).splitlines()
+        if not changed:
+            print('✓ push: 対象ファイルに変更がないため何もしません')
+            return 0
+
+        git('fetch', '--quiet')
+        behind = int(git('rev-list', '--count', 'HEAD..@{u}'))
+        if behind:
+            print(f'✗ push 中止: {upstream} に未取り込みのコミットが {behind} 件あります。'
+                  f'git pull してから再実行してください', file=sys.stderr)
+            return 4
+
+        git('add', '--all', '--', *changed)
+        name_status = git('diff', '--cached', '--name-status', '--no-renames', '--', *changed)
+        # パスを指定した commit なので、ほかに stage 済みの変更があっても含めない
+        git('commit', '--quiet', '-m', commit_message(name_status), '--', *changed)
+        sha = git('rev-parse', '--short', 'HEAD')
+        print(f'✓ commit: {sha} ({branch})')
+        for line in name_status.splitlines():
+            print(f'    {line}')
+        remote, _, remote_branch = upstream.partition('/')
+        git('push', '--quiet', remote, f'HEAD:{remote_branch}')
+        print(f'✓ push: {upstream}')
+        return 0
+    except subprocess.CalledProcessError as e:
+        print(f"✗ git {' '.join(e.cmd[1:])} に失敗: {(e.stderr or e.stdout).strip()}", file=sys.stderr)
+        return 4
 
 
 def write_json(path: Path, data):
@@ -267,6 +358,11 @@ def write_json(path: Path, data):
 
 
 def main():
+    ap = argparse.ArgumentParser(description='生徒マスタ CSV から JSON を生成する')
+    ap.add_argument('--push', action='store_true',
+                    help='エラー・画像の警告がなければ、画像とマスタだけを commit して upstream へ push する')
+    args = ap.parse_args()
+
     try:
         rows = read_csv(CSV_PATH)
     except Exception as e:
@@ -287,10 +383,17 @@ def main():
     with_img    = sum(1 for r in records if r.get('imageUrl'))
     without_img = len(records) - with_img
     print(f'✓ 検査: OK')
-    for warn in check_images(records):
+    warnings = check_images(records)
+    for warn in warnings:
         print(f'⚠ 画像: {warn}', file=sys.stderr)
     print(f'✓ 出力: {JSON_PATH.relative_to(ROOT)} ({len(records)}件 / 画像あり {with_img} / 画像なし {without_img})')
-    return 0
+
+    if not args.push:
+        return 0
+    if warnings:
+        print(f'✗ push 中止: 画像の警告が {len(warnings)} 件あります。直してから再実行してください', file=sys.stderr)
+        return 3
+    return publish()
 
 
 if __name__ == '__main__':
