@@ -153,7 +153,8 @@
     "role": "striker",
     "position": "FRONT",
     "weapon": "SG",
-    "obtainability": "permanent"
+    "obtainability": "permanent",
+    "imageUrl": "assets/students/hoshino.webp"
   },
   {
     "id": "hoshino-mizugi",
