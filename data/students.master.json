@@ -2286,7 +2286,8 @@
     "role": "special",
     "position": "BACK",
     "weapon": "SMG",
-    "obtainability": "event"
+    "obtainability": "event",
+    "imageUrl": "assets/students/atsuko-mizugi.webp"
   },
   {
     "id": "saori",
@@ -3261,7 +3262,8 @@
     "role": "striker",
     "position": "BACK",
     "weapon": "SL",
-    "obtainability": "permanent"
+    "obtainability": "permanent",
+    "imageUrl": "assets/students/miyo.webp"
   },
   {
     "id": "ritsu",
