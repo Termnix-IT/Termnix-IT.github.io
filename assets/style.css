@@ -26,11 +26,7 @@ body {
 
 /* mono ユーティリティ (英数字・記号専用箇所のみ) */
 .mono,
-.os-section-id,
-.sim-stat-value,
-.qty-value,
-.diff-neg,
-.diff-pos {
+.os-section-id {
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-feature-settings: normal;
 }
@@ -2301,38 +2297,6 @@ body {
   margin-bottom: 6px;
 }
 
-/* ── サマリのタイル (素材の一括確認で使用) ──────────────── */
-.sim-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  background: #ffffff;
-  border: 1px solid #c9dcef;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.sim-stat {
-  padding: 10px 14px;
-  border-right: 1px solid #e6eef8;
-  border-bottom: 1px solid #e6eef8;
-}
-.sim-stat:last-child { border-right: none; }
-
-.sim-stat-label {
-  font-size: 11px;
-  color: #4a5d75;
-  margin-bottom: 2px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.sim-stat-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0d1b2a;
-  letter-spacing: 0.02em;
-}
-
 /* ── ガチャシミュレーター ──────────────────────────────── */
 .sim-container {
   display: flex;
@@ -3942,85 +3906,7 @@ body {
 .te-notes { min-height: 150px; }
 
 
-/* ── 素材管理 ─────────────────────────────────────────────── */
-.qty-btn {
-  width: 26px;
-  height: 26px;
-  border: 1px solid #c9dcef;
-  border-radius: 2px;
-  background: #ffffff;
-  color: #4a5d75;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  font-family: inherit;
-  transition: all 0.12s;
-}
-.qty-btn:hover:not(:disabled) {
-  background: #128afa;
-  color: #ffffff;
-  border-color: #128afa;
-}
-.qty-btn:disabled { opacity: 0.3; cursor: default; }
 
-.badge-mat-type {
-  background: rgba(62,168,255,0.10);
-  color: #128afa;
-  font-size: 11px;
-  font-weight: 700;
-  border: 1px solid rgba(62,168,255,0.4);
-  letter-spacing: 0.04em;
-}
-
-.shortage-row td { background: rgba(244,63,94,0.05) !important; }
-.shortage-row td:first-child { border-left: 3px solid #f43f5e; }
-
-.qty-control {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.qty-value {
-  min-width: 36px;
-  text-align: center;
-  font-weight: 700;
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
-  font-size: 14px;
-  color: #128afa;
-}
-
-.mat-note {
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
-  font-size: 10px;
-  color: #8aa0b8;
-  margin-left: 6px;
-  letter-spacing: 0.04em;
-}
-
-.diff-neg {
-  color: #be123c;
-  font-weight: 700;
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
-}
-
-.diff-pos {
-  color: #047857;
-  font-weight: 700;
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
-}
-
-.shortage-warn {
-  color: #be123c;
-  margin-right: 10px;
-  font-weight: 700;
-}
 
 /* ── レスポンシブ ──────────────────────────────────────── */
 @media (max-width: 960px) {
@@ -4560,114 +4446,402 @@ body {
 }
 
 /* ── 素材ページ (所持数の入力 / 一括確認) ─────────────────── */
-.mat-page { display: flex; flex-direction: column; gap: 14px; }
+.mat-page { display: flex; flex-direction: column; gap: 16px; }
+.mat-page .page-head { margin-bottom: 0; }
 
-.mat-input-hint {
-  font-size: 12px;
-  color: #4a5d75;
-  padding: 8px 12px;
-  border-left: 2px solid #3ea8ff;
-  background: rgba(62,168,255,0.06);
-  border-radius: 0 2px 2px 0;
-}
-
-.mat-section-head {
+/* 段階色の凡例 */
+.tier-legend {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  color: #4a5d75;
 }
-.mat-section-title { margin: 4px 0 0; font-size: 16px; color: #0d1b2a; }
-.mat-section-note { font-size: 12px; font-weight: 400; color: #8aa0b8; margin-left: 6px; }
-.mat-section-total {
+
+.tier-legend i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: -2px;
+}
+
+/* 入力の操作案内 */
+.mat-hintbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border-left: 4px solid #3ea8ff;
+  font-size: 11px;
+  color: #4a5d75;
+}
+
+.mat-hintbar-note { margin-left: auto; color: #8aa0b8; }
+.mat-short-mark { color: #f43f5e; }
+
+.mat-kbd {
+  display: inline-block;
+  margin-right: 2px;
+  padding: 0 4px;
+  border: 1px solid #9fb3c8;
+  border-bottom-width: 2px;
+  background: #ffffff;
+  color: #4a5d75;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* 一括確認のサマリ */
+.mat-kpis {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.mat-kpi {
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #c9dcef;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+
+.mat-kpi small {
+  display: block;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  color: #8aa0b8;
+}
+
+.mat-kpi b {
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.mat-kpi span { font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace; font-size: 11px; color: #8aa0b8; }
+.mat-kpi--bad { border-color: #f43f5e; background: #fff5f7; }
+.mat-kpi--bad b { color: #f43f5e; }
+
+/* カテゴリごとのパネル */
+.mat-panel {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #c9dcef;
+  scroll-margin-top: 116px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+
+.mat-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 10px 16px;
+  border-bottom: 1px solid #e1ebf5;
+}
+
+.mat-panel-title { font-size: 17px; font-weight: 900; font-style: italic; }
+.mat-panel-note { font-size: 11px; color: #8aa0b8; }
+
+.mat-panel-total {
+  margin-left: auto;
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 12px;
   color: #4a5d75;
 }
-.mat-section-total strong { font-size: 16px; color: #0d1b2a; }
-.mat-section-kinds { margin-left: 4px; color: #8aa0b8; }
 
+.mat-panel-total b { font-size: 15px; color: #0d1b2a; }
+.mat-panel-total--bad { color: #f43f5e; font-weight: 700; }
+
+/* 入力の表 */
 .mat-matrix-wrap { overflow-x: auto; }
-/* .data-table の overflow:hidden は sticky 列を無効にするので素材表では外す */
-.mat-matrix { width: auto; min-width: 100%; overflow: visible; }
-.mat-matrix th, .mat-list th { cursor: default; }
-.mat-matrix th:hover, .mat-list th:hover { background: #f6faff; color: #4a5d75; }
-.mat-matrix thead th { text-align: center; }
-.mat-matrix td { padding: 4px 6px; text-align: center; }
 
-.mat-row-head {
-  text-align: left !important;
-  white-space: nowrap;
-  font-size: 12px;
-  color: #0d1b2a !important;
-  border-bottom: 1px solid #e6eef8 !important;
-  border-right: 1px solid #c9dcef;
+.mat-table {
+  width: 100%;
+  border-collapse: collapse;
 }
-/* 横スクロールしても行名 (学校・系統・部位) が見えるよう左端列を固定 */
-.mat-matrix .mat-row-head {
+
+.mat-table th,
+.mat-table td {
+  padding: 3px 8px;
+  height: 36px;
+  border-bottom: 1px solid #eef3f9;
+}
+
+.mat-table thead th {
+  height: 26px;
+  color: #ffffff;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mat-table thead th.mat-rh { background: #ffffff; }
+
+/* 行名 (学校・系統・部位) は横スクロールしても見えるよう左端に固定 */
+.mat-rh {
   position: sticky;
   left: 0;
   z-index: 1;
+  background: #ffffff;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  padding-left: 14px !important;
+  min-width: 150px;
+}
+
+.mat-rh .filter-chip-dot { margin-right: 7px; }
+.mat-row-hint { color: #f59e0b; margin-left: 2px; }
+.mat-row-hint-text { display: block; font-size: 10px; font-weight: 400; color: #8aa0b8; }
+
+.mat-cell {
+  position: relative;
+  height: 28px;
+  min-width: 64px;
+  border: 1px solid #c9dcef;
   background: #f6faff;
 }
-.mat-row-hint { color: #ff4f8b; margin-left: 2px; }
-.mat-list .btn-edit { white-space: nowrap; }
-.mat-row-hint-text { display: block; font-size: 11px; font-weight: 400; color: #8aa0b8; }
 
-.mat-qty-input {
-  width: 72px;
-  padding: 4px 6px;
+.mat-cell input {
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
+  background: transparent;
   text-align: right;
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
   font-size: 13px;
-  border: 1px solid #c9dcef;
-  border-radius: 2px;
-  background: #f6faff;
-  color: #0d1b2a;
-}
-.mat-qty-input:focus { outline: none; border-color: #128afa; background: #ffffff; box-shadow: 0 0 0 2px rgba(18,138,250,0.15); }
-.mat-qty-input::placeholder { color: #c9dcef; }
-/* 数値入力の上下矢印は幅を取り数字に重なるので隠す (キーボード / ホイール入力は可) */
-.mat-qty-input { -moz-appearance: textfield; appearance: textfield; }
-.mat-qty-input::-webkit-outer-spin-button,
-.mat-qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-.mat-qty-view {
-  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
-  font-size: 13px;
   font-weight: 700;
   color: #0d1b2a;
+  outline: none;
+  -moz-appearance: textfield;
 }
-.mat-cell-zero .mat-qty-view { color: #c9dcef; font-weight: 400; }
-.mat-cell-hit { box-shadow: inset 0 0 0 2px #ff4f8b; }
 
-.mat-sum-col {
+/* 数値入力の上下矢印は幅を取り数字に重なるので隠す (キーボードで入力・移動できる) */
+.mat-cell input::-webkit-outer-spin-button,
+.mat-cell input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.mat-cell input::placeholder { color: #c3d1e0; font-weight: 400; }
+
+.mat-cell:focus-within {
+  border: 2px solid #128afa;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(62,168,255,0.2);
+}
+
+.mat-cell--hit { box-shadow: 0 0 0 2px #fbbf24; }
+
+/* 生徒の育成に必要で足りない素材: 左上の赤い三角 */
+.mat-cell--short::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-style: solid;
+  border-width: 9px 9px 0 0;
+  border-color: #f43f5e transparent transparent transparent;
+  pointer-events: none;
+}
+
+.mat-cell--saved::after {
+  content: "✓ 保存";
+  position: absolute;
+  right: -4px;
+  top: -15px;
+  z-index: 2;
+  padding: 0 3px;
+  background: #ffffff;
+  color: #10b981;
   font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 9px;
   font-weight: 700;
-  background: #f6faff;
-  color: #128afa !important;
+  animation: savedFade 1.2s ease-out forwards;
+  pointer-events: none;
 }
-.mat-matrix tfoot td, .mat-matrix tfoot th { border-top: 1.5px solid #3ea8ff; }
 
-.mat-list { width: 100%; }
-.mat-list td, .mat-list th { padding: 6px 12px; }
-.mat-list-qty { text-align: right; width: 1%; white-space: nowrap; }
+@keyframes savedFade {
+  0%, 60% { opacity: 1; }
+  100%    { opacity: 0; }
+}
 
-.mat-footnote { margin-top: 6px; font-size: 11px; color: #8aa0b8; }
+.mat-table--list td { width: 160px; }
 
-.mat-legacy { border-color: #fbbf24; }
-.mat-legacy-desc { font-size: 12px; color: #4a5d75; margin: 0 0 10px; line-height: 1.6; }
+/* 一括確認のタイル */
+.mat-inv {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 12px 22px;
+  padding: 12px 16px 14px;
+}
 
-/* サイドパネルのチェックボックス行 */
-.sidebar-check {
+.mat-inv-group--wide { grid-column: 1 / -1; }
+
+.mat-inv-label {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 4px 0 2px;
-  font-size: 12px;
+  margin-bottom: 5px;
+  font-size: 11px;
+  font-weight: 700;
   color: #4a5d75;
+}
+
+.mat-inv-label span {
+  margin-left: auto;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: #8aa0b8;
+}
+
+.mat-tiles { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.mat-tile {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 13px;
+  font-weight: 900;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+}
+
+.mat-tile-tier {
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.mat-tile-q {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 1px 5px;
+  background: rgba(13,27,42,0.78);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.mat-tile--zero { opacity: 0.28; filter: grayscale(0.6); }
+.mat-tile--short { outline: 2px solid #f43f5e; outline-offset: -2px; opacity: 1; filter: none; }
+.mat-tile--short .mat-tile-q { background: #f43f5e; }
+
+.mat-footnote { padding: 0 16px 10px; font-size: 11px; color: #8aa0b8; }
+
+/* 生徒別の必要素材 */
+.mat-needs { padding: 4px 16px 10px; }
+.mat-needs-empty { padding: 12px 16px; }
+
+.mat-need-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px dashed #e1ebf5;
+}
+
+.mat-need-row:last-child { border-bottom: none; }
+
+.mat-need-face {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%);
+}
+
+.mat-need-face img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.mat-need-name { width: 130px; flex-shrink: 0; font-size: 13px; font-weight: 800; }
+.mat-need-name small { display: block; font-size: 10px; font-weight: 400; color: #8aa0b8; }
+
+.mat-need-items { flex: 1; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.mat-need-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px 3px 3px;
+  border: 1px solid #c9dcef;
+  background: #ffffff;
+  font-size: 11px;
+}
+
+.mat-need-pill i { width: 18px; height: 18px; display: inline-block; }
+.mat-need-pill b { font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace; }
+.mat-need-pill--ng { border-color: #f43f5e; background: #fff5f7; }
+.mat-need-pill--ng b { color: #f43f5e; }
+.mat-need-pill--ok b { color: #10b981; }
+
+.mat-need-status {
+  flex-shrink: 0;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+}
+
+.mat-need-status--ng { background: #fff5f7; color: #f43f5e; }
+.mat-need-status--ok { background: #e6f7ef; color: #047857; }
+
+/* 旧データ */
+.mat-legacy { border-color: #fbbf24; }
+.mat-legacy-desc { font-size: 12px; color: #4a5d75; margin: 10px 16px; line-height: 1.6; }
+.mat-legacy-qty { text-align: right; font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace; font-weight: 700; }
+
+/* サイドパネル: カテゴリ一覧 (クリックでその表へ移動) */
+.mat-catlist { display: flex; flex-direction: column; }
+
+.mat-cat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: none;
+  border-left: 3px solid transparent;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a5d75;
+  text-align: left;
   cursor: pointer;
 }
-.sidebar-check input { accent-color: #128afa; }
+
+.mat-cat small {
+  margin-left: auto;
+  font-family: "SFMono-Regular", "Cascadia Code", Consolas, "MS Gothic", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: #8aa0b8;
+}
+
+.mat-cat:hover { color: #128afa; background: #f6faff; }
+.mat-cat.active { background: #e6f3ff; color: #128afa; border-left-color: #128afa; }

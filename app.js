@@ -64,9 +64,11 @@ const store = Vue.reactive({
 
   // 素材: 'input' = 所持数の入力 / 'overview' = 一括確認
   materialView: 'input',
-  materialFilter: { category: '', name: '', hideZero: false },
+  // category = サイドパネルで最後に選んだカテゴリ (強調表示用。絞り込みではなくその表へ移動する)
+  // show = 一括確認の表示 ('all' すべて / 'owned' 所持のみ / 'short' 不足のみ)
+  materialFilter: { category: '', name: '', show: 'all' },
   resetMaterialFilter() {
-    Object.assign(this.materialFilter, { category: '', name: '', hideZero: false });
+    Object.assign(this.materialFilter, { category: '', name: '', show: 'all' });
   },
   // 素材の所持数 { [materialId]: 個数 } (localStorage 永続化、data/materials.js のマスタ id がキー)
   materialInventory: {},
