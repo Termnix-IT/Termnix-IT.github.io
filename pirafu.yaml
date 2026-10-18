@@ -1,0 +1,26 @@
+schemaVersion: 1
+project:
+  id: blue-archive-db
+  title: Blue Archive DB
+  description: ブルーアーカイブの生徒の育成状況・ガチャのシミュレーション・攻略メモ・編成・素材の所持数をブラウザだけで管理できる個人用データベースです。現在開発中で、生徒のアイコン画像はまだ一部の生徒にしか入っていません。データはブラウザ内に保存され、サーバーへは送信しません。
+  category: apps
+  status: in-development
+  visibility: public
+  tags:
+  - ブルーアーカイブ
+  - データベース
+  - 開発中
+hosting:
+  provider: external
+  mode: unmanaged
+launch:
+  type: external
+  url: https://termnix-it.github.io/
+catalog:
+  featured: false
+  thumbnail:
+    path: pirafu/media/thumbnail.png
+    alt: 生徒名簿の画面。左に検索とフィルタ、右に学校順の生徒カードが並び、アイコン画像が未登録の生徒は頭文字と学校名の透かしで表示されている
+  screenshots: []
+links:
+  repository: https://github.com/Termnix-IT/Termnix-IT.github.io
